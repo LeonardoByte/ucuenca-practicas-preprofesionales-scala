@@ -8,9 +8,9 @@
 
     <VBox spacing="8" styleClass="card-dashboard" style="-fx-border-left-color: #2563eb; -fx-border-left-width: 5px;">
         <Label text="Redacción de Nueva Actividad para Fiscalización Metodológica:" style="-fx-font-weight: bold;"/>
-        <Label text="* Si una actividad previa fue rechazada, redacte su versión corregida como una nueva propuesta aquí abajo." style="-fx-font-size: 9pt; -fx-text-fill: #64748b; -fx-font-style: italic;"/>
+        <Label text="* Si una actividad previa fue rechazada por el tutor académico, redacte su versión corregida como una nueva propuesta aquí abajo." style="-fx-font-size: 9pt; -fx-text-fill: #64748b; -fx-font-style: italic;"/>
         <HBox spacing="15" alignment="CENTER_LEFT">
-            <TextField fx:id="txtNuevaActividadEstudiante" promptText="Describa explícitamente la tarea técnica propuesta para su cronograma..." HBox.hgrow="ALWAYS"/>
+            <TextField fx:id="txtNuevaActividadTutorEmp" promptText="Describa explícitamente la tarea técnica propuesta para el cronograma del estudiante..." HBox.hgrow="ALWAYS"/>
             <Button fx:id="btnRegistrarActividad" text="Registrar Actividad" styleClass="button-primary"/>
         </HBox>
     </VBox>
@@ -29,7 +29,7 @@
         <columns>
             <TableColumn text="Nro" prefWidth="50" maxWidth="60" minWidth="40"/>
             <TableColumn text="Descripción de la Tarea Propuesta" prefWidth="450"/>
-            <TableColumn text="Estado de Aprobación" prefWidth="150"/>
+            <TableColumn text="Estado de Aprobación (Docente)" prefWidth="150"/>
             <TableColumn text="Comentarios de Observación y Ajuste" prefWidth="250"/>
             <!-- Campo para eliminar esa columna rechazada y no ensucie la tabla -->
             <TableColumn fx:id="colAccionActividad" text="Acción" prefWidth="100" maxWidth="120" minWidth="80"/>

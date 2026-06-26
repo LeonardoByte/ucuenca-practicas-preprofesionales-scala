@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox spacing="15" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" style="-fx-padding: 15;">
+    <Label text="Evaluación Técnica del Desempeño del Practicante (Formulario 2)" style="-fx-font-size: 14pt; -fx-font-weight: bold; -fx-text-fill: #0f172a;"/>
+    <Separator/>
+
+    <HBox spacing="15" alignment="CENTER_LEFT" styleClass="card-dashboard" style="-fx-padding: 10;">
+        <Label text="Seleccionar Estudiante a Evaluar:" style="-fx-font-weight: bold;"/>
+        <ComboBox fx:id="cmbEstudiantesF2" promptText="Seleccionar Alumno..." prefWidth="300.0"/>
+    </HBox>
+
+    <!-- StackPane para el manejo del Bloqueo por Petición del Alumno -->
+    <StackPane fx:id="stackContenedorF2" VBox.vgrow="ALWAYS">
+        <children>
+            <!-- Capa A: Bloqueo de Seguridad (Espera de Petición formal del Estudiante) -->
+            <VBox fx:id="panelBloqueoF2" spacing="10" styleClass="card-dashboard" style="-fx-background-color: #fee2e2; -fx-border-color: #ef4444; -fx-border-left-width: 5px; -fx-border-left-color: #dc2626; -fx-padding: 20;" alignment="CENTER">
+                <Label text="🔒 FORMULARIO INICIALMENTE BLOQUEADO" style="-fx-font-weight: bold; -fx-text-fill: #b91c1c; -fx-font-size: 12pt;"/>
+                <Label text="La carga de la rúbrica técnica de desempeño permanece restringida por regla de negocio. Este panel se activará y desbloqueará de forma automática únicamente cuando el estudiante seleccionado haya completado sus horas y ejecutado la acción 'Solicitar Evaluación Final' desde su sesión." style="-fx-text-fill: #991b1b; -fx-font-size: 10pt;" wrapText="true" alignment="CENTER" maxWidth="700"/>
+            </VBox>
+
+            <!-- Capa B: Formulario de Registro Estilo F3 del Tutor Académico -->
+            <VBox fx:id="panelCargaF2" spacing="15" visible="false">
+                <children>
+                    <VBox spacing="12" styleClass="card-dashboard" style="-fx-border-left-color: #f59e0b; -fx-border-left-width: 5px;">
+                        <Label text="Documentación y Registro de Rúbrica de Satisfacción (Formulario 2)" style="-fx-font-weight: bold; -fx-text-fill: #b45309;"/>
+                        <Label text="Descargue la plantilla institucional estructurada del Formulario 2, califique los criterios cuantitativos de rendimiento y áreas cualitativas del practicante, fírmela y proceda a subir el documento finalizado en formato PDF para iniciar el bucle de control del tutor de la universidad." style="-fx-font-size: 9.5pt; -fx-text-fill: #64748b;" wrapText="true"/>
+
+                        <HBox spacing="15" alignment="CENTER_LEFT" style="-fx-padding: 5 0 0 0;">
+                            <!-- Botón para descargar la plantilla oficial vacía -->
+                            <Button fx:id="btnDescargarPlantillaF2" text="📥 Descargar Plantilla Formulario 2 (.pdf)" style="-fx-background-color: #475569; -fx-text-fill: white;"/>
+
+                            <Separator orientation="VERTICAL" prefHeight="25"/>
+
+                            <!-- Botón para subir el archivo definitivo rellenado/firmado -->
+                            <HBox spacing="10" alignment="CENTER_LEFT">
+                                <Button fx:id="btnSubirEvaluacionLlena" text="📤 Subir Evaluación Técnica Llena (PDF)" style="-fx-background-color: #2563eb; -fx-text-fill: white; -fx-font-weight: bold;"/>
+                                <Label fx:id="lblEstadoArchivoF2" text="Ningún archivo seleccionado (.pdf)" style="-fx-text-fill: #64748b; -fx-font-style: italic;"/>
+                            </HBox>
+                        </HBox>
+                    </VBox>
+
+                    <!-- Cuadro informativo de bucle de retroalimentación en caso de rechazo del docente -->
+                    <VBox spacing="8" styleClass="card-dashboard" style="-fx-border-left-color: #ef4444; -fx-border-left-width: 5px;">
+                        <Label text="Observaciones de No Conformidad del Tutor Académico (En caso de Devolución):" style="-fx-font-weight: bold; -fx-text-fill: #b91c1c;"/>
+                        <VBox style="-fx-padding: 8; -fx-background-color: #f8fafc; -fx-border-color: #e2e8f0; -fx-border-radius: 4px;">
+                            <TextArea fx:id="txtRetroalimentacionDocenteF2" prefHeight="60" editable="false" style="-fx-font-family: 'Courier New';" text="[Ninguna observación de rechazo registrada. De acuerdo a las reglas del sistema, si el tutor académico no da la conformidad, la evaluación se anula y requerirá que repita la carga desde cero con un nuevo archivo PDF.]" wrapText="true"/>
+                        </VBox>
+                    </VBox>
+
+                    <Region VBox.vgrow="ALWAYS"/>
+
+                    <HBox spacing="10" alignment="CENTER_LEFT">
+                        <Region HBox.hgrow="ALWAYS"/>
+                        <Button text="Transmitir Evaluación Final Guardada" styleClass="button-primary"/>
+                    </HBox>
+                </children>
+            </VBox>
+        </children>
+    </StackPane>
+</VBox>

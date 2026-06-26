@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<SplitPane dividerPositions="0.35" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" prefHeight="700" style="-fx-padding: 10;">
+    <items>
+        <VBox spacing="10" style="-fx-padding: 5;">
+            <Label text="Expedientes F1 Listos para Firma" style="-fx-font-weight: bold; -fx-text-fill: #334155;"/>
+            <TableView fx:id="tblExpedientesInicioPendientes" VBox.vgrow="ALWAYS">
+                <columnResizePolicy>
+                    <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                </columnResizePolicy>
+                <columns>
+                    <TableColumn text="Estudiante" prefWidth="150"/>
+                    <TableColumn text="Empresa / Oferta" prefWidth="150"/>
+                </columns>
+            </TableView>
+        </VBox>
+
+        <VBox spacing="15" style="-fx-padding: 10;" alignment="TOP_LEFT">
+            <Label text="Fiscalización y Autorización de Arranque Cronológico" style="-fx-font-size: 13pt; -fx-font-weight: bold; -fx-text-fill: #1e3a8a;"/>
+
+            <VBox spacing="12" styleClass="card-dashboard" style="-fx-border-left-color: #10b981; -fx-border-left-width: 5px; -fx-padding: 15;">
+                <Label text="Verificación de Requisitos de Inicio de Práctica" style="-fx-font-weight: bold; -fx-text-fill: #0f172a;"/>
+                <Separator/>
+                <GridPane hgap="15" vgap="10">
+                    <children>
+                        <Label text="Firma Digital Tutor Empresarial:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+                        <Label text="✔ ESTAMPADA / VÁLIDA" style="-fx-text-fill: #10b981; -fx-font-weight: bold;" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+
+                        <Label text="Firma Digital Tutor Académico:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+                        <Label text="✔ ESTAMPADA / VÁLIDA" style="-fx-text-fill: #10b981; -fx-font-weight: bold;" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+
+                        <Label text="Control de Cartas Compromiso (Secretaría):" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+                        <Label text="APROBADO / LIBRE" style="-fx-text-fill: #10b981; -fx-font-weight: bold;" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+                    </children>
+                </GridPane>
+            </VBox>
+
+            <VBox spacing="12" styleClass="card-dashboard" style="-fx-padding: 15; -fx-background-color: #f8fafc; -fx-border-color: #e2e8f0; -fx-border-radius: 4px;">
+                <Label text="Gestión Documental del Formulario 1 Matriz:" style="-fx-font-weight: bold; -fx-text-fill: #1e3a8a;"/>
+                <Label text="Instrucciones: Descargue el expediente con las actividades y firmas previas. Firme digitalmente el documento y vuelva a subirlo al sistema para habilitar la aprobación definitiva de la práctica." style="-fx-font-size: 9pt; -fx-text-fill: #64748b;" wrapText="true"/>
+
+                <TextArea fx:id="txtVisorResumenF1" prefHeight="80" editable="false" style="-fx-font-family: 'Courier New';" text="[DATOS DEL FORMULARIO 1]: Resumen del plan técnico de aprendizaje con desglose de actividades validadas metodológicamente por la universidad..." wrapText="true"/>
+                <Separator style="-fx-padding: 5 0;"/>
+
+                <HBox spacing="15" alignment="CENTER_LEFT">
+                    <Button fx:id="btnDescargarFormulario1PDF" text="📥 Descargar Formulario 1 Llenado (.pdf)" style="-fx-background-color: #475569; -fx-text-fill: white;"/>
+
+                    <Separator orientation="VERTICAL" prefHeight="25"/>
+
+                    <HBox spacing="10" alignment="CENTER_LEFT">
+                        <Button fx:id="btnSubirFormulario1Firmado" text="📤 Subir Formulario 1 Firmado (PDF)" style="-fx-background-color: #2563eb; -fx-text-fill: white; -fx-font-weight: bold;"/>
+                        <Label fx:id="lblEstadoArchivoF1Coordinador" text="Ningún archivo seleccionado (.pdf)" style="-fx-text-fill: #64748b; -fx-font-style: italic; -fx-font-size: 9.5pt;"/>
+                    </HBox>
+                </HBox>
+            </VBox>
+
+            <VBox spacing="5" styleClass="card-dashboard" style="-fx-padding: 12; -fx-border-left-color: #ef4444; -fx-border-left-width: 5px;">
+                <Label text="Justificación Obligatoria de Rechazo del Expediente:" style="-fx-font-weight: bold; -fx-text-fill: #b91c1c;"/>
+                <TextArea fx:id="txtMotivoRechazoInicio" prefHeight="70" promptText="Escriba aquí las razones de la no conformidad. Al rechazar, este registro se anulará de forma inmutable y los actores deberán tramitar un nuevo documento desde cero..." wrapText="true"/>
+            </VBox>
+
+            <Separator style="-fx-padding: 5 0;"/>
+
+            <HBox spacing="15" alignment="CENTER_RIGHT" style="-fx-padding: 5 0 0 0;">
+                <Button text="Rechazar Expediente de Inicio ❌" style="-fx-background-color: #ef4444; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 8 15 8 15;"/>
+                <Button fx:id="btnAprobarInicioFinal" text="Aprobar Inicio y Archivar Formulario 1 🚀" style="-fx-background-color: #10b981; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 8 15 8 15;" disable="true"/>
+            </HBox>
+        </VBox>
+    </items>
+</SplitPane>
