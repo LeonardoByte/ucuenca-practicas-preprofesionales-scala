@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox spacing="20" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" style="-fx-padding: 15;" maxWidth="1260">
+    <Label text="Control Rápido de Estudiantes Asignados bajo su Fiscalización" style="-fx-font-size: 16pt; -fx-font-weight: bold; -fx-text-fill: #1e3a8a;"/>
+    <Separator/>
+
+    <FlowPane hgap="20" vgap="20" prefWidth="1260">
+        <children>
+            <VBox styleClass="card-dashboard" prefWidth="285" spacing="10" style="-fx-border-left-color: #2563eb; -fx-border-left-width: 5px;">
+                <Label text="Fase de Inicio (Formulario 1)" style="-fx-text-fill: #64748b; -fx-font-weight: bold;"/>
+                <Label text="3 Alumnos" style="-fx-font-size: 22pt; -fx-font-weight: bold; -fx-text-fill: #2563eb;"/>
+                <Label text="Estudiantes estructurando cronograma inicial" style="-fx-font-size: 9pt; -fx-text-fill: #94a3b8;"/>
+            </VBox>
+
+            <VBox styleClass="card-dashboard" prefWidth="285" spacing="10" style="-fx-border-left-color: #f59e0b; -fx-border-left-width: 5px;">
+                <Label text="Fase de Desarrollo de Prácticas" style="-fx-text-fill: #64748b; -fx-font-weight: bold;"/>
+                <Label text="7 Alumnos" style="-fx-font-size: 22pt; -fx-font-weight: bold; -fx-text-fill: #f59e0b;"/>
+                <Label text="Ejecutando horas técnicas en empresas" style="-fx-font-size: 9pt; -fx-text-fill: #94a3b8;"/>
+            </VBox>
+
+            <VBox styleClass="card-dashboard" prefWidth="285" spacing="10" style="-fx-border-left-color: #10b981; -fx-border-left-width: 5px;">
+                <Label text="Listos para Evaluación Final" style="-fx-text-fill: #64748b; -fx-font-weight: bold;"/>
+                <Label text="2 Alumnos" style="-fx-font-size: 22pt; -fx-font-weight: bold; -fx-text-fill: #10b981;"/>
+                <Label text="Esperando validación de cierres (F2 y F3)" style="-fx-font-size: 9pt; -fx-text-fill: #94a3b8;"/>
+            </VBox>
+
+            <VBox styleClass="card-dashboard" prefWidth="285" spacing="10" style="-fx-border-left-color: #6366f1; -fx-border-left-width: 5px;">
+                <Label text="Actividades por Revisar" style="-fx-text-fill: #64748b; -fx-font-weight: bold;"/>
+                <Label text="5 Tareas" style="-fx-font-size: 22pt; -fx-font-weight: bold; -fx-text-fill: #6366f1;"/>
+                <Label text="Propuestas esperando control metodológico" style="-fx-font-size: 9pt; -fx-text-fill: #94a3b8;"/>
+            </VBox>
+        </children>
+    </FlowPane>
+
+    <Separator style="-fx-padding: 10 0;"/>
+
+    <Label text="Nómina Completa de Estudiantes Asignados" style="-fx-font-size: 12pt; -fx-font-weight: bold; -fx-text-fill: #475569;"/>
+
+    <TableView fx:id="tblAlumnosTutorados" prefHeight="350" VBox.vgrow="ALWAYS">
+        <columnResizePolicy>
+            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
+        </columnResizePolicy>
+        <columns>
+            <TableColumn prefWidth="250" text="Nombres del Estudiante" />
+            <TableColumn prefWidth="200" text="Empresa de Acogida" />
+            <TableColumn prefWidth="120" text="Ciclo Actual" />
+            <TableColumn prefWidth="180" text="Etapa del Proceso" />
+            <TableColumn prefWidth="130" text="Horas Validadas" />
+        </columns>
+    </TableView>
+</VBox>

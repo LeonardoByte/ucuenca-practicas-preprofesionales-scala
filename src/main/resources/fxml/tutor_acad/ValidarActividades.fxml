@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox spacing="15" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" style="-fx-padding: 15;" maxWidth="850">
+    <Label text="Evaluación y Control Metodológico de Tareas Propuestas" style="-fx-font-size: 14pt; -fx-font-weight: bold; -fx-text-fill: #0f172a;"/>
+    <Separator/>
+
+    <Label text="1. Seleccione el Estudiante a Fiscalizar:" style="-fx-font-weight: bold; -fx-text-fill: #1e3a8a;"/>
+    <TableView fx:id="tblEstudiantesTutorados" prefHeight="150" minHeight="120">
+        <columnResizePolicy>
+            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
+        </columnResizePolicy>
+        <columns>
+            <TableColumn prefWidth="250" text="Nombres del Estudiante" />
+            <TableColumn prefWidth="200" text="Empresa de Acogida" />
+            <TableColumn prefWidth="150" text="Ciclo Actual" />
+            <TableColumn prefWidth="150" text="Actividades pendientes" /> <!-- La cantidad de actividades pendientes a revision-->
+        </columns>
+    </TableView>
+
+    <Separator/>
+
+    <Label text="2. Actividades Individuales Pendientes de Revisión Técnica:" style="-fx-font-weight: bold; -fx-text-fill: #475569;"/>
+
+    <TableView fx:id="tblValidarActividadesDocente" prefHeight="200" VBox.vgrow="ALWAYS">
+        <columnResizePolicy>
+            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
+        </columnResizePolicy>
+        <columns>
+            <TableColumn prefWidth="450" text="Descripción de la Tarea Propuesta" />
+            <TableColumn prefWidth="150" text="Origen de Carga" />
+        </columns>
+    </TableView>
+
+    <VBox spacing="8" styleClass="card-dashboard" style="-fx-border-left-color: #ef4444; -fx-border-left-width: 5px; -fx-padding: 12;">
+        <Label text="Retroalimentación y Correcciones Metodológicas (Obligatorio en caso de Rechazo):" style="-fx-font-weight: bold; -fx-text-fill: #b91c1c;"/>
+        <TextArea fx:id="txtCorreccionMetodologica" prefHeight="70" promptText="Describa detalladamente las causas del rechazo. Nota: El registro actual se guardará como 'Rechazado' de forma inmutable y se notificará al estudiante/empresa para que envíen una nueva propuesta corregida." wrapText="true"/>
+    </VBox>
+
+    <HBox spacing="10" alignment="CENTER_LEFT">
+        <Button text="Rechazar Tarea Propuesta" styleClass="button-danger" style="-fx-background-color: #ef4444; -fx-text-fill: white; -fx-font-weight: bold;"/>
+        <Region HBox.hgrow="ALWAYS"/>
+        <Button text="Aprobación Rápida de Actividad 	" styleClass="button-primary" style="-fx-background-color: #2563eb; -fx-text-fill: white; -fx-font-weight: bold;"/>
+    </HBox>
+</VBox>

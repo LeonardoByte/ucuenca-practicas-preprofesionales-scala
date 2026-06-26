@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox spacing="15" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" style="-fx-padding: 15;">
+    <Label text="Inspección de Consistencia de Evaluación Empresarial (Formulario 2)" style="-fx-font-size: 14pt; -fx-font-weight: bold; -fx-text-fill: #0f172a;"/>
+    <Separator/>
+
+    <HBox spacing="15" alignment="CENTER_LEFT" styleClass="card-dashboard" style="-fx-padding: 10;">
+        <Label text="Estudiante bajo revisión:" style="-fx-font-weight: bold;"/>
+        <ComboBox fx:id="cmbEstudiantesF2" promptText="Seleccionar Alumno..." prefWidth="300.0"/>
+    </HBox>
+
+    <!-- Visor de Contexto e Interacción Documental del F2 -->
+    <VBox spacing="10" styleClass="card-dashboard" style="-fx-padding: 12; -fx-background-color: #f8fafc; -fx-border-color: #e2e8f0; -fx-border-radius: 4px;" VBox.vgrow="ALWAYS">
+        <Label text="Visualización Directa del Formulario 2 guardado por la Empresa:" style="-fx-font-weight: bold;"/>
+        <Label text="Detalles de la rúbrica cuantitativa y criterios cualitativos registrados externamente:" style="-fx-font-size: 9pt; -fx-text-fill: #64748b;"/>
+
+        <TextArea fx:id="txtVisorFormulario2" prefHeight="150" editable="false" style="-fx-font-family: 'Courier New';" text="[DATOS DE LECTURA INDEXADOS: Calificación Cualitativa del Desempeño Corporativo, escalas del 1 al 5 y comentarios de contraparte técnica...]" VBox.vgrow="ALWAYS"/>
+
+        <Separator style="-fx-padding: 2 0;"/>
+
+        <!-- Pareja de botones estándar para manejo de PDFs -->
+        <HBox spacing="10" alignment="CENTER_LEFT">
+            <Button fx:id="btnRevisarF2PDF" text="👁 Revisar Formulario 2 PDF" style="-fx-background-color: #2563eb; -fx-text-fill: white; -fx-font-weight: bold;"/>
+            <Button fx:id="btnDescargarF2PDF" text="📥 Descargar para Revisión" style="-fx-background-color: #475569; -fx-text-fill: white;"/>
+        </HBox>
+    </VBox>
+
+    <!-- Campo obligatorio en caso de rechazo del F2 -->
+    <VBox spacing="5" styleClass="card-dashboard" style="-fx-padding: 12; -fx-border-left-color: #ef4444; -fx-border-left-width: 5px;">
+        <Label text="Comentario de Observación por Inconsistencia (Obligatorio si Rechaza):" style="-fx-font-weight: bold; -fx-text-fill: #b91c1c;"/>
+        <TextArea fx:id="txtJustificacionRechazoF2" prefHeight="70" promptText="Escriba aquí los motivos de la no conformidad. Al rechazar, el registro se anulará y la empresa deberá iniciar un nuevo envío del formulario desde cero..." wrapText="true"/>
+    </VBox>
+
+    <HBox spacing="10" alignment="CENTER_LEFT">
+        <Button text="Rechazar Formulario 2" styleClass="button-danger"/>
+        <Region HBox.hgrow="ALWAYS"/>
+        <Button text="Registrar Conformidad Académica" styleClass="button-primary"/>
+    </HBox>
+</VBox>

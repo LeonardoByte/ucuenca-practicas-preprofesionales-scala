@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox spacing="15" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" style="-fx-padding: 15;">
+    <Label text="Redacción del Informe Académico Final (Formulario 3)" style="-fx-font-size: 14pt; -fx-font-weight: bold; -fx-text-fill: #0f172a;"/>
+    <Separator/>
+
+    <HBox spacing="15" alignment="CENTER_LEFT" styleClass="card-dashboard" style="-fx-padding: 10;">
+        <Label text="Estudiante a evaluar:" style="-fx-font-weight: bold;"/>
+        <ComboBox fx:id="cmbEstudiantesF3" promptText="Seleccionar Alumno..." prefWidth="300.0"/>
+    </HBox>
+
+    <!-- StackPane para manejo de Bloqueo en Cascada según Regla de Negocio -->
+    <StackPane fx:id="stackContenedorF3" VBox.vgrow="ALWAYS">
+        <children>
+            <!-- Capa A: Bloqueo de Seguridad en Cascada (Oculto/Visible por controlador) -->
+            <VBox fx:id="panelBloqueoF3" spacing="10" styleClass="card-dashboard" style="-fx-background-color: #fee2e2; -fx-border-color: #ef4444; -fx-border-left-width: 5px; -fx-border-left-color: #dc2626; -fx-padding: 20;" alignment="CENTER">
+                <Label text="🔒 ACCESO CONFIGURADO COMO BLOQUEADO EN CASCADA" style="-fx-font-weight: bold; -fx-text-fill: #b91c1c; -fx-font-size: 12pt;"/>
+                <Label text="Este informe técnico permanece restringido y oculto de forma automática por el sistema. Se desbloqueará únicamente cuando el Tutor Empresarial haya registrado y enviado primero la evaluación de desempeño del Formulario 2." style="-fx-text-fill: #991b1b; -fx-font-size: 10pt;" wrapText="true" alignment="CENTER" maxWidth="700"/>
+            </VBox>
+
+            <!-- Capa B: Formulario de Emisión Libre Adaptado a tu Formato -->
+            <VBox fx:id="panelEscrituraF3" spacing="15" visible="false">
+                <children>
+                    <VBox spacing="12" styleClass="card-dashboard" style="-fx-border-left-color: #f59e0b; -fx-border-left-width: 5px;">
+                        <Label text="Documentación y Soporte del Informe de Fiscalización (Formulario 3)" style="-fx-font-weight: bold; -fx-text-fill: #b45309;"/>
+                        <Label text="Descargue la plantilla institucional del Formulario 3, redacte las conclusiones consolidadas del seguimiento académico de la práctica, fírmela y proceda a subir el documento finalizado en formato PDF para remitir el expediente al coordinador de carrera." style="-fx-font-size: 9.5pt; -fx-text-fill: #64748b;" wrapText="true"/>
+
+                        <HBox spacing="15" alignment="CENTER_LEFT" style="-fx-padding: 5 0 0 0;">
+                            <!-- Botón para descargar plantilla base -->
+                            <Button fx:id="btnDescargarPlantillaF3" text="📥 Descargar Plantilla Formulario 3 (.pdf)" style="-fx-background-color: #475569; -fx-text-fill: white;"/>
+
+                            <Separator orientation="VERTICAL" prefHeight="25"/>
+
+                            <!-- Botón para subir archivo ya llenado -->
+                            <HBox spacing="10" alignment="CENTER_LEFT">
+                                <Button fx:id="btnSubirInformeFirmado" text="📤 Subir Informe Final Firmado (PDF)" style="-fx-background-color: #2563eb; -fx-text-fill: white; -fx-font-weight: bold;"/>
+                                <Label fx:id="lblEstadoArchivoF3" text="Ningún archivo seleccionado (.pdf)" style="-fx-text-fill: #64748b; -fx-font-style: italic;"/>
+                            </HBox>
+                        </HBox>
+                    </VBox>
+
+                    <Region VBox.vgrow="ALWAYS"/>
+
+                    <HBox spacing="10" alignment="CENTER_LEFT">
+                        <Region HBox.hgrow="ALWAYS"/>
+                        <Button text="Enviar Informe y Expediente al Coordinador" styleClass="button-primary"/>
+                    </HBox>
+                </children>
+            </VBox>
+        </children>
+    </StackPane>
+</VBox>
