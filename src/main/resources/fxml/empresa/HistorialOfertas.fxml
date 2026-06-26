@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox spacing="15" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" style="-fx-padding: 15;">
+    <Label text="Monitoreo e Historial de Convocatorias Previas" style="-fx-font-size: 14pt; -fx-font-weight: bold; -fx-text-fill: #0f172a;"/>
+
+    <TableView fx:id="tblHistorialOfertas" prefHeight="300" VBox.vgrow="ALWAYS">
+        <columns>
+            <TableColumn prefWidth="250" text="Título de la Oferta" />
+            <TableColumn prefWidth="130" text="Fecha Publicación" />
+            <TableColumn prefWidth="120" text="Cupos Iniciales" />
+            <TableColumn prefWidth="140" text="Estado del Proceso" />
+            <!-- Mantenemos el fx:id para renderizar el botón dentro si lo deseas -->
+            <TableColumn fx:id="colAccionCierre" prefWidth="180" text="Cierre Anticipado (Manual)" />
+        </columns>
+    </TableView>
+
+    <VBox spacing="8" styleClass="card-dashboard" style="-fx-border-left-color: #ef4444; -fx-border-left-width: 5px;">
+        <Label text="Retroalimentación y Observaciones de Rechazo (Coordinación de Carrera):" style="-fx-font-weight: bold; -fx-text-fill: #b91c1c;"/>
+        <VBox style="-fx-padding: 8; -fx-background-color: #f8fafc; -fx-border-color: #e2e8f0; -fx-border-radius: 4px;">
+            <TextArea fx:id="txtComentarioRechazoCoordinador" prefHeight="60" editable="false" style="-fx-font-family: 'Courier New';" text="[Ninguna observación registrada. Si la oferta es rechazada por el coordinador, aquí se renderizará el motivo obligatorio de forma automática.]" wrapText="true"/>
+        </VBox>
+    </VBox>
+
+    <!-- Barra de acciones inferiores para control rápido de la oferta seleccionada -->
+    <HBox spacing="10" alignment="CENTER_RIGHT">
+        <Label text="Control de Oferta Seleccionada:" style="-fx-text-fill: #64748b; -fx-font-style: italic; -fx-font-size: 10pt;"/>
+        <Button fx:id="btnForzarCierreOferta" text="🚫 Cancelar / Forzar Cierre de Oferta" style="-fx-background-color: #ef4444; -fx-text-fill: white; -fx-font-weight: bold;"/>
+    </HBox>
+</VBox>

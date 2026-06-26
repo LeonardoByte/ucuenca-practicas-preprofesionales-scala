@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<SplitPane dividerPositions="0.35" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" prefHeight="720" style="-fx-padding: 10;">
+    <items>
+        <VBox spacing="10" style="-fx-padding: 5;">
+            <Label text="Candidatos Validados por la Universidad" style="-fx-font-weight: bold; -fx-text-fill: #334155;"/>
+            <HBox spacing="10" alignment="CENTER_LEFT">
+                <Label text="Convocatoria:"/>
+                <ComboBox fx:id="cmbOfertasFiltro" promptText="Filtrar por Oferta..." prefWidth="200"/>
+            </HBox>
+            <TableView fx:id="tblCandidatosDisponibles" VBox.vgrow="ALWAYS">
+                <columns>
+                    <TableColumn text="Estudiante" prefWidth="140"/>
+                    <TableColumn text="Promedio" prefWidth="80"/>
+                </columns>
+            </TableView>
+        </VBox>
+
+        <VBox spacing="15" style="-fx-padding: 10;">
+            <Label text="Expediente Técnico del Postulante" style="-fx-font-size: 13pt; -fx-font-weight: bold; -fx-text-fill: #1e3a8a;"/>
+
+            <TabPane style="-fx-border-color: #cbd5e1; -fx-border-radius: 4;" VBox.vgrow="ALWAYS">
+                <tabs>
+                    <Tab text="Malla Curricular Universitaria" closable="false">
+                        <VBox spacing="15" style="-fx-padding: 15; -fx-background-color: white;" VBox.vgrow="ALWAYS">
+                            <Label text="Resumen de Cumplimiento Curricular de la Carrera:" style="-fx-font-weight: bold;"/>
+                            <Label text="Malla Académica Vigente / Aprobación de prerrequisitos de sexto ciclo verificada por Vinculación." wrapText="true"/>
+                            <Region VBox.vgrow="ALWAYS"/>
+                            <Separator/>
+                            <HBox spacing="10" alignment="CENTER_LEFT">
+                                <Button fx:id="btnRevisarMallaPDF" text="👁 Revisar Malla PDF" style="-fx-background-color: #2563eb; -fx-text-fill: white; -fx-font-weight: bold;"/>
+                                <Button fx:id="btnDescargarMallaPDF" text="📥 Descargar" style="-fx-background-color: #475569; -fx-text-fill: white;"/>
+                            </HBox>
+                        </VBox>
+                    </Tab>
+                    <Tab text="Curriculum Vitae (CV)" closable="false">
+                        <VBox spacing="15" style="-fx-padding: 15; -fx-background-color: white;" VBox.vgrow="ALWAYS">
+                            <Label text="Extracto e Información del Perfil Técnico:" style="-fx-font-weight: bold;"/>
+                            <TextArea fx:id="txtExtractoCV" prefHeight="150" editable="false" style="-fx-font-family: 'Courier New'; -fx-background-color: #f8fafc;" text="[Contenido del archivo de hoja de vida indexado por el sistema para evaluación de competencias corporativas...]" wrapText="true" VBox.vgrow="ALWAYS"/>
+                            <Separator/>
+                            <HBox spacing="10" alignment="CENTER_LEFT">
+                                <Button fx:id="btnRevisarCVPDF" text="👁 Revisar CV PDF" style="-fx-background-color: #2563eb; -fx-text-fill: white; -fx-font-weight: bold;"/>
+                                <Button fx:id="btnDescargarCVPDF" text="📥 Descargar" style="-fx-background-color: #475569; -fx-text-fill: white;"/>
+                            </HBox>
+                        </VBox>
+                    </Tab>
+                </tabs>
+            </TabPane>
+
+            <VBox spacing="8" styleClass="card-dashboard" style="-fx-border-left-color: #2563eb; -fx-border-left-width: 5px; -fx-padding: 12;">
+                <Label text="Asignación Obligatoria de Tutor Empresarial (Requerido para Aceptación):" style="-fx-font-weight: bold; -fx-text-fill: #2563eb;"/>
+                <HBox spacing="15" alignment="CENTER_LEFT">
+                    <Label text="Seleccionar Supervisor Técnico:"/>
+                    <ComboBox fx:id="cmbTutorEmpresarial" promptText="Seleccionar de la nómina interna de la empresa..." prefWidth="350"/>
+                </HBox>
+            </VBox>
+
+            <HBox spacing="15" alignment="CENTER_RIGHT">
+                <Button text="Rechazar Postulante" styleClass="button-danger"/>
+                <Button text="Aceptar Estudiante y Asignar Tutor" styleClass="button-primary"/>
+            </HBox>
+        </VBox>
+    </items>
+</SplitPane>
