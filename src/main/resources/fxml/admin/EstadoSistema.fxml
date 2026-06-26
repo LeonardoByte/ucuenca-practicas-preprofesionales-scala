@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<VBox spacing="20" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" style="-fx-padding: 10;">
+    <Label text="Consola de Estado Operativo y Técnico del Sistema" style="-fx-font-size: 16pt; -fx-font-weight: bold; -fx-text-fill: #1e293b;"/>
+    
+    <Label text="Datos de Infraestructura Técnica" style="-fx-font-size: 12pt; -fx-font-weight: bold; -fx-text-fill: #475569;"/>
+    <FlowPane hgap="20" vgap="15">
+        <children>
+            <VBox styleClass="card-tech" prefWidth="400" spacing="5">
+                <Label text="Servidor del Motor Relacional" style="-fx-font-weight: bold; -fx-text-fill: #0f172a;"/>
+                <Label text="Motor: PostgreSQL 18.0 (Estable)" style="-fx-text-fill: #334155;"/>
+                <Label text="Estado de la Conexión: ACTIVO / OPERACIONAL" style="-fx-text-fill: #10b981; -fx-font-weight: bold;"/>
+                <Label text="Pool de Conexiones: 14 Activas / 50 Máx" style="-fx-text-fill: #64748b; -fx-font-size: 9pt;"/>
+            </VBox>
+        </children>
+    </FlowPane>
+    
+    <Separator style="-fx-padding: 10 0;"/>
+    
+    <Label text="Datos Operativos del Negocio" style="-fx-font-size: 12pt; -fx-font-weight: bold; -fx-text-fill: #475569;"/>
+    <GridPane hgap="20" vgap="15">
+        <columnConstraints>
+            <ColumnConstraints percentWidth="50"/>
+            <ColumnConstraints percentWidth="50"/>
+        </columnConstraints>
+        <children>
+            <VBox styleClass="card-operational" spacing="8" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                <Label text="Cuentas y Usuarios Activos por Rol Corporativo" style="-fx-font-weight: bold; -fx-text-fill: #0f172a;"/>
+                <Separator/>
+                <GridPane hgap="10" vgap="4">
+                    <children>
+                        <Label text="Estudiantes Matriculados:" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+                        <Label text="240" style="-fx-font-weight: bold;" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+                        
+                        <Label text="Entidades Jurídicas (Empresas):" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+                        <Label text="45" style="-fx-font-weight: bold;" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+                        
+                        <Label text="Tutores Universitarios Académicos:" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+                        <Label text="32" style="-fx-font-weight: bold;" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+                        
+                        <Label text="Tutores Empresariales Técnicos:" GridPane.columnIndex="0" GridPane.rowIndex="3"/>
+                        <Label text="58" style="-fx-font-weight: bold;" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
+
+                        <Label text="Coordinadores de vinculación:" GridPane.columnIndex="0" GridPane.rowIndex="4"/>
+                        <Label text="7" style="-fx-font-weight: bold;" GridPane.columnIndex="1" GridPane.rowIndex="4"/>
+
+                        <Label text="Personal de Secretaría:" GridPane.columnIndex="0" GridPane.rowIndex="5"/>
+                        <Label text="5" style="-fx-font-weight: bold;" GridPane.columnIndex="1" GridPane.rowIndex="5"/>
+
+                        <Label text="Administradores:" GridPane.columnIndex="0" GridPane.rowIndex="6"/>
+                        <Label text="2" style="-fx-font-weight: bold;" GridPane.columnIndex="1" GridPane.rowIndex="6"/>
+                    </children>
+                </GridPane>
+            </VBox>
+            
+            <VBox styleClass="card-operational" spacing="8" GridPane.columnIndex="1" GridPane.rowIndex="0">
+                <Label text="Prácticas Preprofesionales Universitarias" style="-fx-font-weight: bold; -fx-text-fill: #0f172a;"/>
+                <Separator/>
+                <Label text="Procesos en Curso en la Universidad:" style="-fx-text-fill: #475569;"/>
+                <Label text="115 Prácticas Activas" style="-fx-font-size: 20pt; -fx-font-weight: bold; -fx-text-fill: #2563eb; -fx-padding: 5 0;"/>
+                <Label text="Periodo Académico Vigente: Ciclo Corriente 2026" style="-fx-text-fill: #64748b; -fx-font-size: 9pt;"/>
+            </VBox>
+        </children>
+    </GridPane>
+</VBox>

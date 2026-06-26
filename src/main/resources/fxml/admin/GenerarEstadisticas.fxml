@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox spacing="20" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml">
+    <Label text="Extracción de Información Analítica Institucional Exigida" style="-fx-font-size: 14pt; -fx-font-weight: bold;"/>
+    <VBox spacing="15" styleClass="card-dashboard" maxWidth="750">
+        <Label text="Interfaz de Criterios y Selectores de Carga Operativa:" style="-fx-font-weight: bold;"/>
+        <HBox spacing="15">
+            <ComboBox promptText="Periodo Académico Vigente..."/>
+            <ComboBox promptText="Filtrar por Carrera..."/>
+        </HBox>
+        <Separator style="-fx-padding: 10 0;"/>
+        <Label text="Botones de Exportación Rápida de Informes y Tablas Limpias:" style="-fx-font-weight: bold;"/>
+        <VBox spacing="10">
+            <Button text="1. Exportar Lista Consolidada de Estudiantes con Prácticas Activas" styleClass="button-download" maxWidth="Infinity"/>
+            <Button text="2. Exportar Listado Ordenado de Empresas con Mayor Número de Practicantes" styleClass="button-download" maxWidth="Infinity"/>
+            <Button text="3. Exportar Resumen Analítico Porcentual de Postulaciones de Periodo" styleClass="button-download" maxWidth="Infinity"/>
+            <Button text="4. Exportar Reporte de Índices de Satisfacción del Desempeño Corporativo" styleClass="button-download" maxWidth="Infinity"/>
+        </VBox>
+    </VBox>
+</VBox>

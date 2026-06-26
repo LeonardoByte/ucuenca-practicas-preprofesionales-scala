@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox spacing="20" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" style="-fx-padding: 10;">
+    <Label text="Inspección de Trazabilidad y Auditoría Omnipotente de Prácticas" style="-fx-font-size: 16pt; -fx-font-weight: bold; -fx-text-fill: #0f172a;"/>
+    
+    <!-- 1. MECANISMO DE BÚSQUEDA Y SELECCIÓN INTERMEDIA -->
+    <VBox spacing="10" styleClass="card-operational">
+        <Label text="Buscador por Criterio de Entidad Jurídica o Estudiante" style="-fx-font-weight: bold; -fx-text-fill: #1e3a8a;"/>
+        <HBox spacing="15" alignment="CENTER_LEFT">
+            <TextField fx:id="txtBuscarCriterio" promptText="Ingrese nombre de la empresa o del alumno..." prefWidth="400"/>
+            <Button text="Buscar Prácticas Asociadas" styleClass="button-primary"/>
+        </HBox>
+        <Label text="Lista Intermedia de Prácticas Halladas (Seleccione una para auditar individualmente):" style="-fx-font-size: 10pt; -fx-font-weight: bold; -fx-padding: 5 0 0 0;"/>
+        <TableView fx:id="tblListaIntermediaPracticas" prefHeight="140">
+            <columns>
+                <TableColumn text="Código Práctica" prefWidth="120"/>
+                <TableColumn text="Estudiante" prefWidth="220"/>
+                <TableColumn text="Empresa Externa" prefWidth="220"/>
+                <TableColumn text="Fecha Registro" prefWidth="130"/>
+                <TableColumn text="Estado del Proceso" prefWidth="150"/>
+            </columns>
+        </TableView>
+    </VBox>
+    
+    <!-- 2. COMPONENTE DE LÍNEA DE VIDA CRONOLÓGICA COMPLETA -->
+    <Label text="Línea de Vida Cronológica del Proceso Auditado" style="-fx-font-size: 12pt; -fx-font-weight: bold; -fx-text-fill: #334155;"/>
+    
+    <ScrollPane fitToWidth="true" prefHeight="380" style="-fx-background-color: transparent;">
+        <VBox spacing="15" style="-fx-padding: 10; -fx-background-color: #ffffff; -fx-border-color: #cbd5e1; -fx-border-radius: 6;">
+            <children>
+                <Label text="* Nota: Refleja el avance secuencial de la práctica (incluso si se encuentra en desarrollo)" style="-fx-font-style: italic; -fx-text-fill: #64748b; -fx-font-size: 9.5pt;"/>
+                
+                <!-- Nodo 1: Oferta -->
+                <HBox spacing="15" alignment="CENTER_LEFT" styleClass="timeline-node">
+                    <VBox spacing="3" HBox.hgrow="ALWAYS">
+                        <Label text="Etapa 1: Oferta de Convocatoria Corporativa" style="-fx-font-weight: bold; -fx-text-fill: #0f172a;"/>
+                        <Label text="Estado en Fase: Concluida y aprobada por coordinación de carrera." style="-fx-font-size: 9.5pt; -fx-text-fill: #475569;"/>
+                    </VBox>
+                    <Button text="Interactividad de Retroalimentación" styleClass="button-timeline"/>
+                </HBox>
+                
+                <!-- Nodo 2: Postulación -->
+                <HBox spacing="15" alignment="CENTER_LEFT" styleClass="timeline-node">
+                    <VBox spacing="3" HBox.hgrow="ALWAYS">
+                        <Label text="Etapa 2: Postulación del Estudiante en Bolsa" style="-fx-font-weight: bold; -fx-text-fill: #0f172a;"/>
+                        <Label text="Estado en Fase: Validada automáticamente hacia el panel de la empresa." style="-fx-font-size: 9.5pt; -fx-text-fill: #475569;"/>
+                    </VBox>
+                    <Button text="Interactividad de Retroalimentación" styleClass="button-timeline"/>
+                </HBox>
+                
+                <!-- Nodo 3: Oficio -->
+                <HBox spacing="15" alignment="CENTER_LEFT" styleClass="timeline-node">
+                    <VBox spacing="3" HBox.hgrow="ALWAYS">
+                        <Label text="Etapa 3: Oficio de Petición Autogestionada (Empresa Propia)" style="-fx-font-weight: bold; -fx-text-fill: #0f172a;"/>
+                        <Label text="Estado en Fase: Omitido o Validado con Oficio de Presentación de Vuelta." style="-fx-font-size: 9.5pt; -fx-text-fill: #475569;"/>
+                    </VBox>
+                    <Button text="Interactividad de Retroalimentación" styleClass="button-timeline"/>
+                </HBox>
+                
+                <!-- Nodo 4: Formulario 1 -->
+                <HBox spacing="15" alignment="CENTER_LEFT" styleClass="timeline-node" style="-fx-border-left-width: 4px; -fx-border-left-color: #ef4444;">
+                    <VBox spacing="3" HBox.hgrow="ALWAYS">
+                        <Label text="Etapa 4: Formulario 1 - Plan Técnico de Aprendizaje" style="-fx-font-weight: bold; -fx-text-fill: #0f172a;"/>
+                        <Label text="Estado en Fase: Rechazado metodológicamente por inconsistencia en cantidad de tareas." style="-fx-font-size: 9.5pt; -fx-text-fill: #dc2626; -fx-font-weight: bold;"/>
+                    </VBox>
+                    <Button text="Ver Observación de Rechazo Obligatoria" styleClass="button-danger"/>
+                </HBox>
+                
+                <!-- Nodo 5: Formulario 2 -->
+                <HBox spacing="15" alignment="CENTER_LEFT" styleClass="timeline-node">
+                    <VBox spacing="3" HBox.hgrow="ALWAYS">
+                        <Label text="Etapa 5: Formulario 2 - Calificación Técnica del Desempeño" style="-fx-font-weight: bold; -fx-text-fill: #64748b;"/>
+                        <Label text="Estado en Fase: Pendiente de liberación / Bloqueado por cronograma." style="-fx-font-size: 9.5pt; -fx-text-fill: #94a3b8;"/>
+                    </VBox>
+                    <Button text="Interactividad de Retroalimentación" styleClass="button-timeline" disable="true"/>
+                </HBox>
+                
+                <!-- Nodo 6: Formulario 3 -->
+                <HBox spacing="15" alignment="CENTER_LEFT" styleClass="timeline-node">
+                    <VBox spacing="3" HBox.hgrow="ALWAYS">
+                        <Label text="Etapa 6: Formulario 3 - Informe Académico Consolidado" style="-fx-font-weight: bold; -fx-text-fill: #64748b;"/>
+                        <Label text="Estado en Fase: Bloqueado en cascada por falta de Formulario 2." style="-fx-font-size: 9.5pt; -fx-text-fill: #94a3b8;"/>
+                    </VBox>
+                    <Button text="Interactividad de Retroalimentación" styleClass="button-timeline" disable="true"/>
+                </HBox>
+                
+                <!-- 3. CUADRO DE LECTURA CON OBSERVACIONES DE RECHAZO DE LA FASE -->
+                <VBox spacing="5" styleClass="card-tech" style="-fx-border-left-color: #ef4444;">
+                    <Label text="Cuadro de Lectura de Observaciones y Retroalimentación de Fase Auditada" style="-fx-font-weight: bold; -fx-text-fill: #b91c1c;"/>
+                    <TextArea fx:id="txtAreaLecturaRetroalimentacion" prefHeight="60" editable="false" text="[OBSERVACIÓN DE RECHAZO DETECTADA EN ETAPA 4]: El plan técnico ingresado cuenta únicamente con 2 actividades validadas metodológicamente. Modificar para cumplir el rango de 3 a 6 actividades institucionales obligatorias." wrapText="true"/>
+                </VBox>
+            </children>
+        </VBox>
+    </ScrollPane>
+</VBox>
