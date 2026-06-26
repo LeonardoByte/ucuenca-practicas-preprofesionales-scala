@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox spacing="15" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" style="-fx-padding: 15;">
+    <Label text="Seguimiento Cronológico de Solicitudes y Postulaciones" style="-fx-font-size: 14pt; -fx-font-weight: bold; -fx-text-fill: #0f172a;"/>
+    <Separator/>
+
+    <!-- Banner de regla de negocio: Cancelación automática en cascada -->
+    <VBox spacing="5" styleClass="card-dashboard" style="-fx-background-color: #dcfce7; -fx-border-color: #22c55e; -fx-border-radius: 6px; -fx-background-radius: 6px; -fx-padding: 12; -fx-border-left-width: 5px; -fx-border-left-color: #16a34a;">
+        <Label text="Notificación Crítica del Sistema Automático:" style="-fx-font-weight: bold; -fx-text-fill: #15803d;"/>
+        <Label text="De acuerdo con la reglamentación, al ser aceptado formalmente por una empresa en una plaza, el sistema cancelará de manera automática e inmediata todas tus demás postulaciones activas en proceso de revisión." style="-fx-text-fill: #166534; -fx-font-size: 9.5pt;" wrapText="true"/>
+    </VBox>
+
+    <TableView fx:id="tblPostulacionesEstudiante" prefHeight="300" VBox.vgrow="ALWAYS">
+        <columns>
+            <TableColumn prefWidth="250" text="Empresa / Institución" />
+            <TableColumn prefWidth="250" text="Convocatoria Solicitada" />
+            <TableColumn prefWidth="130" text="Fecha Postulación" />
+            <TableColumn prefWidth="140" text="Estado Actual" />
+            <TableColumn prefWidth="300" text="Comentario de Retroalimentación / Rechazo" />
+        </columns>
+    </TableView>
+
+    <HBox spacing="10" alignment="CENTER_LEFT">
+        <Button text="Cancelar Postulación Seleccionada" styleClass="button-danger"/>
+    </HBox>
+</VBox>

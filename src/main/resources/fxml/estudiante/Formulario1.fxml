@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox spacing="15" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" style="-fx-padding: 15;">
+    <Label text="Expediente de Inicio - Presentación del Formulario 1 Digital" style="-fx-font-size: 14pt; -fx-font-weight: bold; -fx-text-fill: #0f172a;"/>
+    <Separator/>
+
+    <StackPane fx:id="stackControlesFlujoF1" maxWidth="850">
+        <children>
+            <VBox fx:id="panelBloqueoSecretaria" spacing="5" styleClass="card-dashboard" style="-fx-background-color: #fee2e2; -fx-border-color: #ef4444; -fx-border-left-width: 5px; -fx-border-left-color: #dc2626; -fx-padding: 15;">
+                <Label text="ESTADO: FLUJO DIGITAL CONGELADO / BLOQUEADO EN ROJO" style="-fx-font-weight: bold; -fx-text-fill: #b91c1c;"/>
+                <Label fx:id="lblTextoBloqueo" text="Trámite pausado debido a que la empresa externa no posee un convenio vigente registrado. Se requiere que el personal de Secretaría de la Facultad verifique la recepción física de las 3 copias firmadas de la Carta Compromiso para destrabar la acción." style="-fx-text-fill: #991b1b; -fx-font-size: 9.5pt;" wrapText="true"/>
+            </VBox>
+
+            <VBox fx:id="panelPermitidoConvenio" spacing="5" styleClass="card-dashboard" style="-fx-background-color: #dcfce7; -fx-border-color: #22c55e; -fx-border-left-width: 5px; -fx-border-left-color: #16a34a; -fx-padding: 15;" visible="false">
+                <Label text="ESTADO: FLUJO PERMITIDO EN VERDE" style="-fx-font-weight: bold; -fx-text-fill: #15803d;"/>
+                <Label fx:id="lblTextoPermitido" text="Convenio Marco Institucional vigente detectado de forma automática o Carta Compromiso validada por el personal de Secretaría. El flujo digital se encuentra libre para su tramitación." style="-fx-text-fill: #166534; -fx-font-size: 9.5pt;" wrapText="true"/>
+            </VBox>
+        </children>
+    </StackPane>
+
+    <VBox spacing="12" styleClass="card-dashboard" maxWidth="850">
+        <Label text="Resumen del Expediente Técnico de Planificación" style="-fx-font-weight: bold; -fx-text-fill: #1e3a8a;"/>
+        <Label text="Una vez validadas sus actividades de cronograma por su tutor, complete la presentación del Formulario 1. El documento se transmitirá de forma instantánea a los paneles del Tutor Empresarial y Tutor Académico para el estampado de firmas digitales corporativas." style="-fx-font-size: 9.5pt; -fx-text-fill: #475569;" wrapText="true"/>
+    </VBox>
+
+    <HBox spacing="15" alignment="CENTER_LEFT" maxWidth="850">
+        <Button fx:id="btnDescargarPlantillaCarta" text="📥 Descargar Formato Carta Compromiso Base (.pdf)" style="-fx-background-color: #475569; -fx-text-fill: white;"/>
+        <Region HBox.hgrow="ALWAYS"/>
+        <Button fx:id="btnPresentarFormulario1" text="Presentar Formulario 1" styleClass="button-primary" disable="true"/>
+    </HBox>
+</VBox>

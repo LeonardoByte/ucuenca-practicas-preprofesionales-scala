@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox spacing="15" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" style="-fx-padding: 15;">
+    <Label text="Registro de Prácticas por Cuenta Propia - Empresa Propia" style="-fx-font-size: 14pt; -fx-font-weight: bold; -fx-text-fill: #0f172a;"/>
+    <Separator/>
+
+    <GridPane hgap="15" vgap="12" styleClass="card-dashboard" maxWidth="850">
+        <columnConstraints>
+            <ColumnConstraints prefWidth="250"/>
+            <ColumnConstraints prefWidth="550"/>
+        </columnConstraints>
+        <children>
+            <Label text="Nombre de la Institución/Empresa:" GridPane.rowIndex="0" GridPane.columnIndex="0" style="-fx-font-weight: bold;"/>
+            <TextField fx:id="txtNombreEmpresaPropia" promptText="Ej. GAD Municipal del Cantón Cuenca" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+
+            <Label text="Correo de Contacto del Encargado:" GridPane.rowIndex="1" GridPane.columnIndex="0" style="-fx-font-weight: bold;"/>
+            <TextField fx:id="txtContactoEmpresaPropia" promptText="ejemplo@contactoempresa.com" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+
+            <Label text="Duración Estimada (Horas):" GridPane.rowIndex="2" GridPane.columnIndex="0" style="-fx-font-weight: bold;"/>
+            <HBox spacing="10" alignment="CENTER_LEFT" GridPane.rowIndex="2" GridPane.columnIndex="1">
+                <Spinner fx:id="spnHorasEmpresaPropia" min="40" max="400" initialValue="240" prefWidth="120"/>
+                <Label text="Horas estipuladas en el acuerdo." style="-fx-text-fill: #475569;"/>
+            </HBox>
+
+            <Label text="Dirección de la Sede Matriz:" GridPane.rowIndex="3" GridPane.columnIndex="0" style="-fx-font-weight: bold;"/>
+            <TextField fx:id="txtDireccionMatrizPropia" promptText="Ej. Av. Mariscal Sucre y Huayna Cápac, Cuenca" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+        </children>
+    </GridPane>
+
+    <VBox spacing="12" styleClass="card-dashboard" maxWidth="850" style="-fx-border-left-color: #1e3a8a; -fx-border-left-width: 5px;">
+        <Label text="Información Institucional Obligatoria" style="-fx-font-weight: bold; -fx-text-fill: #1e3a8a;"/>
+        <Separator/>
+
+        <VBox spacing="6">
+            <Label text="Misión y visión de la Organización:" style="-fx-font-weight: bold;"/>
+            <TextArea fx:id="txtMisionEmpresaPropia" prefHeight="65" promptText="Escriba la misión de la empresa o institución externa..." wrapText="true"/>
+        </VBox>
+    </VBox>
+
+    <VBox spacing="10" styleClass="card-dashboard" maxWidth="850" style="-fx-border-left-color: #f59e0b; -fx-border-left-width: 5px;">
+        <Label text="Documentación y Soporte del Oficio de Petición" style="-fx-font-weight: bold; -fx-text-fill: #b45309;"/>
+        <Label text="Descargue la plantilla oficial del oficio de solicitud autogestionada, complete los datos requeridos junto a la entidad externa y cargue el documento digital finalizado en formato PDF para pasar la revisión de la coordinación." style="-fx-font-size: 9.5pt; -fx-text-fill: #64748b;" wrapText="true"/>
+
+        <HBox spacing="15" alignment="CENTER_LEFT" style="-fx-padding: 5 0 0 0;">
+            <Button fx:id="btnDescargarPlantillaOficio" text="📥 Descargar Plantilla Solicitud (.pdf)" style="-fx-background-color: #475569; -fx-text-fill: white;"/>
+
+            <Separator orientation="VERTICAL" prefHeight="25"/>
+
+            <HBox spacing="10" alignment="CENTER_LEFT">
+                <Button fx:id="btnSubirOficioLlenado" text="📤 Subir Oficio Digital Finalizado (PDF)" style="-fx-background-color: #2563eb; -fx-text-fill: white; -fx-font-weight: bold;"/>
+                <Label fx:id="lblEstadoArchivoOficio" text="Ningún archivo seleccionado (.pdf)" style="-fx-text-fill: #64748b; -fx-font-style: italic;"/>
+            </HBox>
+        </HBox>
+    </VBox>
+
+    <HBox spacing="10" alignment="CENTER_LEFT" maxWidth="850">
+        <Region HBox.hgrow="ALWAYS"/>
+        <Button text="Enviar Trámite de Solicitud" styleClass="button-primary"/>
+    </HBox>
+</VBox>

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<VBox spacing="20" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" style="-fx-padding: 15;">
+    <VBox spacing="4">
+        <Label text="Información General y Progreso de la Práctica" style="-fx-font-size: 16pt; -fx-font-weight: bold; -fx-text-fill: #1e3a8a;"/>
+        <Label text="Seguimiento en tiempo real de su estado operativo y cumplimiento de horas." style="-fx-font-size: 9.5pt; -fx-text-fill: #64748b; -fx-font-style: italic;"/>
+    </VBox>
+    <Separator/>
+
+    <FlowPane hgap="15" vgap="15" prefWidth="1100">
+        <children>
+            <VBox styleClass="card-dashboard" prefWidth="260" spacing="8" style="-fx-border-left-color: #2563eb; -fx-border-left-width: 5px; -fx-background-color: white; -fx-padding: 12; -fx-border-radius: 4;">
+                <Label text="Horas Acumuladas / Totales" style="-fx-text-fill: #64748b; -fx-font-weight: bold; -fx-font-size: 9.5pt;"/>
+                <Label fx:id="lblHorasAcumuladas" text="120 / 240" style="-fx-font-size: 22pt; -fx-font-weight: bold; -fx-text-fill: #2563eb;"/>
+                <ProgressBar fx:id="progressHoras" progress="0.5" prefWidth="240" style="-fx-accent: #2563eb;"/>
+                <Label text="50% del cronograma completado" style="-fx-font-size: 8.5pt; -fx-text-fill: #94a3b8;"/>
+            </VBox>
+
+            <VBox styleClass="card-dashboard" prefWidth="280" spacing="6" style="-fx-border-left-color: #10b981; -fx-border-left-width: 5px; -fx-background-color: white; -fx-padding: 12; -fx-border-radius: 4;">
+                <Label text="Cronograma Temporal" style="-fx-text-fill: #64748b; -fx-font-weight: bold; -fx-font-size: 9.5pt;"/>
+                <Separator style="-fx-padding: 2 0;"/>
+                <GridPane vgap="4" hgap="5">
+                    <children>
+                        <Label text="📅 Inicio:" style="-fx-text-fill: #475569; -fx-font-size: 9pt;"/>
+                        <Label fx:id="lblFechaInicio" text="05 de Mayo, 2026" style="-fx-font-weight: bold; -fx-font-size: 9pt;" GridPane.columnIndex="1"/>
+
+                        <Label text="🏁 Fin Est.:" style="-fx-text-fill: #475569; -fx-font-size: 9pt;" GridPane.rowIndex="1"/>
+                        <Label fx:id="lblFechaFin" text="18 de Agosto, 2026" style="-fx-font-weight: bold; -fx-font-size: 9pt;" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+                    </children>
+                </GridPane>
+                <Label text="Vigencia sujeta a plan de actividades" style="-fx-font-size: 8.5pt; -fx-text-fill: #94a3b8; -fx-padding: 4 0 0 0;"/>
+            </VBox>
+
+            <VBox styleClass="card-dashboard" prefWidth="240" spacing="8" style="-fx-border-left-color: #8b5cf6; -fx-border-left-width: 5px; -fx-background-color: white; -fx-padding: 12; -fx-border-radius: 4;">
+                <Label text="Actividades Planificadas" style="-fx-text-fill: #64748b; -fx-font-weight: bold; -fx-font-size: 9.5pt;"/>
+                <Label fx:id="lblCantActividades" text="5 Aprobadas" style="-fx-font-size: 22pt; -fx-font-weight: bold; -fx-text-fill: #8b5cf6;"/>
+                <Label text="Cumple restricción de reglamento (3 a 6)" style="-fx-font-size: 8.5pt; -fx-text-fill: #94a3b8;"/>
+            </VBox>
+        </children>
+    </FlowPane>
+
+    <VBox spacing="12" styleClass="card-dashboard" style="-fx-border-left-color: #475569; -fx-border-left-width: 5px; -fx-background-color: #f8fafc;" maxWidth="850">
+        <Label text="Detalles del Acuerdo Formal y Cuentas de Soporte" style="-fx-font-weight: bold; -fx-text-fill: #334155; -fx-font-size: 11pt;"/>
+        <Separator/>
+
+        <GridPane hgap="25" vgap="14">
+            <columnConstraints>
+                <ColumnConstraints prefWidth="260"/>
+                <ColumnConstraints prefWidth="540"/>
+            </columnConstraints>
+            <children>
+                <Label text="🏢 Entidad Jurídica / Empresa:" style="-fx-font-weight: bold; -fx-text-fill: #475569;" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+                <Label fx:id="lblEmpresaActiva" text="Corporación de Innovación Tecnológica del Austro Cía. Ltda." style="-fx-font-size: 10.5pt;" wrapText="true" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+
+                <Label text="📜 Convenio Marco Relacionado:" style="-fx-font-weight: bold; -fx-text-fill: #475569;" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+                <Label fx:id="lblConvenioActivo" text="Convenio de Cooperación Interinstitucional UCUENCA-2026-04" style="-fx-font-size: 10.5pt;" wrapText="true" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+
+                <Label text="👨‍🏫 Docente Tutor Académico:" style="-fx-font-weight: bold; -fx-text-fill: #475569;" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+                <Label fx:id="lblTutorAcademicoActivo" text="Ing. Docente de Carrera (docente.carrera@ucuenca.edu.ec)" style="-fx-font-size: 10.5pt;" wrapText="true" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+
+                <Label text="💼 Tutor Empresarial Técnico:" style="-fx-font-weight: bold; -fx-text-fill: #475569;" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+                <Label fx:id="lblTutorEmpresarialActivo" text="Ing. Supervisor Corporativo (tutor.tecnico@empresa.com)" style="-fx-font-size: 10.5pt;" wrapText="true" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+            </children>
+        </GridPane>
+    </VBox>
+</VBox>

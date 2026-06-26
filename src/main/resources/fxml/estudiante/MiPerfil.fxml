@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<VBox spacing="20" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" style="-fx-padding: 15;">
+    <Label text="Mi Perfil Académico - Gestión de Requisitos y Documentación Core" style="-fx-font-size: 16pt; -fx-font-weight: bold; -fx-text-fill: #1e3a8a;"/>
+    <Separator/>
+
+    <!-- Fila Superior Reestructurada: Requisitos Académicos e Indicadores de Estado -->
+    <HBox spacing="20" alignment="TOP_LEFT">
+        <children>
+            <!-- Tarjeta 1: Requisitos de Ciclo -->
+            <VBox styleClass="card-dashboard" prefWidth="350" spacing="12" style="-fx-border-left-color: #10b981; -fx-border-left-width: 5px;">
+                <Label text="Validación de Requisitos de Matrícula" style="-fx-text-fill: #64748b; -fx-font-weight: bold;"/>
+                <Separator/>
+                <GridPane hgap="10" vgap="8">
+                    <children>
+                        <Label text="Ciclo Académico Registrado:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+                        <Label text="Sexto Ciclo" style="-fx-font-weight: bold;" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+
+                        <Label text="Restricción del Sexto Ciclo:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+                        <Label text="CUMPLIDO (Apto)" style="-fx-text-fill: #10b981; -fx-font-weight: bold;" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+
+                        <Label text="Estado de Matrícula Regular:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+                        <Label text="Activa / Regular" style="-fx-font-weight: bold;" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+                    </children>
+                </GridPane>
+            </VBox>
+
+            <!-- NUEVA Tarjeta 2: Ofertas Disponibles en Bolsa -->
+            <VBox styleClass="card-dashboard" prefWidth="250" spacing="10" style="-fx-border-left-color: #3b82f6; -fx-border-left-width: 5px;">
+                <Label text="Ofertas Disponibles en Bolsa" style="-fx-text-fill: #64748b; -fx-font-weight: bold;"/>
+                <Separator/>
+                <!-- fx:id listo para forzar a 0 por código si ya tiene práctica -->
+                <Label fx:id="lblOfertasDisponibles" text="12" style="-fx-font-size: 24pt; -fx-font-weight: bold; -fx-text-fill: #3b82f6;"/>
+                <Label text="Convocatorias aptas para postulación" style="-fx-font-size: 9pt; -fx-text-fill: #94a3b8;"/>
+            </VBox>
+
+            <!-- NUEVA Tarjeta 3: Estado Actual de la Práctica -->
+            <VBox styleClass="card-dashboard" prefWidth="250" spacing="10" style="-fx-border-left-color: #f59e0b; -fx-border-left-width: 5px;" HBox.hgrow="ALWAYS">
+                <Label text="Estado Actual del Trámite" style="-fx-text-fill: #64748b; -fx-font-weight: bold;"/>
+                <Separator/>
+                <Label fx:id="lblEstadoPractica" text="EN POSTULACIÓN" style="-fx-font-size: 20pt; -fx-font-weight: bold; -fx-text-fill: #f59e0b;"/>
+                <Label text="Estado del proceso preprofesional" style="-fx-font-size: 9pt; -fx-text-fill: #94a3b8;"/>
+            </VBox>
+        </children>
+    </HBox>
+
+    <!-- Fila Inferior: Gestión Documental de Malla y Currículum Vitae (CV) -->
+    <VBox spacing="15" styleClass="card-dashboard" style="-fx-border-left-color: #2563eb; -fx-border-left-width: 5px;">
+        <Label text="Carpeta Digital del Estudiante - Gestión de Currículum y Malla Curricular" style="-fx-font-weight: bold; -fx-text-fill: #1e293b; -fx-font-size: 12pt;"/>
+        <Separator/>
+
+        <GridPane hgap="20" vgap="15">
+            <columnConstraints>
+                <ColumnConstraints prefWidth="220"/>
+                <ColumnConstraints prefWidth="380"/>
+                <ColumnConstraints prefWidth="320"/>
+            </columnConstraints>
+            <children>
+                <!-- Sección 1: Currículum Vitae -->
+                <Label text="Currículum Vitae Personal (CV):" style="-fx-font-weight: bold;" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+                <HBox spacing="10" alignment="CENTER_LEFT" GridPane.rowIndex="0" GridPane.columnIndex="1">
+                    <Button fx:id="btnSubirCV" text="📤 Subir/Actualizar CV" style="-fx-background-color: #2563eb; -fx-text-fill: white; -fx-font-weight: bold;"/>
+                    <Label fx:id="lblEstadoCV" text="CV cargado: Hoja_Vida_2026.pdf" style="-fx-text-fill: #10b981; -fx-font-style: italic;"/>
+                </HBox>
+                <HBox spacing="10" alignment="CENTER_LEFT" GridPane.rowIndex="0" GridPane.columnIndex="2">
+                    <Button fx:id="btnRevisarCV" text="👁 Revisar CV" style="-fx-background-color: #10b981; -fx-text-fill: white; -fx-font-weight: bold;"/>
+                    <Button fx:id="btnDescargarCV" text="📥 Descargar" style="-fx-background-color: #475569; -fx-text-fill: white;"/>
+                </HBox>
+
+                <!-- Sección 2: Malla Académica -->
+                <Label text="Malla Académica Analítica:" style="-fx-font-weight: bold;" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+                <HBox spacing="10" alignment="CENTER_LEFT" GridPane.rowIndex="1" GridPane.columnIndex="1">
+                    <Button fx:id="btnSubirMalla" text="📤 Subir/Actualizar Malla" style="-fx-background-color: #2563eb; -fx-text-fill: white; -fx-font-weight: bold;"/>
+                    <Label fx:id="lblEstadoMalla" text="Malla cargada: Record_Academico.pdf" style="-fx-text-fill: #10b981; -fx-font-style: italic;"/>
+                </HBox>
+                <HBox spacing="10" alignment="CENTER_LEFT" GridPane.rowIndex="1" GridPane.columnIndex="2">
+                    <Button fx:id="btnRevisarMalla" text="👁 Revisar Malla" style="-fx-background-color: #10b981; -fx-text-fill: white; -fx-font-weight: bold;"/>
+                    <Button fx:id="btnDescargarMalla" text="📥 Descargar" style="-fx-background-color: #475569; -fx-text-fill: white;"/>
+                </HBox>
+            </children>
+        </GridPane>
+    </VBox>
+</VBox>
