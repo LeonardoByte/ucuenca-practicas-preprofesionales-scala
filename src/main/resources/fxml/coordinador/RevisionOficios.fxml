@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<SplitPane dividerPositions="0.35" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" prefHeight="700" style="-fx-padding: 10;">
+    <items>
+        <VBox spacing="10" style="-fx-padding: 5;">
+            <Label text="Solicitudes Autogestionadas" style="-fx-font-weight: bold; -fx-text-fill: #334155;"/>
+            <TableView fx:id="tblSolicitudesEmpresaPropia" VBox.vgrow="ALWAYS">
+                <columns>
+                    <TableColumn text="Estudiante" prefWidth="140"/>
+                    <TableColumn text="Entidad Externa" prefWidth="160"/>
+                </columns>
+            </TableView>
+        </VBox>
+
+        <VBox spacing="15" style="-fx-padding: 10;">
+            <Label text="Evaluación y Resolución de Oficio Técnico" style="-fx-font-size: 13pt; -fx-font-weight: bold; -fx-text-fill: #1e3a8a;"/>
+
+            <VBox spacing="10" VBox.vgrow="ALWAYS" styleClass="card-dashboard" style="-fx-padding: 12; -fx-background-color: #f8fafc; -fx-border-color: #e2e8f0; -fx-border-radius: 4px;">
+                <Label text="Oficio Digital de Petición Subido por el Alumno:" style="-fx-font-weight: bold;"/>
+
+                <Label text="Detalles / Datos Extraídos del Oficio:" style="-fx-font-size: 9pt; -fx-text-fill: #64748b;"/>
+                <TextArea fx:id="txtVisorOficioAlumno" prefHeight="120" editable="false" style="-fx-font-family: 'Courier New';" text="[CONTENIDO TRANSCRIPTO DEL ACUERDO PRELIMINAR Y DATOS DE LA EMPRESA EXTERNA]" VBox.vgrow="ALWAYS"/>
+
+                <Separator style="-fx-padding: 2 0;"/>
+
+                <HBox spacing="10" alignment="CENTER_LEFT">
+                    <Button fx:id="btnRevisarOficioPDF" text="👁 Revisar Oficio PDF" style="-fx-background-color: #2563eb; -fx-text-fill: white; -fx-font-weight: bold;"/>
+                    <Button fx:id="btnDescargarOficioPDF" text="📥 Descargar" style="-fx-background-color: #475569; -fx-text-fill: white;"/>
+                </HBox>
+            </VBox>
+
+            <VBox spacing="10" styleClass="card-dashboard" style="-fx-padding: 15; -fx-border-left-color: #2563eb; -fx-border-left-width: 5px;">
+                <Label text="Campos obligatorios para Procesar Aprobación" style="-fx-font-weight: bold; -fx-text-fill: #2563eb;"/>
+                <GridPane hgap="15" vgap="10">
+                    <children>
+                        <Label text="Código de Oficio de Presentación de Vuelta:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+                        <TextField fx:id="txtCodigoOficioVuelta" promptText="Ej. UCUENCA-VINC-2026-XXXX" GridPane.rowIndex="0" GridPane.columnIndex="1" prefWidth="350"/>
+
+                        <Label text="Asignar Tutor Académico de la Universidad:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+                        <ComboBox fx:id="cmbTutorAcadAsignado" promptText="Seleccionar Docente de la Carrera..." GridPane.rowIndex="1" GridPane.columnIndex="1" prefWidth="350"/>
+                    </children>
+                </GridPane>
+            </VBox>
+
+            <VBox spacing="5" styleClass="card-dashboard" style="-fx-padding: 12; -fx-border-left-color: #ef4444; -fx-border-left-width: 5px;">
+                <Label text="Justificación de Denegación (Obligatoria si Rechaza):" style="-fx-font-weight: bold; -fx-text-fill: #b91c1c;"/>
+                <TextArea fx:id="txtMotivoDenegacionOficio" prefHeight="60" promptText="Escriba detalladamente las causas técnicas del rechazo de la empresa externa..."/>
+            </VBox>
+
+            <HBox spacing="15" alignment="CENTER_RIGHT">
+                <Button text="Rechazar Trámite y Cerrar Proceso" styleClass="button-danger"/>
+                <Button text="Aprobar y Registrar Práctica Formal" styleClass="button-primary"/>
+            </HBox>
+        </VBox>
+    </items>
+</SplitPane>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox spacing="15" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml">
+    <Label text="Fiscalización de Convocatorias y Ofertas de Empresas" style="-fx-font-size: 14pt; -fx-font-weight: bold;"/>
+
+    <TableView fx:id="tblRevisionOfertas" prefHeight="250" VBox.vgrow="ALWAYS">
+        <columns>
+            <TableColumn text="Empresa Solicitante" prefWidth="250"/>
+            <TableColumn text="Título Vacante" prefWidth="250"/>
+            <TableColumn text="Descripción" prefWidth="250"/>
+            <TableColumn text="Nro Vacantes" prefWidth="100"/>
+            <TableColumn text="Fecha Solicitud" prefWidth="150"/>
+        </columns>
+    </TableView>
+
+    <GridPane vgap="12" styleClass="card-dashboard">
+        <columnConstraints>
+            <ColumnConstraints percentWidth="100"/>
+        </columnConstraints>
+        <children>
+            <VBox spacing="6" GridPane.rowIndex="0">
+                <Label text="Documento Adjunto de la Oferta:" style="-fx-font-weight: bold;"/>
+                <HBox spacing="10" alignment="CENTER_LEFT">
+                    <Button fx:id="btnRevisarOfertaPDF" text="👁 Revisar Oferta PDF" style="-fx-background-color: #2563eb; -fx-text-fill: white; -fx-font-weight: bold;"/>
+                    <Button fx:id="btnDescargarOfertaPDF" text="📥 Descargar" style="-fx-background-color: #475569; -fx-text-fill: white;"/>
+                </HBox>
+            </VBox>
+
+            <Separator GridPane.rowIndex="1" style="-fx-padding: 5 0;"/>
+
+            <VBox spacing="8" GridPane.rowIndex="2">
+                <Label text="Justificación Obligatoria de Causas (Requerido exclusivo en caso de rechazo):" style="-fx-font-weight: bold;"/>
+                <TextArea fx:id="txtJustificacionOferta" prefHeight="80" promptText="Escriba aquí los motivos del rechazo antes de notificar..."/>
+            </VBox>
+        </children>
+    </GridPane>
+
+    <HBox spacing="10" alignment="CENTER_LEFT">
+        <Button text="Aprobar Convocatoria" styleClass="button-primary"/>
+        <Button text="Rechazar y Notificar" styleClass="button-danger"/>
+    </HBox>
+</VBox>

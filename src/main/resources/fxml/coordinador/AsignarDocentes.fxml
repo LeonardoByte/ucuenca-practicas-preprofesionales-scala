@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox spacing="15" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1">
+    <Label style="-fx-font-size: 14pt; -fx-font-weight: bold;" text="Emparejamiento de Estudiantes Aceptados con Tutores Universitarios" />
+    <TableView fx:id="tblAsignacionDocente" prefHeight="400" VBox.vgrow="ALWAYS">
+        <columns>
+            <TableColumn prefWidth="250" text="Nombre Estudiante" />
+            <TableColumn prefWidth="150" text="Carrera" />
+            <TableColumn prefWidth="250.0" text="Empresa de Acogida" />
+            <TableColumn prefWidth="250.0" text="Nombre de la oferta" />
+            <!-- la selecion del tutor es un (Menú Desplegable) -->
+            <TableColumn fx:id="colTutorAcademico" prefWidth="250.0" text="Selección Rápida de Tutor Académico" />
+        </columns>
+    </TableView>
+</VBox>

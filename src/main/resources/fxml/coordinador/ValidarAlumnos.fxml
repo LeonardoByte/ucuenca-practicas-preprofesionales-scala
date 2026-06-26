@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<SplitPane dividerPositions="0.35" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" prefHeight="700" style="-fx-padding: 10;">
+    <items>
+        <VBox spacing="10" style="-fx-padding: 5;">
+            <Label text="Postulaciones Recibidas (Filtro Bolsa)" style="-fx-font-weight: bold; -fx-text-fill: #334155;"/>
+            <TableView fx:id="tblPostulacionesPendientes" VBox.vgrow="ALWAYS">
+                <columns>
+                    <TableColumn text="Estudiante" prefWidth="150"/>
+                    <TableColumn text="Oferta Solicitada" prefWidth="150"/>
+                    <TableColumn text="Fecha Registro" prefWidth="110"/>
+                </columns>
+            </TableView>
+        </VBox>
+
+        <VBox spacing="15" style="-fx-padding: 10;">
+            <Label text="Expediente de Validación y Análisis de Requisitos" style="-fx-font-size: 13pt; -fx-font-weight: bold; -fx-text-fill: #1e3a8a;"/>
+
+            <TabPane style="-fx-border-color: #cbd5e1; -fx-border-radius: 4;" VBox.vgrow="ALWAYS">
+                <tabs>
+                    <Tab text="Malla Académica Analítica" closable="false">
+                        <VBox spacing="10" style="-fx-padding: 15; -fx-background-color: white;" VBox.vgrow="ALWAYS">
+                            <Label text="Verificación Automática de Restricciones:" style="-fx-font-weight: bold;"/>
+                            <HBox spacing="15" alignment="CENTER_LEFT">
+                                <Label text="Cumple Sexto Ciclo o Superior:"/>
+                                <Label text="SÍ (Aprobado)" style="-fx-text-fill: #10b981; -fx-font-weight: bold;"/>
+                            </HBox>
+                            <HBox spacing="15" alignment="CENTER_LEFT">
+                                <Label text="Tiene otra Práctica Activa:"/>
+                                <Label text="NO (Apto)" style="-fx-text-fill: #10b981; -fx-font-weight: bold;"/>
+                            </HBox>
+
+                            <Separator/>
+
+                            <Label text="[Renderización/Previsualización del PDF de Malla Académica adjunto]" style="-fx-text-fill: #64748b; -fx-font-style: italic;" VBox.vgrow="ALWAYS"/>
+
+                            <Region VBox.vgrow="ALWAYS"/>
+
+                            <HBox spacing="10" alignment="CENTER_LEFT">
+                                <Button fx:id="btnRevisarMallaPDF" text="👁 Revisar Malla PDF" style="-fx-background-color: #2563eb; -fx-text-fill: white; -fx-font-weight: bold;"/>
+                                <Button fx:id="btnDescargarMallaPDF" text="📥 Descargar" style="-fx-background-color: #475569; -fx-text-fill: white;"/>
+                            </HBox>
+                        </VBox>
+                    </Tab>
+
+                    <Tab text="Hoja de Vida (CV)" closable="false">
+                        <VBox style="-fx-padding: 15; -fx-background-color: white;" spacing="10" VBox.vgrow="ALWAYS">
+                            <Label text="Extracto del Perfil Técnico:" style="-fx-font-weight: bold;"/>
+                            <TextArea prefHeight="150" editable="false" text="[Contenido indexado del currículum vitae del alumno...]\nCompetencias: Scala, JavaFX, PostgreSQL." wrapText="true" VBox.vgrow="ALWAYS"/>
+
+                            <Separator style="-fx-padding: 2 0;"/>
+
+                            <HBox spacing="10" alignment="CENTER_LEFT">
+                                <Button fx:id="btnRevisarCVPDF" text="👁 Revisar CV PDF" style="-fx-background-color: #2563eb; -fx-text-fill: white; -fx-font-weight: bold;"/>
+                                <Button fx:id="btnDescargarCVPDF" text="📥 Descargar" style="-fx-background-color: #475569; -fx-text-fill: white;"/>
+                            </HBox>
+                        </VBox>
+                    </Tab>
+                </tabs>
+            </TabPane>
+
+            <VBox spacing="5" styleClass="card-dashboard" style="-fx-padding: 12;">
+                <Label text="Comentario Obligatorio de Rechazo (Exigido por Regla de Negocio):" style="-fx-font-weight: bold; -fx-text-fill: #b91c1c;"/>
+                <TextArea fx:id="txtMotivoRechazoPostulacion" prefHeight="70" promptText="Escriba el motivo detallado del rechazo aquí antes de presionar denegar..."/>
+            </VBox>
+
+            <HBox spacing="15" alignment="CENTER_RIGHT">
+                <Button text="Rechazar y Notificar Alumno" styleClass="button-danger"/>
+                <Button text="Validar y Enviar Automático a Panel Empresa" styleClass="button-primary"/>
+            </HBox>
+        </VBox>
+    </items>
+</SplitPane>

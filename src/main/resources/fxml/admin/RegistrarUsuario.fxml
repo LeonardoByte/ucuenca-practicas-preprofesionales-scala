@@ -4,96 +4,100 @@
 
 <VBox spacing="20" maxWidth="800" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" style="-fx-padding: 10;">
     <Label text="Formulario Parametrizado de Alta de Cuentas (Herencia de Entidades)" style="-fx-font-size: 15pt; -fx-font-weight: bold; -fx-text-fill: #0f172a;"/>
-    
+
     <VBox spacing="12" styleClass="card-operational">
         <Label text="Bloque Común de Datos de Identidad Obligatorios" style="-fx-font-weight: bold; -fx-text-fill: #1e3a8a;"/>
         <GridPane hgap="15" vgap="12">
             <children>
                 <Label text="Nombres Completos:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
                 <TextField fx:id="txtNombres" promptText="Ej. Juan Carlos Pérez" GridPane.rowIndex="0" GridPane.columnIndex="1" prefWidth="450"/>
-                
+
                 <Label text="Cédula de Identidad (CI):" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
                 <TextField fx:id="txtCedula" promptText="01XXXXXXXX (Estricto 10 dígitos)" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
-                
+
                 <Label text="Correo Electrónico Institucional:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
                 <TextField fx:id="txtEmail" promptText="ejemplo@ucuenca.edu.ec" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
-                
+
                 <Label text="Contraseña Provisional Interna:" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
                 <PasswordField fx:id="txtPassword" promptText="••••••••" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
-                
+
                 <Label text="Rol de Usuario (Especialización):" GridPane.rowIndex="4" GridPane.columnIndex="0" style="-fx-font-weight: bold;"/>
                 <ComboBox fx:id="cmbRolUsuario" promptText="Seleccionar Especialización de la Jerarquía..." GridPane.rowIndex="4" GridPane.columnIndex="1" prefWidth="300"/>
             </children>
         </GridPane>
     </VBox>
-    
-    <!-- CONTENEDOR DINÁMICO DE CAMPOS ESPECÍFICOS POR ROL -->
+
     <StackPane fx:id="containerCamposEspecificos">
         <children>
-            <!-- Campos específicos para Estudiante -->
             <VBox fx:id="paneEstudiante" spacing="12" styleClass="card-tech" visible="false">
                 <Label text="Atributos Específicos: Estudiante Universitario" style="-fx-font-weight: bold; -fx-text-fill: #059669;"/>
                 <GridPane hgap="15" vgap="10">
                     <children>
                         <Label text="Ciclo Académico Actual:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
                         <Spinner fx:id="spnCiclo" min="1" max="10" initialValue="5" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
-                        
-                        <Label text="Estado de la Matrícula:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
-                        <ComboBox fx:id="cmbEstadoMatricula" promptText="Seleccionar Estado..." GridPane.rowIndex="1" GridPane.columnIndex="1"/>
-                        
-                        <Label text="Malla Académica (Historial):" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
-                        <HBox spacing="10" alignment="CENTER_LEFT" GridPane.rowIndex="2" GridPane.columnIndex="1">
-                            <Button text="Subir Malla Académica (PDF)" styleClass="button-timeline"/>
+
+                        <Label text="Carrera Universitaria:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+                        <ComboBox fx:id="cmbCarrera" promptText="Seleccionar Carrera..." GridPane.rowIndex="1" GridPane.columnIndex="1" prefWidth="300"/>
+
+                        <Label text="Estado de la Matrícula:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+                        <ComboBox fx:id="cmbEstadoMatricula" promptText="Seleccionar Estado..." GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+
+                        <Label text="Malla Académica (Historial):" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+                        <HBox spacing="10" alignment="CENTER_LEFT" GridPane.rowIndex="3" GridPane.columnIndex="1">
+                            <Button fx:id="btnSubirMalla" text="Subir Malla Académica (PDF)" styleClass="button-timeline"/>
                             <Label text="Ningún archivo seleccionado (.pdf)" style="-fx-text-fill: #64748b;"/>
                         </HBox>
-                        
-                        <Label text="Estado Inicial de la Práctica:" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
-                        <ComboBox fx:id="cmbEstadoPractica" promptText="Seleccionar..." GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+
+                        <Label text="Estado Inicial de la Práctica:" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
+                        <ComboBox fx:id="cmbEstadoPractica" promptText="Seleccionar..." GridPane.rowIndex="4" GridPane.columnIndex="1"/>
+
+                        <Label text="Curriculum Vitae (CV):" GridPane.rowIndex="5" GridPane.columnIndex="0"/>
+                        <HBox spacing="10" alignment="CENTER_LEFT" GridPane.rowIndex="5" GridPane.columnIndex="1">
+                            <Button fx:id="btnSubirCV" text="Subir CV (PDF)" styleClass="button-timeline"/>
+                            <Label text="Opcional - Puede actualizarse luego (.pdf)" style="-fx-text-fill: #94a3b8; -fx-font-style: italic;"/>
+                        </HBox>
                     </children>
                 </GridPane>
             </VBox>
-            
-            <!-- Campos específicos para Empresa -->
+
             <VBox fx:id="paneEmpresa" spacing="12" styleClass="card-tech" visible="false">
                 <Label text="Atributos Específicos: Entidad Jurídica (Empresa)" style="-fx-font-weight: bold; -fx-text-fill: #059669;"/>
                 <GridPane hgap="15" vgap="10">
                     <children>
                         <Label text="Dirección de la Sede Matriz:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
                         <TextField promptText="Calle Larga y Av. Huayna Cápac" GridPane.rowIndex="0" GridPane.columnIndex="1" prefWidth="400"/>
-                        
+
                         <Label text="Misión Organizacional:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
                         <TextArea prefHeight="60" promptText="Escriba la misión corporativa..." GridPane.rowIndex="1" GridPane.columnIndex="1"/>
-                        
+
                         <Label text="Visión Organizacional:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
                         <TextArea prefHeight="60" promptText="Escriba la visión corporativa..." GridPane.rowIndex="2" GridPane.columnIndex="1"/>
-                        
+
                         <Label text="Estado del Convenio Legal:" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
                         <ComboBox fx:id="cmbEstadoConvenio" promptText="Seleccionar Estado..." GridPane.rowIndex="3" GridPane.columnIndex="1"/>
                     </children>
                 </GridPane>
             </VBox>
-            
-            <!-- Campos específicos para Tutor Empresarial -->
+
             <VBox fx:id="paneTutorEmp" spacing="12" styleClass="card-tech" visible="false">
                 <Label text="Atributos Específicos: Tutor Empresarial Técnico" style="-fx-font-weight: bold; -fx-text-fill: #059669;"/>
                 <GridPane hgap="15" vgap="10">
                     <children>
                         <Label text="Asociar Entidad Jurídica:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
                         <ComboBox fx:id="cmbEmpresaAsociada" promptText="Seleccionar Empresa por Nombre Corporativo..." GridPane.rowIndex="0" GridPane.columnIndex="1" prefWidth="350"/>
-                        
+
                         <Label text="Teléfono de Contacto Directo:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
                         <TextField promptText="Ej. 09XXXXXXXX (10 dígitos)" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
                     </children>
                 </GridPane>
             </VBox>
-            
-            <!-- Resto de usuarios (Sin campos extras) -->
+
             <VBox fx:id="paneSinAtributos" spacing="5" style="-fx-padding: 10;" visible="false">
                 <Label text="Este rol corporativo comparte estrictamente los atributos comunes sin especializaciones." style="-fx-font-style: italic; -fx-text-fill: #475569;"/>
             </VBox>
         </children>
     </StackPane>
-    
+
     <HBox spacing="10" alignment="CENTER_RIGHT">
         <Button text="Consolidar Alta de Usuario en PostgreSQL" styleClass="button-primary"/>
     </HBox>
