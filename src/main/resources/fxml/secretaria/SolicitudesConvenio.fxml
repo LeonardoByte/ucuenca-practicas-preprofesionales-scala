@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<SplitPane dividerPositions="0.38" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" prefHeight="700" style="-fx-padding: 10;">
+    <items>
+        <!-- Panel Izquierdo: Listado de peticiones de convenios de empresas -->
+        <VBox spacing="10" style="-fx-padding: 5;">
+            <Label text="Solicitudes de Convenio Entrantes" style="-fx-font-weight: bold; -fx-text-fill: #334155;"/>
+            <TableView fx:id="tblPeticionesConvenioSecretaria" VBox.vgrow="ALWAYS">
+                <columnResizePolicy>
+                    <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
+                </columnResizePolicy>
+                <columns>
+                    <TableColumn text="Empresa Solicitante" prefWidth="160"/>
+                    <TableColumn text="RUC Jurídico" prefWidth="120"/>
+                </columns>
+            </TableView>
+        </VBox>
+
+        <!-- Panel Derecho: Visor de Datos Legales y Resolución Jurídica -->
+        <VBox spacing="15" style="-fx-padding: 10;">
+            <Label text="Análisis de Requisitos y Formalización de Alianza" style="-fx-font-size: 13pt; -fx-font-weight: bold; -fx-text-fill: #1e3a8a;"/>
+
+            <!-- Caja de previsualización indexada del documento cargado -->
+            <VBox spacing="10" VBox.vgrow="ALWAYS" styleClass="card-dashboard" style="-fx-padding: 12; -fx-background-color: #f8fafc; -fx-border-color: #e2e8f0; -fx-border-radius: 4px;">
+                <Label text="Documentación de Soporte Legal Adjunta:" style="-fx-font-weight: bold;"/>
+                <Label text="Datos y escrituras mercantiles cargadas por la entidad jurídica externa:" style="-fx-font-size: 9pt; -fx-text-fill: #64748b;"/>
+
+                <TextArea fx:id="txtVisorDatosLegalesEmpresa" prefHeight="120" editable="false" style="-fx-font-family: 'Courier New';" text="[CONTENIDO EXTRAÍDO DE LOS DOCUMENTOS JURÍDICOS, RECONOCIMIENTO DE FIRMAS Y ESTATUTO LEGAL CARGADO POR LA EMPRESA]" VBox.vgrow="ALWAYS"/>
+                <Separator style="-fx-padding: 2 0;"/>
+
+                <!-- Pareja de botones estándar para manejo de PDFs -->
+                <HBox spacing="10" alignment="CENTER_LEFT">
+                    <Button fx:id="btnRevisarConvenioPDF" text="👁 Revisar Convenio PDF" style="-fx-background-color: #2563eb; -fx-text-fill: white; -fx-font-weight: bold;"/>
+                    <Button fx:id="btnDescargarConvenioPDF" text="📥 Descargar" style="-fx-background-color: #475569; -fx-text-fill: white;"/>
+                </HBox>
+            </VBox>
+
+            <!-- Sección obligatoria de justificación de causas de rechazo -->
+            <VBox spacing="5" styleClass="card-dashboard" style="-fx-padding: 12; -fx-border-left-color: #ef4444; -fx-border-left-width: 5px;">
+                <Label text="Redacción Obligatoria de Causas de Rechazo (Regla de Negocio):" style="-fx-font-weight: bold; -fx-text-fill: #b91c1c;"/>
+                <TextArea fx:id="txtCausasRechazoConvenio" prefHeight="70" promptText="Describa detalladamente las inconsistencias legales halladas en la documentación mercantil antes de presionar rechazar..." wrapText="true"/>
+            </VBox>
+
+            <!-- Botones finales de resolución -->
+            <HBox spacing="15" alignment="CENTER_RIGHT">
+                <Button text="Rechazar Petición" styleClass="button-danger"/>
+                <Button text="Formalizar Convenio Legal" styleClass="button-primary"/>
+            </HBox>
+        </VBox>
+    </items>
+</SplitPane>

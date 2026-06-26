@@ -14,6 +14,9 @@
         </HBox>
         <Label text="Lista Intermedia de Prácticas Halladas (Seleccione una para auditar individualmente):" style="-fx-font-size: 10pt; -fx-font-weight: bold; -fx-padding: 5 0 0 0;"/>
         <TableView fx:id="tblListaIntermediaPracticas" prefHeight="140">
+            <columnResizePolicy>
+                <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
+            </columnResizePolicy>
             <columns>
                 <TableColumn text="Código Práctica" prefWidth="120"/>
                 <TableColumn text="Estudiante" prefWidth="220"/>

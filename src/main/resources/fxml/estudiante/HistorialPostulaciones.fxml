@@ -13,6 +13,9 @@
     </VBox>
 
     <TableView fx:id="tblPostulacionesEstudiante" prefHeight="300" VBox.vgrow="ALWAYS">
+        <columnResizePolicy>
+            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
+        </columnResizePolicy>
         <columns>
             <TableColumn prefWidth="250" text="Empresa / Institución" />
             <TableColumn prefWidth="250" text="Convocatoria Solicitada" />

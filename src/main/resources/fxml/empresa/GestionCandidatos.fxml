@@ -11,6 +11,9 @@
                 <ComboBox fx:id="cmbOfertasFiltro" promptText="Filtrar por Oferta..." prefWidth="200"/>
             </HBox>
             <TableView fx:id="tblCandidatosDisponibles" VBox.vgrow="ALWAYS">
+                <columnResizePolicy>
+                    <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
+                </columnResizePolicy>
                 <columns>
                     <TableColumn text="Estudiante" prefWidth="140"/>
                     <TableColumn text="Promedio" prefWidth="80"/>

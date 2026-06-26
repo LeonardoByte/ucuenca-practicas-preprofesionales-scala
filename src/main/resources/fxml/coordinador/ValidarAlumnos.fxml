@@ -7,6 +7,9 @@
         <VBox spacing="10" style="-fx-padding: 5;">
             <Label text="Postulaciones Recibidas (Filtro Bolsa)" style="-fx-font-weight: bold; -fx-text-fill: #334155;"/>
             <TableView fx:id="tblPostulacionesPendientes" VBox.vgrow="ALWAYS">
+                <columnResizePolicy>
+                    <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
+                </columnResizePolicy>
                 <columns>
                     <TableColumn text="Estudiante" prefWidth="150"/>
                     <TableColumn text="Oferta Solicitada" prefWidth="150"/>

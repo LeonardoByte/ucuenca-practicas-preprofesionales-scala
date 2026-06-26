@@ -20,17 +20,20 @@
     </HBox>
     
     <TableView fx:id="tblDirectorioGeneral" prefHeight="350" VBox.vgrow="ALWAYS">
+        <columnResizePolicy>
+            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
+        </columnResizePolicy>
         <columns>
             <TableColumn prefWidth="250" text="Nombres y Apellidos" />
             <TableColumn prefWidth="150" text="Identificación" />
             <TableColumn prefWidth="150" text="Rol Asignado" />
             <TableColumn prefWidth="200" text="Correo" />
-            <TableColumn prefWidth="200" text="Estado Cuenta (Activa / Suspendida)" />
+            <TableColumn prefWidth="200" text="Estado Cuenta" /> <!-- (Activa / Suspendida) -->
         </columns>
     </TableView>
-    
-    <HBox spacing="10">
+
+    <HBox spacing="10" alignment="CENTER_RIGHT">
         <Button styleClass="button-primary" text="Modificar Datos de Perfil" />
-        <Button styleClass="button-danger" text="Cambiar Estado de Cuenta (Activa / Suspendida) - Eliminación Lógica" />
+        <Button styleClass="button-danger" text="Cambiar Estado de Cuenta (Activa / Suspendida)" />
     </HBox>
 </VBox>

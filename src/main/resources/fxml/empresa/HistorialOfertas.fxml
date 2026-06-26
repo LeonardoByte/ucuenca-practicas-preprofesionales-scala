@@ -6,6 +6,9 @@
     <Label text="Monitoreo e Historial de Convocatorias Previas" style="-fx-font-size: 14pt; -fx-font-weight: bold; -fx-text-fill: #0f172a;"/>
 
     <TableView fx:id="tblHistorialOfertas" prefHeight="300" VBox.vgrow="ALWAYS">
+        <columnResizePolicy>
+            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
+        </columnResizePolicy>
         <columns>
             <TableColumn prefWidth="250" text="Título de la Oferta" />
             <TableColumn prefWidth="130" text="Fecha Publicación" />

@@ -6,6 +6,9 @@
     <Label text="Fiscalización de Convocatorias y Ofertas de Empresas" style="-fx-font-size: 14pt; -fx-font-weight: bold;"/>
 
     <TableView fx:id="tblRevisionOfertas" prefHeight="250" VBox.vgrow="ALWAYS">
+        <columnResizePolicy>
+            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
+        </columnResizePolicy>
         <columns>
             <TableColumn text="Empresa Solicitante" prefWidth="250"/>
             <TableColumn text="Título Vacante" prefWidth="250"/>

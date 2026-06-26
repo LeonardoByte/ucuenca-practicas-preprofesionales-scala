@@ -7,6 +7,9 @@
         <VBox spacing="10" style="-fx-padding: 5;">
             <Label text="Solicitudes Autogestionadas" style="-fx-font-weight: bold; -fx-text-fill: #334155;"/>
             <TableView fx:id="tblSolicitudesEmpresaPropia" VBox.vgrow="ALWAYS">
+                <columnResizePolicy>
+                    <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
+                </columnResizePolicy>
                 <columns>
                     <TableColumn text="Estudiante" prefWidth="140"/>
                     <TableColumn text="Entidad Externa" prefWidth="160"/>
