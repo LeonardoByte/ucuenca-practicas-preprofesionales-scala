@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+
+<StackPane prefHeight="768.0" prefWidth="1024.0" stylesheets="@../../css/styles.css" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1">
+    <VBox alignment="CENTER" maxHeight="480" maxWidth="420" spacing="20" styleClass="card-dashboard">
+        <padding><Insets bottom="35" left="35" right="35" top="35" /></padding>
+        <Label style="-fx-font-size: 16pt; -fx-font-weight: bold; -fx-text-fill: #1e3a8a;" text="Sistema de Prácticas Preprofesionales" />
+        <Label style="-fx-font-size: 11pt; -fx-text-fill: #64748b;" text="Universidad de Cuenca" />
+        <VBox alignment="CENTER_LEFT" spacing="8">
+            <Label style="-fx-font-weight: bold;" text="Identificador de Usuario (Correo):" />
+            <TextField fx:id="txtUsuario" promptText="ejemplo@ucuenca.edu.ec" />
+        </VBox>
+        <VBox alignment="CENTER_LEFT" spacing="8">
+            <Label style="-fx-font-weight: bold;" text="Contraseña Oculta:" />
+            <PasswordField fx:id="txtContrasena" promptText="••••••••" />
+        </VBox>
+        <Button maxWidth="Infinity" styleClass="button-primary" text="Procesar Ingreso" />
+        <Label fx:id="lblAlertaError" style="-fx-text-fill: #dc2626; -fx-font-weight: bold;" text="Credenciales incorrectas. Verifique e intente de nuevo." visible="false" />
+    </VBox>
+</StackPane>
