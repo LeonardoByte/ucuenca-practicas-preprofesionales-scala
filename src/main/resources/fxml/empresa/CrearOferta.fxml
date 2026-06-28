@@ -2,71 +2,82 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox spacing="15" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" style="-fx-padding: 15;">
-    <Label text="Formulario de Solicitud de Practicantes" style="-fx-font-size: 14pt; -fx-font-weight: bold; -fx-text-fill: #0f172a;"/>
+<VBox spacing="8" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ucuenca.gestion.controllers.CrearOfertaController" style="-fx-padding: 10;">
+    <Label text="Formulario de Solicitud de Practicantes" style="-fx-font-size: 13pt; -fx-font-weight: bold; -fx-text-fill: #0f172a;"/>
     <Separator/>
 
-    <GridPane hgap="15" vgap="12" styleClass="card-dashboard" maxWidth="850">
+    <GridPane hgap="10" vgap="8" styleClass="card-dashboard" maxWidth="850">
         <columnConstraints>
-            <ColumnConstraints prefWidth="250"/>
-            <ColumnConstraints prefWidth="550"/>
+            <ColumnConstraints prefWidth="220"/>
+            <ColumnConstraints prefWidth="200"/>
+            <ColumnConstraints prefWidth="220"/>
+            <ColumnConstraints prefWidth="210"/>
         </columnConstraints>
         <children>
             <Label text="Título de la Convocatoria/Oferta:" GridPane.rowIndex="0" GridPane.columnIndex="0" style="-fx-font-weight: bold;"/>
-            <TextField fx:id="txtTituloOferta" promptText="Ej. Desarrollador de Software Intern - JavaFX" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+            <TextField fx:id="txtTituloOferta" promptText="Ej. Desarrollador de Software Intern - JavaFX" GridPane.rowIndex="0" GridPane.columnIndex="1" GridPane.columnSpan="3"/>
 
-            <Label text="Cantidad de Practicantes Solicitados:" GridPane.rowIndex="1" GridPane.columnIndex="0" style="-fx-font-weight: bold;"/>
-            <HBox spacing="10" alignment="CENTER_LEFT" GridPane.rowIndex="1" GridPane.columnIndex="1">
-                <Spinner fx:id="spnVacantes" min="1" max="10" initialValue="1" prefWidth="120"/>
-                <Label text="Restricción del sistema: Rango permitido de 1 a 10 cupos." style="-fx-font-style: italic; -fx-text-fill: #64748b; -fx-font-size: 9.5pt;"/>
-            </HBox>
+            <Label text="Cantidad de Practicantes:" GridPane.rowIndex="1" GridPane.columnIndex="0" style="-fx-font-weight: bold;"/>
+            <Spinner fx:id="spnVacantes" min="1" max="10" initialValue="1" prefWidth="150" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
 
-            <Label text="Duración de la Práctica (Horas):" GridPane.rowIndex="2" GridPane.columnIndex="0" style="-fx-font-weight: bold;"/>
-            <HBox spacing="10" alignment="CENTER_LEFT" GridPane.rowIndex="2" GridPane.columnIndex="1">
-                <Spinner fx:id="spnDuracionHoras" min="40" max="400" initialValue="240" amountToStepBy="10" prefWidth="120"/>
-                <Label text="Horas académicas requeridas." style="-fx-text-fill: #475569;"/>
-            </HBox>
+            <Label text="Duración (Horas):" GridPane.rowIndex="1" GridPane.columnIndex="2" style="-fx-font-weight: bold;"/>
+            <Spinner fx:id="spnDuracionHoras" min="40" max="400" initialValue="240" amountToStepBy="10" prefWidth="150" GridPane.rowIndex="1" GridPane.columnIndex="3"/>
         </children>
     </GridPane>
 
-    <VBox spacing="12" styleClass="card-dashboard" maxWidth="850">
+    <VBox spacing="8" styleClass="card-dashboard" maxWidth="850">
         <Label text="Detalles Técnicos del Perfil" style="-fx-font-weight: bold; -fx-text-fill: #1e3a8a;"/>
         <Separator/>
 
-        <VBox spacing="6">
-            <Label text="Descripción General de la Vacante:" style="-fx-font-weight: bold;"/>
-            <TextArea fx:id="txtDescripcionOferta" prefHeight="70" promptText="Describa el perfil del área, tecnologías requeridas y contexto de la práctica..." wrapText="true"/>
-        </VBox>
-
-        <VBox spacing="6">
-            <Label text="Requisitos Obligatorios / Conocimientos Previos:" style="-fx-font-weight: bold;"/>
-            <TextArea fx:id="txtRequisitosOferta" prefHeight="70" promptText="Ej. Conocimientos en bases de datos relacionales, POO, nivel de inglés intermedio..." wrapText="true"/>
-        </VBox>
-
-        <VBox spacing="6">
-            <Label text="Actividades Específicas a Desempeñar:" style="-fx-font-weight: bold;"/>
-            <TextArea fx:id="txtActividadesOferta" prefHeight="70" promptText="Detalle de forma enumerada las tareas específicas que el estudiante ejecutará..." wrapText="true"/>
-        </VBox>
-    </VBox>
-
-    <VBox spacing="10" styleClass="card-dashboard" maxWidth="850" style="-fx-border-left-color: #f59e0b; -fx-border-left-width: 5px;">
-        <Label text="Documentación de Soporte de la Convocatoria" style="-fx-font-weight: bold; -fx-text-fill: #b45309;"/>
-        <Label text="Descargue la plantilla oficial del oficio de convocatoria, llénela, fírmela y súbala en formato PDF para pasar la fiscalización." style="-fx-font-size: 9.5pt; -fx-text-fill: #64748b;" wrapText="true"/>
-
-        <HBox spacing="15" alignment="CENTER_LEFT" style="-fx-padding: 5 0 0 0;">
-            <Button fx:id="btnDescargarPlantilla" text="📥 Descargar Plantilla Oferta (.pdf)" style="-fx-background-color: #475569; -fx-text-fill: white;"/>
-
-            <Separator orientation="VERTICAL" prefHeight="25"/>
-
-            <HBox spacing="10" alignment="CENTER_LEFT">
-                <Button fx:id="btnSubirOfertaFirmada" text="📤 Subir Documento Firmado (PDF)" style="-fx-background-color: #2563eb; -fx-text-fill: white; -fx-font-weight: bold;"/>
-                <Label fx:id="lblEstadoArchivoOferta" text="Ningún archivo seleccionado (.pdf)" style="-fx-text-fill: #64748b; -fx-font-style: italic;"/>
-            </HBox>
+        <HBox spacing="10" alignment="CENTER" maxWidth="850">
+            <children>
+                <VBox spacing="4" HBox.hgrow="ALWAYS">
+                    <children>
+                        <Label text="Descripción General:" style="-fx-font-weight: bold;"/>
+                        <TextArea fx:id="txtDescripcionOferta" prefHeight="95" promptText="Describa el perfil, tecnologías y contexto..." wrapText="true"/>
+                    </children>
+                </VBox>
+                <VBox spacing="4" HBox.hgrow="ALWAYS">
+                    <children>
+                        <Label text="Requisitos Obligatorios:" style="-fx-font-weight: bold;"/>
+                        <TextArea fx:id="txtRequisitosOferta" prefHeight="95" promptText="Ej. BD, POO, inglés intermedio..." wrapText="true"/>
+                    </children>
+                </VBox>
+                <VBox spacing="4" HBox.hgrow="ALWAYS">
+                    <children>
+                        <Label text="Actividades Específicas:" style="-fx-font-weight: bold;"/>
+                        <TextArea fx:id="txtActividadesOferta" prefHeight="95" promptText="Tareas específicas que el estudiante ejecutará..." wrapText="true"/>
+                    </children>
+                </VBox>
+            </children>
         </HBox>
     </VBox>
 
-    <HBox spacing="10" alignment="CENTER_LEFT" maxWidth="850">
-        <Region HBox.hgrow="ALWAYS"/>
-        <Button text="Publicar Convocatoria" styleClass="button-primary"/>
+    <VBox spacing="8" styleClass="card-dashboard" maxWidth="850" style="-fx-border-left-color: #f59e0b; -fx-border-left-width: 5px; -fx-padding: 8 10 8 10;">
+        <children>
+            <Label text="Documentación de Soporte de la Convocatoria" style="-fx-font-weight: bold; -fx-text-fill: #b45309;"/>
+            <Label text="Descargue la plantilla, llénela, fírmela y adjúntela en formato PDF." style="-fx-font-size: 9pt; -fx-text-fill: #64748b;" wrapText="true"/>
+
+            <HBox spacing="15" alignment="CENTER_LEFT">
+                <children>
+                    <Button fx:id="btnDescargarPlantilla" text="📥 Descargar Plantilla (.pdf)" onAction="#handleDescargarPlantilla" style="-fx-background-color: #475569; -fx-text-fill: white;"/>
+                    <Separator orientation="VERTICAL" prefHeight="25"/>
+                    <HBox spacing="10" alignment="CENTER_LEFT">
+                        <children>
+                            <Button fx:id="btnSubirOfertaFirmada" text="📤 Subir PDF Firmado" onAction="#handleSubirOfertaFirmada" style="-fx-background-color: #2563eb; -fx-text-fill: white; -fx-font-weight: bold;"/>
+                            <Label fx:id="lblEstadoArchivoOferta" text="Ningún archivo seleccionado" style="-fx-text-fill: #64748b; -fx-font-style: italic;"/>
+                        </children>
+                    </HBox>
+                </children>
+            </HBox>
+        </children>
+    </VBox>
+
+    <HBox spacing="15" alignment="CENTER_LEFT" maxWidth="850">
+        <children>
+            <Label fx:id="lblEstado" visible="false" wrapText="true" style="-fx-font-weight: bold;"/>
+            <Region HBox.hgrow="ALWAYS"/>
+            <Button text="Publicar Convocatoria" onAction="#handlePublicarConvocatoria" styleClass="button-primary"/>
+        </children>
     </HBox>
 </VBox>

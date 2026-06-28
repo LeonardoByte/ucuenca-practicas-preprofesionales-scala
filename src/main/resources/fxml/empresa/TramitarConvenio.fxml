@@ -2,66 +2,94 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox spacing="15" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" style="-fx-padding: 15;">
-    <Label text="Tramitación de Alianza Legal - Convenio Marco Institucional" style="-fx-font-size: 14pt; -fx-font-weight: bold; -fx-text-fill: #0f172a;"/>
-    <Separator/>
-
-    <VBox spacing="12" styleClass="card-operational" maxWidth="800">
-        <Label text="Datos Legales y Representación Jurídica" style="-fx-font-weight: bold; -fx-text-fill: #1e3a8a;"/>
-        <GridPane hgap="15" vgap="12">
-            <children>
-                <Label text="Razón Social Completa:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
-                <TextField fx:id="txtRazonSocial" promptText="Ej. TecnoSoluciones Cuenca S.A." GridPane.rowIndex="0" GridPane.columnIndex="1" prefWidth="450"/>
-
-                <Label text="RUC de la Entidad Jurídica:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
-                <TextField fx:id="txtRucEmpresa" promptText="019XXXXXXXXXX (13 dígitos)" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
-
-                <Label text="Nombre del Representante Legal:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
-                <TextField fx:id="txtRepresentanteLegal" promptText="Nombres y Apellidos del firmante legal" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
-
-                <Label text="Dirección de la Sede Matriz:" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
-                <TextField fx:id="txtDireccionMatriz" promptText="Ej. Av. 12 de Abril y Loja, Cuenca" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
-            </children>
-        </GridPane>
-    </VBox>
-
-    <VBox spacing="12" styleClass="card-operational" maxWidth="800">
-        <Label text="Información Organizacional (Exigido Malla)" style="-fx-font-weight: bold; -fx-text-fill: #1e3a8a;"/>
+<VBox spacing="8" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ucuenca.gestion.controllers.TramitarConvenioController" style="-fx-padding: 10;">
+    <children>
+        <Label text="Tramitación de Alianza Legal - Convenio Marco Institucional" style="-fx-font-size: 13pt; -fx-font-weight: bold; -fx-text-fill: #0f172a;"/>
         <Separator/>
-        <VBox spacing="6">
-            <Label text="Misión de la Organización:" style="-fx-font-weight: bold;"/>
-            <TextArea fx:id="txtMisionEmpresa" prefHeight="60" promptText="Escriba la misión corporativa oficial..." wrapText="true"/>
+
+        <VBox spacing="8" styleClass="card-operational" maxWidth="800">
+            <children>
+                <Label text="Datos Legales y Representación Jurídica" style="-fx-font-weight: bold; -fx-text-fill: #1e3a8a;"/>
+                <GridPane hgap="10" vgap="8">
+                    <columnConstraints>
+                        <ColumnConstraints prefWidth="170"/>
+                        <ColumnConstraints prefWidth="220"/>
+                        <ColumnConstraints prefWidth="170"/>
+                        <ColumnConstraints prefWidth="220"/>
+                    </columnConstraints>
+                    <children>
+                        <Label text="Razón Social Completa:" GridPane.rowIndex="0" GridPane.columnIndex="0" style="-fx-font-weight: bold;"/>
+                        <TextField fx:id="txtRazonSocial" promptText="Ej. TecnoSoluciones Cuenca S.A." GridPane.rowIndex="0" GridPane.columnIndex="1" GridPane.columnSpan="3"/>
+
+                        <Label text="RUC de la Entidad:" GridPane.rowIndex="1" GridPane.columnIndex="0" style="-fx-font-weight: bold;"/>
+                        <TextField fx:id="txtRucEmpresa" promptText="019XXXXXXXXXX (13 dígitos)" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+
+                        <Label text="Representante Legal:" GridPane.rowIndex="1" GridPane.columnIndex="2" style="-fx-font-weight: bold;"/>
+                        <TextField fx:id="txtRepresentanteLegal" promptText="Nombres y Apellidos del firmante" GridPane.rowIndex="1" GridPane.columnIndex="3"/>
+
+                        <Label text="Dirección Sede Matriz:" GridPane.rowIndex="2" GridPane.columnIndex="0" style="-fx-font-weight: bold;"/>
+                        <TextField fx:id="txtDireccionMatriz" promptText="Ej. Av. 12 de Abril y Loja, Cuenca" GridPane.rowIndex="2" GridPane.columnIndex="1" GridPane.columnSpan="3"/>
+                    </children>
+                </GridPane>
+            </children>
         </VBox>
-        <VBox spacing="6">
-            <Label text="Visión de la Organización:" style="-fx-font-weight: bold;"/>
-            <TextArea fx:id="txtVisionEmpresa" prefHeight="60" promptText="Escriba la visión corporativa oficial..." wrapText="true"/>
+
+        <VBox spacing="8" styleClass="card-operational" maxWidth="800">
+            <children>
+                <Label text="Información Organizacional" style="-fx-font-weight: bold; -fx-text-fill: #1e3a8a;"/>
+                <Separator/>
+                <HBox spacing="10" alignment="CENTER" maxWidth="800">
+                    <children>
+                        <VBox spacing="4" HBox.hgrow="ALWAYS">
+                            <children>
+                                <Label text="Misión de la Organización:" style="-fx-font-weight: bold;"/>
+                                <TextArea fx:id="txtMisionEmpresa" prefHeight="75" promptText="Escriba la misión corporativa..." wrapText="true"/>
+                            </children>
+                        </VBox>
+                        <VBox spacing="4" HBox.hgrow="ALWAYS">
+                            <children>
+                                <Label text="Visión de la Organización:" style="-fx-font-weight: bold;"/>
+                                <TextArea fx:id="txtVisionEmpresa" prefHeight="75" promptText="Escriba la visión corporativa..." wrapText="true"/>
+                            </children>
+                        </VBox>
+                    </children>
+                </HBox>
+            </children>
         </VBox>
-    </VBox>
 
-    <VBox spacing="10" styleClass="card-dashboard" maxWidth="800" style="-fx-border-left-color: #2563eb; -fx-border-left-width: 5px;">
-        <Label text="Documentación Legal del Convenio" style="-fx-font-weight: bold; -fx-text-fill: #1e3a8a;"/>
-        <Label text="Descargue el modelo base de convenio marco, complete los campos notariales requeridos, fírmelo digitalmente o físicamente y adjunte el archivo final en formato PDF." style="-fx-font-size: 9.5pt; -fx-text-fill: #64748b;" wrapText="true"/>
+        <VBox spacing="8" styleClass="card-dashboard" maxWidth="800" style="-fx-border-left-color: #2563eb; -fx-border-left-width: 5px; -fx-padding: 8 10 8 10;">
+            <children>
+                <Label text="Documentación Legal del Convenio" style="-fx-font-weight: bold; -fx-text-fill: #1e3a8a;"/>
+                <Label text="Descargue el modelo base, complete los campos notariales, fírmelo y adjúntelo en formato PDF." style="-fx-font-size: 9pt; -fx-text-fill: #64748b;" wrapText="true"/>
 
-        <HBox spacing="15" alignment="CENTER_LEFT" style="-fx-padding: 5 0 0 0;">
-            <Button fx:id="btnDescargarPlantillaConvenio" text="📥 Descargar Plantilla de Convenio (.docx)" style="-fx-background-color: #475569; -fx-text-fill: white;"/>
+                <HBox spacing="15" alignment="CENTER_LEFT">
+                    <children>
+                        <Button fx:id="btnDescargarPlantillaConvenio" text="📥 Descargar Modelo (.pdf)" onAction="#handleDescargarPlantillaConvenio" style="-fx-background-color: #475569; -fx-text-fill: white;"/>
+                        <Separator orientation="VERTICAL" prefHeight="25"/>
+                        <HBox spacing="10" alignment="CENTER_LEFT">
+                            <children>
+                                <Button fx:id="btnSubirConvenioFirmado" text="📤 Subir Convenio Firmado" onAction="#handleSubirConvenioFirmado" style="-fx-background-color: #2563eb; -fx-text-fill: white; -fx-font-weight: bold;"/>
+                                <Label fx:id="lblEstadoArchivoConvenio" text="Ningún archivo seleccionado" style="-fx-text-fill: #64748b; -fx-font-style: italic;"/>
+                            </children>
+                        </HBox>
+                    </children>
+                </HBox>
+            </children>
+        </VBox>
 
-            <Separator orientation="VERTICAL" prefHeight="25"/>
+        <VBox spacing="6" styleClass="card-dashboard" maxWidth="800" style="-fx-border-left-color: #ef4444; -fx-border-left-width: 5px; -fx-padding: 8 10 8 10;">
+            <children>
+                <Label text="Causas de Rechazo Administrativo de Convenio anterior:" style="-fx-font-weight: bold; -fx-text-fill: #b91c1c;"/>
+                <TextArea fx:id="txtJustificacionRechazoConvenio" prefHeight="40" editable="false" style="-fx-font-family: 'Courier New';" text="[Ningún rechazo legal vigente. En caso de denegación por inconsistencia mercantil o firmas caducas, aquí aparecerá la causa obligatoria.]" wrapText="true"/>
+            </children>
+        </VBox>
 
-            <HBox spacing="10" alignment="CENTER_LEFT">
-                <Button fx:id="btnSubirConvenioFirmado" text="📤 Subir Convenio Firmado (PDF)" style="-fx-background-color: #2563eb; -fx-text-fill: white; -fx-font-weight: bold;"/>
-                <Label fx:id="lblEstadoArchivoConvenio" text="Ningún archivo seleccionado (.pdf)" style="-fx-text-fill: #64748b; -fx-font-style: italic;"/>
-            </HBox>
+        <HBox spacing="15" alignment="CENTER_RIGHT" maxWidth="800">
+            <children>
+                <Label fx:id="lblEstado" visible="false" wrapText="true" style="-fx-font-weight: bold;"/>
+                <Region HBox.hgrow="ALWAYS"/>
+                <Button text="Enviar Solicitud de Convenio" onAction="#handleEnviarSolicitudConvenio" styleClass="button-primary"/>
+            </children>
         </HBox>
-    </VBox>
-
-    <VBox spacing="8" styleClass="card-dashboard" maxWidth="800" style="-fx-border-left-color: #ef4444; -fx-border-left-width: 5px;">
-        <Label text="Causas de Rechazo Administrativo de solicitud de Convenio anterior (Secretaría/Coordinación):" style="-fx-font-weight: bold; -fx-text-fill: #b91c1c;"/>
-        <VBox style="-fx-padding: 8; -fx-background-color: #fee2e2; -fx-border-color: #fca5a5; -fx-border-radius: 4px;">
-            <TextArea fx:id="txtJustificacionRechazoConvenio" prefHeight="60" editable="false" style="-fx-font-family: 'Courier New';" text="[Ningún rechazo legal vigente. En caso de denegación por inconsistencia mercantil o firmas caducas, aquí aparecerá la causa obligatoria.]" wrapText="true"/>
-        </VBox>
-    </VBox>
-
-    <HBox alignment="CENTER_RIGHT" maxWidth="800">
-        <Button text="Enviar Solicitud de Convenio" styleClass="button-primary"/>
-    </HBox>
+    </children>
 </VBox>
