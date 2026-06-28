@@ -11,23 +11,8 @@ import javafx.scene.layout.StackPane
  */
 class MainApp extends Application {
   override def start(primaryStage: Stage): Unit = {
-    primaryStage.setTitle("Gestión Prácticas - Prueba de Humo")
-
-    // Componente visual básico para verificar el funcionamiento de la GUI
-    val label = new Label("¡Conexión exitosa entre Scala 2.13.18, JavaFX 21 y JVM 25!")
-    label.setStyle("-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #1e3a8a;")
-
-    val root = new StackPane(rootLabel(label))
-    root.setStyle("-fx-background-color: #f0fdf4; -fx-padding: 30px;")
-
-    val scene = new Scene(root, 600, 250)
-    primaryStage.setScene(scene)
-    primaryStage.show()
-  }
-
-  // Método auxiliar simple para demostrar uso de lógica interna
-  private def rootLabel(lbl: Label): Label = {
-    lbl
+    com.ucuenca.gestion.utils.NavigationManager.setStage(primaryStage)
+    com.ucuenca.gestion.utils.NavigationManager.showLogin()
   }
 }
 
@@ -37,6 +22,14 @@ class MainApp extends Application {
 object Main {
   def main(args: Array[String]): Unit = {
     println("Iniciando aplicación GestiónPracticas...")
+    try {
+      com.ucuenca.gestion.utils.DatabaseConnection.initialize()
+      println("Conexión a la base de datos establecida exitosamente.")
+    } catch {
+      case e: Throwable =>
+        println(s"FATAL: No se pudo establecer la conexión a la base de datos: ${e.getMessage}")
+        e.printStackTrace()
+    }
     Application.launch(classOf[MainApp], args: _*)
   }
 }

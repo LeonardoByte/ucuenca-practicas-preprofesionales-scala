@@ -25,6 +25,7 @@ libraryDependencies ++= Seq(
   "org.scalikejdbc" %% "scalikejdbc"        % "4.3.0",
   "org.scalikejdbc" %% "scalikejdbc-config" % "4.3.0",
   "org.postgresql"   % "postgresql"         % "42.7.3",
+  "org.mindrot"      % "jbcrypt"            % "0.4",
 
   // Pruebas Unitarias (ScalaTest)
   "org.scalatest" %% "scalatest" % "3.2.18" % Test
