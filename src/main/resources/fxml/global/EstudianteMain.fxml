@@ -9,18 +9,18 @@
                 <MenuItem text="Mi Perfil" onAction="#handleMiPerfil"/>
             </Menu>
             <Menu text="Bolsa de Empleo">
-                <MenuItem text="Buscar Vacantes"/>
+                <MenuItem text="Buscar Vacantes" onAction="#handleBuscarVacantes"/>
             </Menu>
             <Menu text="Empresa Propia">
-                <MenuItem text="Registrar Solicitud"/>
+                <MenuItem text="Registrar Solicitud" onAction="#handleRegistrarSolicitud"/>
             </Menu>
             <Menu text="Trámites">
-                <MenuItem text="Historial de Postulaciones"/>
+                <MenuItem text="Historial de Postulaciones" onAction="#handleHistorialPostulaciones"/>
             </Menu>
             <Menu text="Mi Práctica">
-                <MenuItem text="Información General"/>
-                <MenuItem text="Propuesta de Actividades"/>
-                <MenuItem text="Formulario 1"/>
+                <MenuItem text="Información General" onAction="#handleInfoGeneral"/>
+                <MenuItem text="Propuesta de Actividades" onAction="#handlePropuestaActividades"/>
+                <MenuItem text="Formulario 1" onAction="#handleFormulario1"/>
             </Menu>
             <Menu text="Sesión">
                 <MenuItem text="Cerrar Sesión" onAction="#handleCerrarSesion"/>

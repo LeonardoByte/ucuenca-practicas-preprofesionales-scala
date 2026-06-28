@@ -13,10 +13,10 @@
                 <MenuItem text="Directorio General" onAction="#handleDirectorioGeneral"/>
             </Menu>
             <Menu text="Auditoría Global">
-                <MenuItem text="Trazabilidad de Prácticas"/>
+                <MenuItem text="Trazabilidad de Prácticas" onAction="#handleTrazabilidad"/>
             </Menu>
             <Menu text="Reportes">
-                <MenuItem text="Generar Estadísticas"/>
+                <MenuItem text="Generar Estadísticas" onAction="#handleGenerarEstadisticas"/>
             </Menu>
             <Menu text="Sesión">
                 <MenuItem text="Cerrar Sesión" onAction="#handleCerrarSesion"/>

@@ -2,46 +2,59 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox spacing="15" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml">
-    <Label text="Fiscalización de Convocatorias y Ofertas de Empresas" style="-fx-font-size: 14pt; -fx-font-weight: bold;"/>
+<VBox spacing="8" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ucuenca.gestion.controllers.RevisionOfertasController" style="-fx-padding: 10;">
+    <children>
+        <Label text="Fiscalización de Convocatorias y Ofertas de Empresas" style="-fx-font-size: 13pt; -fx-font-weight: bold;"/>
+        <Separator/>
 
-    <TableView fx:id="tblRevisionOfertas" prefHeight="250" VBox.vgrow="ALWAYS">
-        <columnResizePolicy>
-            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
-        </columnResizePolicy>
-        <columns>
-            <TableColumn text="Empresa Solicitante" prefWidth="250"/>
-            <TableColumn text="Título Vacante" prefWidth="250"/>
-            <TableColumn text="Descripción" prefWidth="250"/>
-            <TableColumn text="Nro Vacantes" prefWidth="100"/>
-            <TableColumn text="Fecha Solicitud" prefWidth="150"/>
-        </columns>
-    </TableView>
+        <TableView fx:id="tblRevisionOfertas" prefHeight="240" VBox.vgrow="ALWAYS">
+            <columnResizePolicy>
+                <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
+            </columnResizePolicy>
+            <columns>
+                <TableColumn fx:id="colEmpresa" text="Empresa Solicitante" prefWidth="200"/>
+                <TableColumn fx:id="colTitulo" text="Título Vacante" prefWidth="200"/>
+                <TableColumn fx:id="colDescripcion" text="Descripción" prefWidth="250"/>
+                <TableColumn fx:id="colVacantes" text="Nro Vacantes" prefWidth="100"/>
+                <TableColumn fx:id="colFecha" text="Fecha Solicitud" prefWidth="130"/>
+            </columns>
+        </TableView>
 
-    <GridPane vgap="12" styleClass="card-dashboard">
-        <columnConstraints>
-            <ColumnConstraints percentWidth="100"/>
-        </columnConstraints>
-        <children>
-            <VBox spacing="6" GridPane.rowIndex="0">
-                <Label text="Documento Adjunto de la Oferta:" style="-fx-font-weight: bold;"/>
-                <HBox spacing="10" alignment="CENTER_LEFT">
-                    <Button fx:id="btnRevisarOfertaPDF" text="👁 Revisar Oferta PDF" style="-fx-background-color: #2563eb; -fx-text-fill: white; -fx-font-weight: bold;"/>
-                    <Button fx:id="btnDescargarOfertaPDF" text="📥 Descargar" style="-fx-background-color: #475569; -fx-text-fill: white;"/>
-                </HBox>
-            </VBox>
+        <GridPane vgap="8" hgap="10" styleClass="card-dashboard" maxWidth="850">
+            <columnConstraints>
+                <ColumnConstraints percentWidth="100"/>
+            </columnConstraints>
+            <children>
+                <VBox spacing="4" GridPane.rowIndex="0">
+                    <children>
+                        <Label text="Documento Adjunto de la Oferta:" style="-fx-font-weight: bold;"/>
+                        <HBox spacing="10" alignment="CENTER_LEFT">
+                            <children>
+                                <Button fx:id="btnRevisarOfertaPDF" text="👁 Revisar Oferta PDF" onAction="#handleRevisarPDF" style="-fx-background-color: #2563eb; -fx-text-fill: white; -fx-font-weight: bold;"/>
+                                <Button fx:id="btnDescargarOfertaPDF" text="📥 Descargar" onAction="#handleDescargarPDF" style="-fx-background-color: #475569; -fx-text-fill: white;"/>
+                            </children>
+                        </HBox>
+                    </children>
+                </VBox>
 
-            <Separator GridPane.rowIndex="1" style="-fx-padding: 5 0;"/>
+                <Separator GridPane.rowIndex="1" style="-fx-padding: 4 0;"/>
 
-            <VBox spacing="8" GridPane.rowIndex="2">
-                <Label text="Justificación Obligatoria de Causas (Requerido exclusivo en caso de rechazo):" style="-fx-font-weight: bold;"/>
-                <TextArea fx:id="txtJustificacionOferta" prefHeight="80" promptText="Escriba aquí los motivos del rechazo antes de notificar..."/>
-            </VBox>
-        </children>
-    </GridPane>
+                <VBox spacing="4" GridPane.rowIndex="2">
+                    <children>
+                        <Label text="Justificación Obligatoria de Causas (Requerido exclusivo en caso de rechazo):" style="-fx-font-weight: bold;"/>
+                        <TextArea fx:id="txtJustificacionOferta" prefHeight="70" promptText="Escriba aquí los motivos del rechazo antes de notificar..." wrapText="true"/>
+                    </children>
+                </VBox>
+            </children>
+        </GridPane>
 
-    <HBox spacing="10" alignment="CENTER_LEFT">
-        <Button text="Aprobar Convocatoria" styleClass="button-primary"/>
-        <Button text="Rechazar y Notificar" styleClass="button-danger"/>
-    </HBox>
+        <HBox spacing="15" alignment="CENTER_LEFT">
+            <children>
+                <Label fx:id="lblEstado" visible="false" wrapText="true" style="-fx-font-weight: bold;"/>
+                <Region HBox.hgrow="ALWAYS"/>
+                <Button text="Aprobar Convocatoria" onAction="#handleAprobar" styleClass="button-primary"/>
+                <Button text="Rechazar y Notificar" onAction="#handleRechazar" styleClass="button-danger"/>
+            </children>
+        </HBox>
+    </children>
 </VBox>

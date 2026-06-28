@@ -19,6 +19,36 @@ class EstudianteMainController {
     EstudiantePerfilView.renderInto(panelCentralDisp)
   }
 
+  @FXML
+  def handleBuscarVacantes(event: ActionEvent): Unit = {
+    EstudianteBuscarVacantesView.renderInto(panelCentralDisp)
+  }
+
+  @FXML
+  def handleRegistrarSolicitud(event: ActionEvent): Unit = {
+    EstudianteRegistrarSolicitudView.renderInto(panelCentralDisp)
+  }
+
+  @FXML
+  def handleHistorialPostulaciones(event: ActionEvent): Unit = {
+    EstudianteHistorialPostulacionesView.renderInto(panelCentralDisp)
+  }
+
+  @FXML
+  def handleInfoGeneral(event: ActionEvent): Unit = {
+    EstudianteInfoGeneralView.renderInto(panelCentralDisp)
+  }
+
+  @FXML
+  def handlePropuestaActividades(event: ActionEvent): Unit = {
+    EstudiantePropuestaActividadesView.renderInto(panelCentralDisp)
+  }
+
+  @FXML
+  def handleFormulario1(event: ActionEvent): Unit = {
+    EstudianteFormulario1View.renderInto(panelCentralDisp)
+  }
+
   /**
    * Cierra la sesión activa y retorna a la vista externa de Login.
    */

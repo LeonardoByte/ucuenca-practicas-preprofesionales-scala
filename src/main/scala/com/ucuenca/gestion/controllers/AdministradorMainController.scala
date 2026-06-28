@@ -36,6 +36,22 @@ class AdministradorMainController {
   }
 
   /**
+   * Carga la sub-pantalla de Trazabilidad de Prácticas en el panel central.
+   */
+  @FXML
+  def handleTrazabilidad(event: ActionEvent): Unit = {
+    AdminTrazabilidadView.renderInto(panelCentralDisp)
+  }
+
+  /**
+   * Carga la sub-pantalla de Generación de Estadísticas en el panel central.
+   */
+  @FXML
+  def handleGenerarEstadisticas(event: ActionEvent): Unit = {
+    AdminGenerarEstadisticasView.renderInto(panelCentralDisp)
+  }
+
+  /**
    * Cierra la sesión activa y retorna a la vista externa de Login.
    */
   @FXML
