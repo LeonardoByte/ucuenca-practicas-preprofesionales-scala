@@ -78,8 +78,8 @@ object DatabaseSeeder {
       """.update.apply()
 
       sql"""
-        INSERT INTO empresa_perfil (identificacion, direccion_matriz, mision_vision, estado_convenio)
-        VALUES ('0505050505001', 'Av. 12 de Abril, Cuenca', 'Misión: Innovación tecnológica.\nVisión: Ser líderes globales.', 'FORMALIZADO'::estado_convenio)
+        INSERT INTO empresa_perfil (identificacion, direccion_matriz, mision, vision, estado_convenio)
+        VALUES ('0505050505001', 'Av. 12 de Abril, Cuenca', 'Innovación tecnológica.', 'Ser líderes globales.', 'FORMALIZADO'::estado_convenio)
       """.update.apply()
 
       println("Datos semilla de desarrollo insertados correctamente.")

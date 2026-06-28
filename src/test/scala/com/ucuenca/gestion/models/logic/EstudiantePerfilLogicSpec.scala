@@ -52,7 +52,7 @@ class EstudiantePerfilLogicSpec extends AnyFlatSpec with Matchers with BeforeAnd
     DB.localTx { implicit session =>
       sql"DELETE FROM estudiante_perfil WHERE identificacion = '0101019911'".update.apply()
       sql"DELETE FROM usuario WHERE identificacion = '0101019911'".update.apply()
-      sql"DELETE FROM archivo_pdf WHERE id_archivo_pdf = 9999 OR nombre_original LIKE 'test_%'".update.apply()
+      sql"DELETE FROM archivo_pdf WHERE id_archivo_pdf = 9999 OR nombre_original LIKE 'perfil_test_%'".update.apply()
     }
   }
 
@@ -79,12 +79,12 @@ class EstudiantePerfilLogicSpec extends AnyFlatSpec with Matchers with BeforeAnd
     // Caso con PDF válido
     val resultValid = EstudiantePerfilLogic.cargarDocumento(
       identificacion = "0101019911",
-      nombreArchivo = "test_cv.pdf",
-      rutaSegura = "/safe/test_cv.pdf",
+      nombreArchivo = "perfil_test_cv.pdf",
+      rutaSegura = "/safe/perfil_test_cv.pdf",
       esMalla = false
     )
     resultValid.isRight shouldBe true
-    resultValid.toOption.get.nombreOriginal shouldBe "test_cv.pdf"
+    resultValid.toOption.get.nombreOriginal shouldBe "perfil_test_cv.pdf"
   }
 
   it should "bloquear nuevas postulaciones si el estado de práctica es diferente de SIN_PRACTICA" in {

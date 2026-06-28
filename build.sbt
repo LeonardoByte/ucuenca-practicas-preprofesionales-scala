@@ -38,3 +38,6 @@ scalacOptions ++= Seq(
   "-unchecked",
   "-encoding", "utf8"
 )
+
+Test / parallelExecution := false
+

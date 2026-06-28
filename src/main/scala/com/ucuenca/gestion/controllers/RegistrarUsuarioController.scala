@@ -6,6 +6,7 @@ import javafx.scene.layout._
 import javafx.event.ActionEvent
 import com.ucuenca.gestion.models.enums._
 import com.ucuenca.gestion.models.entities._
+import com.ucuenca.gestion.models.dto._
 import com.ucuenca.gestion.models.db.{CarreraRepository, EmpresaRepository}
 import com.ucuenca.gestion.models.logic.{RegistrarUsuarioLogic, RegistroFailure}
 import scala.util.control.NonFatal
@@ -179,7 +180,7 @@ class RegistrarUsuarioController {
           val mallaPath = copyFileToUploads(mallaFile, s"malla_${id}.pdf")
           val cvPathOpt = Option(cvFile).map(file => copyFileToUploads(file, s"cv_${id}.pdf"))
 
-          val dto = RegistrarUsuarioLogic.EstudianteDTO(
+          val dto = EstudianteDTO(
             identificacion = id,
             nombresCompletos = nombres,
             correoElectronico = email,
@@ -205,7 +206,7 @@ class RegistrarUsuarioController {
         if (convenio == null) {
           Left(RegistroFailure.Validacion("El estado del convenio legal es obligatorio."))
         } else {
-          val dto = RegistrarUsuarioLogic.EmpresaDTO(
+          val dto = EmpresaDTO(
             identificacion = id,
             nombresCompletos = nombres,
             correoElectronico = email,
@@ -225,7 +226,7 @@ class RegistrarUsuarioController {
         if (empresa == null) {
           Left(RegistroFailure.Validacion("Debe asociar al tutor a una empresa registrada."))
         } else {
-          val dto = RegistrarUsuarioLogic.TutorEmpresarialDTO(
+          val dto = TutorEmpresarialDTO(
             identificacion = id,
             nombresCompletos = nombres,
             correoElectronico = email,
@@ -237,7 +238,7 @@ class RegistrarUsuarioController {
         }
 
       case _ => // Admin, Coordinador, Secretaría, Tutor Académico
-        val dto = RegistrarUsuarioLogic.UsuarioGeneralDTO(
+        val dto = UsuarioGeneralDTO(
           identificacion = id,
           nombresCompletos = nombres,
           correoElectronico = email,

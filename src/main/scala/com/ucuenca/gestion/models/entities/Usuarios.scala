@@ -30,7 +30,8 @@ case class EstudiantePerfil(
 case class EmpresaPerfil(
   identificacion: String,
   direccionMatriz: String,
-  misionVision: String,
+  mision: String,
+  vision: String,
   estadoConvenio: EstadoConvenio
 ) {
   def tieneConvenioVigente: Boolean = estadoConvenio == EstadoConvenio.FORMALIZADO

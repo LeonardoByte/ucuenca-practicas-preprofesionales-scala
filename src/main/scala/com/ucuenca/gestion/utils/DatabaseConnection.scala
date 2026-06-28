@@ -23,6 +23,7 @@ object DatabaseConnection {
 
         Class.forName(driver)
         ConnectionPool.singleton(url, user, password)
+
         DatabaseSeeder.seedIfEmpty()
         initialized = true
       } else {

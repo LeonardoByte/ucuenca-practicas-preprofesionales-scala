@@ -3,6 +3,7 @@ package com.ucuenca.gestion.models.logic
 import com.ucuenca.gestion.models.entities._
 import com.ucuenca.gestion.models.enums._
 import com.ucuenca.gestion.models.db.UsuarioRepository
+import com.ucuenca.gestion.models.dto._
 import com.ucuenca.gestion.utils.PasswordHasher
 import scalikejdbc.DB
 import scala.util.control.NonFatal
@@ -14,51 +15,6 @@ object RegistroFailure {
 }
 
 object RegistrarUsuarioLogic {
-
-  // --- DTOs ---
-
-  case class EstudianteDTO(
-    identificacion: String,
-    nombresCompletos: String,
-    correoElectronico: String,
-    password: String,
-    cicloActual: Int,
-    idCarreraRef: Int,
-    estadoMatricula: EstadoMatricula,
-    estadoPractica: EstadoEstudiantePractica,
-    mallaNombre: String,
-    mallaRuta: String,
-    cvNombre: Option[String],
-    cvRuta: Option[String]
-  )
-
-  case class EmpresaDTO(
-    identificacion: String,
-    nombresCompletos: String,
-    correoElectronico: String,
-    password: String,
-    direccionMatriz: String,
-    mision: String,
-    vision: String,
-    estadoConvenio: EstadoConvenio
-  )
-
-  case class TutorEmpresarialDTO(
-    identificacion: String,
-    nombresCompletos: String,
-    correoElectronico: String,
-    password: String,
-    empresaIdRef: String,
-    telefonoContacto: String
-  )
-
-  case class UsuarioGeneralDTO(
-    identificacion: String,
-    nombresCompletos: String,
-    correoElectronico: String,
-    password: String,
-    rol: RolUsuario
-  )
 
   // --- Métodos de registro ---
 
@@ -99,8 +55,7 @@ object RegistrarUsuarioLogic {
         val usuario = Usuario(dto.identificacion, dto.nombresCompletos, dto.correoElectronico, RolUsuario.EMPRESA, EstadoCuenta.ACTIVA)
         val creds = UsuarioSistema(0, dto.correoElectronico, passHash, dto.identificacion)
         
-        val misionVision = s"Misión: ${dto.mision}\nVisión: ${dto.vision}"
-        UsuarioRepository.crearEmpresa(usuario, creds, dto.direccionMatriz, misionVision, dto.estadoConvenio)
+        UsuarioRepository.crearEmpresa(usuario, creds, dto.direccionMatriz, dto.mision, dto.vision, dto.estadoConvenio)
       }
     } yield res
   }

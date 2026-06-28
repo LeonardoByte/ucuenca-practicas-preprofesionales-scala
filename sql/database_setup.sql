@@ -188,7 +188,8 @@ CREATE TABLE empresa_perfil (
         REFERENCES usuario(identificacion) ON DELETE CASCADE
         CHECK (char_length(identificacion) = 13),
     direccion_matriz TEXT            NOT NULL,
-    mision_vision    TEXT            NOT NULL,
+    mision           TEXT            NOT NULL,
+    vision           TEXT            NOT NULL,
     estado_convenio  estado_convenio NOT NULL DEFAULT 'PENDIENTE'
 );
 

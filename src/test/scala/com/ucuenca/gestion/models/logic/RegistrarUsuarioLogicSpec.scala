@@ -6,6 +6,7 @@ import org.scalatest.BeforeAndAfterAll
 import scalikejdbc._
 import com.ucuenca.gestion.utils.DatabaseConnection
 import com.ucuenca.gestion.models.enums.{RolUsuario, EstadoCuenta, EstadoMatricula, EstadoEstudiantePractica, EstadoConvenio}
+import com.ucuenca.gestion.models.dto._
 import com.ucuenca.gestion.models.entities.Usuario
 
 class RegistrarUsuarioLogicSpec extends AnyFlatSpec with Matchers with BeforeAndAfterAll {
@@ -41,7 +42,7 @@ class RegistrarUsuarioLogicSpec extends AnyFlatSpec with Matchers with BeforeAnd
   }
 
   "RegistrarUsuarioLogic" should "rechazar nombres vacíos o muy cortos" in {
-    val dto = RegistrarUsuarioLogic.EstudianteDTO(
+    val dto = EstudianteDTO(
       identificacion = "0101010102",
       nombresCompletos = "",
       correoElectronico = "test@ucuenca.edu.ec",
@@ -59,7 +60,7 @@ class RegistrarUsuarioLogicSpec extends AnyFlatSpec with Matchers with BeforeAnd
   }
 
   it should "rechazar identificación de estudiante con longitud diferente de 10 dígitos o no numérica" in {
-    val dtoShort = RegistrarUsuarioLogic.EstudianteDTO(
+    val dtoShort = EstudianteDTO(
       identificacion = "123",
       nombresCompletos = "Juan Perez",
       correoElectronico = "test@ucuenca.edu.ec",
@@ -80,7 +81,7 @@ class RegistrarUsuarioLogicSpec extends AnyFlatSpec with Matchers with BeforeAnd
   }
 
   it should "rechazar ciclo de estudiante fuera de los límites 1 a 10" in {
-    val dtoLow = RegistrarUsuarioLogic.EstudianteDTO(
+    val dtoLow = EstudianteDTO(
       identificacion = "0101010102",
       nombresCompletos = "Juan Perez",
       correoElectronico = "test@ucuenca.edu.ec",
@@ -101,7 +102,7 @@ class RegistrarUsuarioLogicSpec extends AnyFlatSpec with Matchers with BeforeAnd
   }
 
   it should "rechazar registro de estudiante si falta el PDF de malla" in {
-    val dto = RegistrarUsuarioLogic.EstudianteDTO(
+    val dto = EstudianteDTO(
       identificacion = "0101010102",
       nombresCompletos = "Juan Perez",
       correoElectronico = "test@ucuenca.edu.ec",
@@ -119,7 +120,7 @@ class RegistrarUsuarioLogicSpec extends AnyFlatSpec with Matchers with BeforeAnd
   }
 
   it should "registrar exitosamente un estudiante con perfil y malla académica" in {
-    val dto = RegistrarUsuarioLogic.EstudianteDTO(
+    val dto = EstudianteDTO(
       identificacion = "0101010102",
       nombresCompletos = "Juan Perez",
       correoElectronico = "test.est@ucuenca.edu.ec",
@@ -146,7 +147,7 @@ class RegistrarUsuarioLogicSpec extends AnyFlatSpec with Matchers with BeforeAnd
   }
 
   it should "rechazar identificación de empresa con longitud diferente de 13 dígitos o no numérica" in {
-    val dto = RegistrarUsuarioLogic.EmpresaDTO(
+    val dto = EmpresaDTO(
       identificacion = "123456789012",
       nombresCompletos = "Empresa Test S.A.",
       correoElectronico = "contacto@testemp.com",
@@ -160,7 +161,7 @@ class RegistrarUsuarioLogicSpec extends AnyFlatSpec with Matchers with BeforeAnd
   }
 
   it should "registrar exitosamente una empresa" in {
-    val dto = RegistrarUsuarioLogic.EmpresaDTO(
+    val dto = EmpresaDTO(
       identificacion = "0505050505002",
       nombresCompletos = "Empresa Test S.A.",
       correoElectronico = "test.emp@ucuenca.edu.ec",
@@ -173,15 +174,16 @@ class RegistrarUsuarioLogicSpec extends AnyFlatSpec with Matchers with BeforeAnd
     RegistrarUsuarioLogic.registrarEmpresa(dto) shouldBe Right(())
 
     DB.readOnly { implicit session =>
-      val epOpt = sql"SELECT direccion_matriz, mision_vision FROM empresa_perfil WHERE identificacion = '0505050505002'".map(rs => (rs.string(1), rs.string(2))).single.apply()
+      val epOpt = sql"SELECT direccion_matriz, mision, vision FROM empresa_perfil WHERE identificacion = '0505050505002'".map(rs => (rs.string(1), rs.string(2), rs.string(3))).single.apply()
       epOpt.isDefined shouldBe true
       epOpt.get._1 shouldBe "Av. de las Américas, Cuenca"
       epOpt.get._2 should include("Ofrecer servicios de calidad.")
+      epOpt.get._3 should include("Ser referentes nacionales.")
     }
   }
 
   it should "rechazar tutor empresarial si el teléfono no es de 10 dígitos o no numérico" in {
-    val dto = RegistrarUsuarioLogic.TutorEmpresarialDTO(
+    val dto = TutorEmpresarialDTO(
       identificacion = "0909090909",
       nombresCompletos = "Tutor Test",
       correoElectronico = "tutor@test.com",
@@ -193,7 +195,7 @@ class RegistrarUsuarioLogicSpec extends AnyFlatSpec with Matchers with BeforeAnd
   }
 
   it should "registrar exitosamente un tutor empresarial" in {
-    val dto = RegistrarUsuarioLogic.TutorEmpresarialDTO(
+    val dto = TutorEmpresarialDTO(
       identificacion = "0909090909",
       nombresCompletos = "Tutor Test",
       correoElectronico = "test.tutor@ucuenca.edu.ec",
@@ -210,7 +212,7 @@ class RegistrarUsuarioLogicSpec extends AnyFlatSpec with Matchers with BeforeAnd
   }
 
   it should "registrar exitosamente un usuario general (e.g. ADMIN)" in {
-    val dto = RegistrarUsuarioLogic.UsuarioGeneralDTO(
+    val dto = UsuarioGeneralDTO(
       identificacion = "0101010105",
       nombresCompletos = "Administrador Dos",
       correoElectronico = "test.admin_2@ucuenca.edu.ec",

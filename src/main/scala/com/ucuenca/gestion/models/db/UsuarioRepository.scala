@@ -52,7 +52,8 @@ object UsuarioRepository {
     usuario: Usuario,
     credenciales: UsuarioSistema,
     direccionMatriz: String,
-    misionVision: String,
+    mision: String,
+    vision: String,
     estadoConvenio: EstadoConvenio
   )(implicit session: DBSession = AutoSession): Unit = {
     insertUsuario(usuario)
@@ -62,12 +63,14 @@ object UsuarioRepository {
       INSERT INTO empresa_perfil (
         identificacion,
         direccion_matriz,
-        mision_vision,
+        mision,
+        vision,
         estado_convenio
       ) VALUES (
         ${usuario.identificacion},
         ${direccionMatriz},
-        ${misionVision},
+        ${mision},
+        ${vision},
         ${estadoConvenio.toString}::estado_convenio
       )
     """.update.apply()
