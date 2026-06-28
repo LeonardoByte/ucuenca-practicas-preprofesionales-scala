@@ -2,33 +2,38 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox spacing="15" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" style="-fx-padding: 15;">
-    <Label text="Monitoreo e Historial de Convocatorias Previas" style="-fx-font-size: 14pt; -fx-font-weight: bold; -fx-text-fill: #0f172a;"/>
+<VBox spacing="8" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ucuenca.gestion.controllers.HistorialOfertasController" style="-fx-padding: 10;">
+    <children>
+        <Label text="Monitoreo e Historial de Convocatorias Previas" style="-fx-font-size: 13pt; -fx-font-weight: bold; -fx-text-fill: #0f172a;"/>
 
-    <TableView fx:id="tblHistorialOfertas" prefHeight="300" VBox.vgrow="ALWAYS">
-        <columnResizePolicy>
-            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
-        </columnResizePolicy>
-        <columns>
-            <TableColumn prefWidth="250" text="Título de la Oferta" />
-            <TableColumn prefWidth="130" text="Fecha Publicación" />
-            <TableColumn prefWidth="120" text="Cupos Iniciales" />
-            <TableColumn prefWidth="140" text="Estado del Proceso" />
-            <!-- Mantenemos el fx:id para renderizar el botón dentro si lo deseas -->
-            <TableColumn fx:id="colAccionCierre" prefWidth="180" text="Cierre Anticipado (Manual)" />
-        </columns>
-    </TableView>
+        <TableView fx:id="tblHistorialOfertas" prefHeight="260" VBox.vgrow="ALWAYS">
+            <columnResizePolicy>
+                <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
+            </columnResizePolicy>
+            <columns>
+                <TableColumn fx:id="colTitulo" prefWidth="250" text="Título de la Oferta" />
+                <TableColumn fx:id="colFecha" prefWidth="130" text="Fecha Publicación" />
+                <TableColumn fx:id="colCupos" prefWidth="120" text="Cupos Iniciales" />
+                <TableColumn fx:id="colEstado" prefWidth="140" text="Estado del Proceso" />
+                <TableColumn fx:id="colAccionCierre" prefWidth="180" text="Cierre Anticipado (Manual)" />
+            </columns>
+        </TableView>
 
-    <VBox spacing="8" styleClass="card-dashboard" style="-fx-border-left-color: #ef4444; -fx-border-left-width: 5px;">
-        <Label text="Retroalimentación y Observaciones de Rechazo (Coordinación de Carrera):" style="-fx-font-weight: bold; -fx-text-fill: #b91c1c;"/>
-        <VBox style="-fx-padding: 8; -fx-background-color: #f8fafc; -fx-border-color: #e2e8f0; -fx-border-radius: 4px;">
-            <TextArea fx:id="txtComentarioRechazoCoordinador" prefHeight="60" editable="false" style="-fx-font-family: 'Courier New';" text="[Ninguna observación registrada. Si la oferta es rechazada por el coordinador, aquí se renderizará el motivo obligatorio de forma automática.]" wrapText="true"/>
+        <VBox spacing="6" styleClass="card-dashboard" style="-fx-border-left-color: #ef4444; -fx-border-left-width: 5px; -fx-padding: 8 10 8 10;">
+            <children>
+                <Label text="Retroalimentación y Observaciones de Rechazo (Coordinación de Carrera):" style="-fx-font-weight: bold; -fx-text-fill: #b91c1c;"/>
+                <TextArea fx:id="txtComentarioRechazoCoordinador" prefHeight="55" editable="false" style="-fx-font-family: 'Courier New';" text="[Ninguna observación registrada. Si la oferta es rechazada por el coordinador, aquí se renderizará el motivo obligatorio de forma automática.]" wrapText="true"/>
+            </children>
         </VBox>
-    </VBox>
 
-    <!-- Barra de acciones inferiores para control rápido de la oferta seleccionada -->
-    <HBox spacing="10" alignment="CENTER_RIGHT">
-        <Label text="Control de Oferta Seleccionada:" style="-fx-text-fill: #64748b; -fx-font-style: italic; -fx-font-size: 10pt;"/>
-        <Button fx:id="btnForzarCierreOferta" text="🚫 Cancelar / Forzar Cierre de Oferta" style="-fx-background-color: #ef4444; -fx-text-fill: white; -fx-font-weight: bold;"/>
-    </HBox>
+        <!-- Barra de acciones inferiores para control rápido de la oferta seleccionada -->
+        <HBox spacing="15" alignment="CENTER_RIGHT">
+            <children>
+                <Label fx:id="lblEstado" visible="false" style="-fx-font-weight: bold;"/>
+                <Region HBox.hgrow="ALWAYS"/>
+                <Label text="Control de Oferta Seleccionada:" style="-fx-text-fill: #64748b; -fx-font-style: italic; -fx-font-size: 9.5pt;"/>
+                <Button fx:id="btnForzarCierreOferta" text="🚫 Cancelar / Forzar Cierre de Oferta" onAction="#handleForzarCierre" style="-fx-background-color: #ef4444; -fx-text-fill: white; -fx-font-weight: bold;"/>
+            </children>
+        </HBox>
+    </children>
 </VBox>
