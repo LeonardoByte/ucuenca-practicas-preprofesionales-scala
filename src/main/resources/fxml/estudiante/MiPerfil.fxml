@@ -3,7 +3,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.geometry.Insets?>
 
-<VBox spacing="20" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" style="-fx-padding: 15;">
+<VBox spacing="20" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ucuenca.gestion.controllers.MiPerfilController" style="-fx-padding: 15;">
     <Label text="Mi Perfil Académico - Gestión de Requisitos y Documentación Core" style="-fx-font-size: 16pt; -fx-font-weight: bold; -fx-text-fill: #1e3a8a;"/>
     <Separator/>
 
@@ -17,13 +17,13 @@
                 <GridPane hgap="10" vgap="8">
                     <children>
                         <Label text="Ciclo Académico Registrado:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
-                        <Label text="Sexto Ciclo" style="-fx-font-weight: bold;" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+                        <Label fx:id="lblCiclo" text="Sexto Ciclo" style="-fx-font-weight: bold;" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
 
                         <Label text="Restricción del Sexto Ciclo:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
-                        <Label text="CUMPLIDO (Apto)" style="-fx-text-fill: #10b981; -fx-font-weight: bold;" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+                        <Label fx:id="lblRestriccion" text="CUMPLIDO (Apto)" style="-fx-text-fill: #10b981; -fx-font-weight: bold;" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
 
                         <Label text="Estado de Matrícula Regular:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
-                        <Label text="Activa / Regular" style="-fx-font-weight: bold;" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+                        <Label fx:id="lblMatricula" text="Activa / Regular" style="-fx-font-weight: bold;" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
                     </children>
                 </GridPane>
             </VBox>
@@ -32,7 +32,6 @@
             <VBox styleClass="card-dashboard" prefWidth="250" spacing="10" style="-fx-border-left-color: #3b82f6; -fx-border-left-width: 5px;">
                 <Label text="Ofertas Disponibles en Bolsa" style="-fx-text-fill: #64748b; -fx-font-weight: bold;"/>
                 <Separator/>
-                <!-- fx:id listo para forzar a 0 por código si ya tiene práctica -->
                 <Label fx:id="lblOfertasDisponibles" text="12" style="-fx-font-size: 24pt; -fx-font-weight: bold; -fx-text-fill: #3b82f6;"/>
                 <Label text="Convocatorias aptas para postulación" style="-fx-font-size: 9pt; -fx-text-fill: #94a3b8;"/>
             </VBox>
@@ -46,6 +45,8 @@
             </VBox>
         </children>
     </HBox>
+
+    <Label fx:id="lblNotificacion" text="" visible="false" style="-fx-font-weight: bold; -fx-font-size: 11pt;"/>
 
     <!-- Fila Inferior: Gestión Documental de Malla y Currículum Vitae (CV) -->
     <VBox spacing="15" styleClass="card-dashboard" style="-fx-border-left-color: #2563eb; -fx-border-left-width: 5px;">
@@ -62,23 +63,23 @@
                 <!-- Sección 1: Currículum Vitae -->
                 <Label text="Currículum Vitae Personal (CV):" style="-fx-font-weight: bold;" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
                 <HBox spacing="10" alignment="CENTER_LEFT" GridPane.rowIndex="0" GridPane.columnIndex="1">
-                    <Button fx:id="btnSubirCV" text="📤 Subir/Actualizar CV" style="-fx-background-color: #2563eb; -fx-text-fill: white; -fx-font-weight: bold;"/>
+                    <Button fx:id="btnSubirCV" onAction="#handleSubirCV" text="📤 Subir/Actualizar CV" style="-fx-background-color: #2563eb; -fx-text-fill: white; -fx-font-weight: bold;"/>
                     <Label fx:id="lblEstadoCV" text="CV cargado: Hoja_Vida_2026.pdf" style="-fx-text-fill: #10b981; -fx-font-style: italic;"/>
                 </HBox>
                 <HBox spacing="10" alignment="CENTER_LEFT" GridPane.rowIndex="0" GridPane.columnIndex="2">
-                    <Button fx:id="btnRevisarCV" text="👁 Revisar CV" style="-fx-background-color: #10b981; -fx-text-fill: white; -fx-font-weight: bold;"/>
-                    <Button fx:id="btnDescargarCV" text="📥 Descargar" style="-fx-background-color: #475569; -fx-text-fill: white;"/>
+                    <Button fx:id="btnRevisarCV" onAction="#handleRevisarCV" text="👁 Revisar CV" style="-fx-background-color: #10b981; -fx-text-fill: white; -fx-font-weight: bold;"/>
+                    <Button fx:id="btnDescargarCV" onAction="#handleDescargarCV" text="📥 Descargar" style="-fx-background-color: #475569; -fx-text-fill: white;"/>
                 </HBox>
 
                 <!-- Sección 2: Malla Académica -->
                 <Label text="Malla Académica Analítica:" style="-fx-font-weight: bold;" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
                 <HBox spacing="10" alignment="CENTER_LEFT" GridPane.rowIndex="1" GridPane.columnIndex="1">
-                    <Button fx:id="btnSubirMalla" text="📤 Subir/Actualizar Malla" style="-fx-background-color: #2563eb; -fx-text-fill: white; -fx-font-weight: bold;"/>
+                    <Button fx:id="btnSubirMalla" onAction="#handleSubirMalla" text="📤 Subir/Actualizar Malla" style="-fx-background-color: #2563eb; -fx-text-fill: white; -fx-font-weight: bold;"/>
                     <Label fx:id="lblEstadoMalla" text="Malla cargada: Record_Academico.pdf" style="-fx-text-fill: #10b981; -fx-font-style: italic;"/>
                 </HBox>
                 <HBox spacing="10" alignment="CENTER_LEFT" GridPane.rowIndex="1" GridPane.columnIndex="2">
-                    <Button fx:id="btnRevisarMalla" text="👁 Revisar Malla" style="-fx-background-color: #10b981; -fx-text-fill: white; -fx-font-weight: bold;"/>
-                    <Button fx:id="btnDescargarMalla" text="📥 Descargar" style="-fx-background-color: #475569; -fx-text-fill: white;"/>
+                    <Button fx:id="btnRevisarMalla" onAction="#handleRevisarMalla" text="👁 Revisar Malla" style="-fx-background-color: #10b981; -fx-text-fill: white; -fx-font-weight: bold;"/>
+                    <Button fx:id="btnDescargarMalla" onAction="#handleDescargarMalla" text="📥 Descargar" style="-fx-background-color: #475569; -fx-text-fill: white;"/>
                 </HBox>
             </children>
         </GridPane>

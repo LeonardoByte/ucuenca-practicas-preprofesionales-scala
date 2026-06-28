@@ -28,6 +28,7 @@ class LoginController {
     AutenticacionLogic.autenticar(username, password) match {
       case Right(usuario) =>
         lblAlertaError.setVisible(false)
+        com.ucuenca.gestion.utils.SessionManager.setUsuario(usuario)
         // Redirige al panel principal según el rol
         NavigationManager.showMainForRole(usuario.rol.toString)
 
