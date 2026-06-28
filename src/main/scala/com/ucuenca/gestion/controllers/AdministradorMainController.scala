@@ -28,6 +28,14 @@ class AdministradorMainController {
   }
 
   /**
+   * Carga la sub-pantalla del Directorio General de Cuentas en el panel central.
+   */
+  @FXML
+  def handleDirectorioGeneral(event: ActionEvent): Unit = {
+    AdminDirectorioGeneralView.renderInto(panelCentralDisp)
+  }
+
+  /**
    * Cierra la sesión activa y retorna a la vista externa de Login.
    */
   @FXML

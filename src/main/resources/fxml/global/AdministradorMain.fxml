@@ -10,7 +10,7 @@
             </Menu>
             <Menu text="Usuarios">
                 <MenuItem text="Registrar Usuario" onAction="#handleRegistrarUsuario"/>
-                <MenuItem text="Directorio General"/>
+                <MenuItem text="Directorio General" onAction="#handleDirectorioGeneral"/>
             </Menu>
             <Menu text="Auditoría Global">
                 <MenuItem text="Trazabilidad de Prácticas"/>
