@@ -8,6 +8,16 @@ object DatabaseSeeder {
    * para facilitar la prueba manual y automatizada.
    */
   def seedIfEmpty()(implicit session: DBSession = AutoSession): Unit = {
+    // 0. Sembrar carreras
+    val carreraCount = sql"SELECT count(*) FROM carrera".map(rs => rs.long(1)).single.apply().getOrElse(0L)
+    if (carreraCount == 0) {
+      println("Sembrando carreras universitarias...")
+      sql"INSERT INTO carrera (nombre_carrera) VALUES ('Ingeniería en Computación')".update.apply()
+      sql"INSERT INTO carrera (nombre_carrera) VALUES ('Ingeniería de Software')".update.apply()
+      sql"INSERT INTO carrera (nombre_carrera) VALUES ('Ingeniería Civil')".update.apply()
+      sql"INSERT INTO carrera (nombre_carrera) VALUES ('Ingeniería Industrial')".update.apply()
+    }
+
     val count = sql"SELECT count(*) FROM usuario".map(rs => rs.long(1)).single.apply().getOrElse(0L)
     if (count == 0) {
       println("Base de datos vacía. Insertando datos semilla de desarrollo...")
@@ -65,6 +75,11 @@ object DatabaseSeeder {
       sql"""
         INSERT INTO usuario_sistema (username, password_hash, identificacion_usuario_ref)
         VALUES ('empresa', ${PasswordHasher.hash("empresa123")}, '0505050505001')
+      """.update.apply()
+
+      sql"""
+        INSERT INTO empresa_perfil (identificacion, direccion_matriz, mision_vision, estado_convenio)
+        VALUES ('0505050505001', 'Av. 12 de Abril, Cuenca', 'Misión: Innovación tecnológica.\nVisión: Ser líderes globales.', 'FORMALIZADO'::estado_convenio)
       """.update.apply()
 
       println("Datos semilla de desarrollo insertados correctamente.")

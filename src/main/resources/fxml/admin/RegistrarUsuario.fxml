@@ -2,7 +2,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox spacing="20" maxWidth="800" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" style="-fx-padding: 10;">
+<VBox spacing="20" maxWidth="800" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" style="-fx-padding: 10;" fx:controller="com.ucuenca.gestion.controllers.RegistrarUsuarioController">
     <Label text="Formulario Parametrizado de Alta de Cuentas (Herencia de Entidades)" style="-fx-font-size: 15pt; -fx-font-weight: bold; -fx-text-fill: #0f172a;"/>
 
     <VBox spacing="12" styleClass="card-operational">
@@ -44,8 +44,8 @@
 
                         <Label text="Malla Académica (Historial):" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
                         <HBox spacing="10" alignment="CENTER_LEFT" GridPane.rowIndex="3" GridPane.columnIndex="1">
-                            <Button fx:id="btnSubirMalla" text="Subir Malla Académica (PDF)" styleClass="button-timeline"/>
-                            <Label text="Ningún archivo seleccionado (.pdf)" style="-fx-text-fill: #64748b;"/>
+                            <Button fx:id="btnSubirMalla" onAction="#handleSubirMalla" text="Subir Malla Académica (PDF)" styleClass="button-timeline"/>
+                            <Label fx:id="lblMallaPdf" text="Ningún archivo seleccionado (.pdf)" style="-fx-text-fill: #64748b;"/>
                         </HBox>
 
                         <Label text="Estado Inicial de la Práctica:" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
@@ -53,8 +53,8 @@
 
                         <Label text="Curriculum Vitae (CV):" GridPane.rowIndex="5" GridPane.columnIndex="0"/>
                         <HBox spacing="10" alignment="CENTER_LEFT" GridPane.rowIndex="5" GridPane.columnIndex="1">
-                            <Button fx:id="btnSubirCV" text="Subir CV (PDF)" styleClass="button-timeline"/>
-                            <Label text="Opcional - Puede actualizarse luego (.pdf)" style="-fx-text-fill: #94a3b8; -fx-font-style: italic;"/>
+                            <Button fx:id="btnSubirCV" onAction="#handleSubirCV" text="Subir CV (PDF)" styleClass="button-timeline"/>
+                            <Label fx:id="lblCvPdf" text="Opcional - Puede actualizarse luego (.pdf)" style="-fx-text-fill: #94a3b8; -fx-font-style: italic;"/>
                         </HBox>
                     </children>
                 </GridPane>
@@ -65,13 +65,13 @@
                 <GridPane hgap="15" vgap="10">
                     <children>
                         <Label text="Dirección de la Sede Matriz:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
-                        <TextField promptText="Calle Larga y Av. Huayna Cápac" GridPane.rowIndex="0" GridPane.columnIndex="1" prefWidth="400"/>
+                        <TextField fx:id="txtMatriz" promptText="Calle Larga y Av. Huayna Cápac" GridPane.rowIndex="0" GridPane.columnIndex="1" prefWidth="400"/>
 
                         <Label text="Misión Organizacional:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
-                        <TextArea prefHeight="60" promptText="Escriba la misión corporativa..." GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+                        <TextArea fx:id="txtMision" prefHeight="60" promptText="Escriba la misión corporativa..." GridPane.rowIndex="1" GridPane.columnIndex="1"/>
 
                         <Label text="Visión Organizacional:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
-                        <TextArea prefHeight="60" promptText="Escriba la visión corporativa..." GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+                        <TextArea fx:id="txtVision" prefHeight="60" promptText="Escriba la visión corporativa..." GridPane.rowIndex="2" GridPane.columnIndex="1"/>
 
                         <Label text="Estado del Convenio Legal:" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
                         <ComboBox fx:id="cmbEstadoConvenio" promptText="Seleccionar Estado..." GridPane.rowIndex="3" GridPane.columnIndex="1"/>
@@ -87,7 +87,7 @@
                         <ComboBox fx:id="cmbEmpresaAsociada" promptText="Seleccionar Empresa por Nombre Corporativo..." GridPane.rowIndex="0" GridPane.columnIndex="1" prefWidth="350"/>
 
                         <Label text="Teléfono de Contacto Directo:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
-                        <TextField promptText="Ej. 09XXXXXXXX (10 dígitos)" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+                        <TextField fx:id="txtTelfTutor" promptText="Ej. 09XXXXXXXX (10 dígitos)" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
                     </children>
                 </GridPane>
             </VBox>
@@ -98,7 +98,10 @@
         </children>
     </StackPane>
 
-    <HBox spacing="10" alignment="CENTER_RIGHT">
-        <Button text="Consolidar Alta de Usuario en PostgreSQL" styleClass="button-primary"/>
-    </HBox>
+    <VBox spacing="10" alignment="CENTER_RIGHT">
+        <Label fx:id="lblEstado" text="" visible="false" style="-fx-font-size: 11pt;"/>
+        <HBox spacing="10" alignment="CENTER_RIGHT">
+            <Button fx:id="btnConsolidar" onAction="#handleRegistro" text="Consolidar Alta de Usuario en PostgreSQL" styleClass="button-primary"/>
+        </HBox>
+    </VBox>
 </VBox>
