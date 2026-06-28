@@ -1,0 +1,92 @@
+/* CSS Avanzado para Interfaz unificada de Gestión de Prácticas */
+.root {
+    -fx-font-family: 'Segoe UI', Arial, sans-serif;
+    -fx-background-color: #f8f9fa;
+}
+
+.menu-bar {
+    -fx-background-color: #1e3a8a; /* Azul Institucional */
+    -fx-padding: 6px;
+}
+.menu-bar .label {
+    -fx-text-fill: #ffffff;
+    -fx-font-weight: bold;
+    -fx-font-size: 11pt;
+}
+.menu-item .label {
+    -fx-text-fill: #1e293b;
+    -fx-font-weight: normal;
+}
+
+.button-primary {
+    -fx-background-color: #2563eb;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-background-radius: 5px;
+    -fx-padding: 8px 18px;
+}
+.button-primary:hover { -fx-background-color: #1d4ed8; }
+
+.button-download {
+    -fx-background-color: #059669;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-background-radius: 5px;
+    -fx-padding: 8px 18px;
+}
+.button-download:hover { -fx-background-color: #047857; }
+
+.button-danger {
+    -fx-background-color: #dc2626;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-background-radius: 5px;
+    -fx-padding: 8px 18px;
+}
+.button-danger:hover { -fx-background-color: #b91c1c; }
+
+.card-dashboard {
+    -fx-background-color: #ffffff;
+    -fx-background-radius: 8px;
+    -fx-border-color: #e2e8f0;
+    -fx-border-radius: 8px;
+    -fx-padding: 20px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.05), 8, 0, 0, 2);
+}
+
+.table-view {
+    -fx-background-color: #ffffff;
+    -fx-background-radius: 6px;
+    -fx-border-color: #cbd5e1;
+    -fx-border-radius: 6px;
+}
+.table-view .column-header {
+    -fx-background-color: #f1f5f9;
+    -fx-text-fill: #334155;
+    -fx-font-weight: bold;
+}
+
+.panel-bloqueo-rojo {
+    -fx-background-color: #fee2e2;
+    -fx-border-color: #ef4444;
+    -fx-border-radius: 6px;
+    -fx-background-radius: 6px;
+    -fx-padding: 15px;
+}
+.panel-permitido-verde {
+    -fx-background-color: #dcfce7;
+    -fx-border-color: #22c55e;
+    -fx-border-radius: 6px;
+    -fx-background-radius: 6px;
+    -fx-padding: 15px;
+}
+
+.text-field, .password-field, .combo-box, .spinner, .text-area {
+    -fx-background-radius: 5px;
+    -fx-border-radius: 5px;
+    -fx-border-color: #cbd5e1;
+    -fx-padding: 7px;
+}
+.text-field:focused, .combo-box:focused {
+    -fx-border-color: #2563eb;
+}
