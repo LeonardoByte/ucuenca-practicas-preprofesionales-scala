@@ -20,7 +20,7 @@ object NavigationManager {
       throw new IllegalStateException("NavigationManager no ha sido inicializado con Stage")
     }
     val root = LoginView.loadNode()
-    val scene = new Scene(root, 1024, 768)
+    val scene = new Scene(root, 1024, 700)
     stage.setScene(scene)
     stage.setTitle("Gestión Prácticas - Acceso al Sistema")
     stage.centerOnScreen()
@@ -60,7 +60,7 @@ object NavigationManager {
       defaultSubView.renderInto(centralPane)
     }
 
-    val scene = new Scene(root, 1280, 850)
+    val scene = new Scene(root, 1280, 780)
     stage.setScene(scene)
     stage.setTitle(s"Gestión Prácticas - Panel de $rol")
     stage.centerOnScreen()

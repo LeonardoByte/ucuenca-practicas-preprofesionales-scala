@@ -50,4 +50,19 @@ class AdministradorMainController {
   def handleSalirSistema(event: ActionEvent): Unit = {
     javafx.application.Platform.exit()
   }
+
+  @FXML
+  def handleAcercaPrograma(event: ActionEvent): Unit = {
+    com.ucuenca.gestion.utils.AyudaHandler.mostrarAcercaDelPrograma()
+  }
+
+  @FXML
+  def handleAcercaDesarrollador(event: ActionEvent): Unit = {
+    com.ucuenca.gestion.utils.AyudaHandler.abrirPerfilDesarrollador()
+  }
+
+  @FXML
+  def handleRepositorioGitHub(event: ActionEvent): Unit = {
+    com.ucuenca.gestion.utils.AyudaHandler.abrirRepositorioGitHub()
+  }
 }

@@ -27,9 +27,9 @@
                 <MenuItem text="Salir del Sistema" onAction="#handleSalirSistema"/>
             </Menu>
             <Menu text="Ayuda">
-                <MenuItem text="Acerca del programa"/>
-                <MenuItem text="Acerca del desarrollador"/>
-                <MenuItem text="Repositorio GitHub"/>
+                <MenuItem text="Acerca del programa" onAction="#handleAcercaPrograma"/>
+                <MenuItem text="Acerca del desarrollador" onAction="#handleAcercaDesarrollador"/>
+                <MenuItem text="Repositorio GitHub" onAction="#handleRepositorioGitHub"/>
             </Menu>
         </MenuBar>
     </top>
