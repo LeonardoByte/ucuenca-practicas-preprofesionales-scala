@@ -2,7 +2,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<SplitPane dividerPositions="0.35" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" prefHeight="700" style="-fx-padding: 10;">
+<SplitPane dividerPositions="0.35" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ucuenca.gestion.controllers.ValidarAlumnosController" prefHeight="700" style="-fx-padding: 10;">
     <items>
         <VBox spacing="10" style="-fx-padding: 5;">
             <Label text="Postulaciones Recibidas (Filtro Bolsa)" style="-fx-font-weight: bold; -fx-text-fill: #334155;"/>
@@ -11,9 +11,9 @@
                     <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
                 </columnResizePolicy>
                 <columns>
-                    <TableColumn text="Estudiante" prefWidth="150"/>
-                    <TableColumn text="Oferta Solicitada" prefWidth="150"/>
-                    <TableColumn text="Fecha Registro" prefWidth="110"/>
+                    <TableColumn fx:id="colEstudiante" text="Estudiante" prefWidth="150"/>
+                    <TableColumn fx:id="colOferta" text="Oferta Solicitada" prefWidth="150"/>
+                    <TableColumn fx:id="colFecha" text="Fecha Registro" prefWidth="110"/>
                 </columns>
             </TableView>
         </VBox>
@@ -28,11 +28,11 @@
                             <Label text="Verificación Automática de Restricciones:" style="-fx-font-weight: bold;"/>
                             <HBox spacing="15" alignment="CENTER_LEFT">
                                 <Label text="Cumple Sexto Ciclo o Superior:"/>
-                                <Label text="SÍ (Aprobado)" style="-fx-text-fill: #10b981; -fx-font-weight: bold;"/>
+                                <Label fx:id="lblCicloCumple" text="--" style="-fx-font-weight: bold;"/>
                             </HBox>
                             <HBox spacing="15" alignment="CENTER_LEFT">
                                 <Label text="Tiene otra Práctica Activa:"/>
-                                <Label text="NO (Apto)" style="-fx-text-fill: #10b981; -fx-font-weight: bold;"/>
+                                <Label fx:id="lblPracticaApto" text="--" style="-fx-font-weight: bold;"/>
                             </HBox>
 
                             <Separator/>
@@ -42,8 +42,8 @@
                             <Region VBox.vgrow="ALWAYS"/>
 
                             <HBox spacing="10" alignment="CENTER_LEFT">
-                                <Button fx:id="btnRevisarMallaPDF" text="👁 Revisar Malla PDF" style="-fx-background-color: #2563eb; -fx-text-fill: white; -fx-font-weight: bold;"/>
-                                <Button fx:id="btnDescargarMallaPDF" text="📥 Descargar" style="-fx-background-color: #475569; -fx-text-fill: white;"/>
+                                <Button fx:id="btnRevisarMallaPDF" text="👁 Revisar Malla PDF" onAction="#handleRevisarMalla" style="-fx-background-color: #2563eb; -fx-text-fill: white; -fx-font-weight: bold;"/>
+                                <Button fx:id="btnDescargarMallaPDF" text="📥 Descargar" onAction="#handleDescargarMalla" style="-fx-background-color: #475569; -fx-text-fill: white;"/>
                             </HBox>
                         </VBox>
                     </Tab>
@@ -51,13 +51,13 @@
                     <Tab text="Hoja de Vida (CV)" closable="false">
                         <VBox style="-fx-padding: 15; -fx-background-color: white;" spacing="10" VBox.vgrow="ALWAYS">
                             <Label text="Extracto del Perfil Técnico:" style="-fx-font-weight: bold;"/>
-                            <TextArea prefHeight="150" editable="false" text="[Contenido indexado del currículum vitae del alumno...]\nCompetencias: Scala, JavaFX, PostgreSQL." wrapText="true" VBox.vgrow="ALWAYS"/>
+                            <TextArea fx:id="txtExtractoCV" prefHeight="150" editable="false" text="[Contenido indexado del currículum vitae del alumno...]" wrapText="true" VBox.vgrow="ALWAYS"/>
 
                             <Separator style="-fx-padding: 2 0;"/>
 
                             <HBox spacing="10" alignment="CENTER_LEFT">
-                                <Button fx:id="btnRevisarCVPDF" text="👁 Revisar CV PDF" style="-fx-background-color: #2563eb; -fx-text-fill: white; -fx-font-weight: bold;"/>
-                                <Button fx:id="btnDescargarCVPDF" text="📥 Descargar" style="-fx-background-color: #475569; -fx-text-fill: white;"/>
+                                <Button fx:id="btnRevisarCVPDF" text="👁 Revisar CV PDF" onAction="#handleRevisarCV" style="-fx-background-color: #2563eb; -fx-text-fill: white; -fx-font-weight: bold;"/>
+                                <Button fx:id="btnDescargarCVPDF" text="📥 Descargar" onAction="#handleDescargarCV" style="-fx-background-color: #475569; -fx-text-fill: white;"/>
                             </HBox>
                         </VBox>
                     </Tab>
@@ -70,8 +70,10 @@
             </VBox>
 
             <HBox spacing="15" alignment="CENTER_RIGHT">
-                <Button text="Rechazar y Notificar Alumno" styleClass="button-danger"/>
-                <Button text="Validar y Enviar Automático a Panel Empresa" styleClass="button-primary"/>
+                <Label fx:id="lblEstado" visible="false" wrapText="true" style="-fx-font-weight: bold;"/>
+                <Region HBox.hgrow="ALWAYS"/>
+                <Button fx:id="btnDenegar" text="Rechazar y Notificar Alumno" onAction="#handleRechazar" styleClass="button-danger"/>
+                <Button fx:id="btnAprobar" text="Validar y Enviar Automático a Panel Empresa" onAction="#handleAprobar" styleClass="button-primary"/>
             </HBox>
         </VBox>
     </items>

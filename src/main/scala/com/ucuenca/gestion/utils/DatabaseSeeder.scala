@@ -157,9 +157,15 @@ object DatabaseSeeder {
     """.update.apply()
 
     // Oferta 2: APROBADA (Para que el estudiante la vea en BuscarVacantes)
-    sql"""
+    val oferta2Id = sql"""
       INSERT INTO oferta_convocatoria (ruc_empresa_ref, titulo_oferta, vacantes_solicitadas, duracion_horas, descripcion_general, requisitos_obligatorios, actividades_especificas, plantilla_oferta_pdf, estado_oferta, fecha_publicacion)
       VALUES ('0505050505001', 'Practicante Data Scientist', 2, 160, 'Modelamiento predictivo y flujos de análisis de datos.', 'Python, pandas, SQL, nociones de ML.', 'Construcción de tableros, limpieza de sets de datos.', ${pdfOferta2Id}, 'APROBADA'::estado_oferta, CURRENT_DATE)
+    """.updateAndReturnGeneratedKey.apply().toInt
+
+    // Postulación semilla de Juan Perez a la oferta aprobada
+    sql"""
+      INSERT INTO postulacion_bolsa (ci_estudiante_ref, id_oferta_ref, estado_postulacion)
+      VALUES ('0202020202', ${oferta2Id}, 'PENDIENTE'::estado_postulacion)
     """.update.apply()
 
     println("Base de datos sembrada con éxito.")

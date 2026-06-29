@@ -67,4 +67,64 @@ object PostulacionBolsaRepository {
       WHERE ci_estudiante_ref = ${ciEstudiante} AND id_oferta_ref = ${idOferta}
     """.map(rs => rs.int(1)).single.apply().getOrElse(0) > 0
   }
+
+  /**
+   * Obtiene todas las postulaciones de estudiantes en estado PENDIENTE, incluyendo detalles académicos.
+   */
+  def listarPostulacionesPendientes()(implicit session: DBSession = AutoSession): List[com.ucuenca.gestion.models.dto.PostulacionPendienteDTO] = {
+    sql"""
+      SELECT p.id_postulacion, p.ci_estudiante_ref, u.nombres_completos AS nombre_estudiante,
+             p.id_oferta_ref, o.titulo_oferta, emp.nombres_completos AS nombre_empresa,
+             p.fecha_postulacion, ep.ciclo_actual, ep.estado_estudiante_practica,
+             ep.malla_academica_pdf, ep.curriculum_vitae_pdf
+      FROM postulacion_bolsa p
+      INNER JOIN estudiante_perfil ep ON p.ci_estudiante_ref = ep.identificacion
+      INNER JOIN usuario u ON ep.identificacion = u.identificacion
+      INNER JOIN oferta_convocatoria o ON p.id_oferta_ref = o.id_oferta
+      INNER JOIN usuario emp ON o.ruc_empresa_ref = emp.identificacion
+      WHERE p.estado_postulacion = 'PENDIENTE'
+      ORDER BY p.fecha_postulacion ASC
+    """.map { rs =>
+      com.ucuenca.gestion.models.dto.PostulacionPendienteDTO(
+        idPostulacion = rs.int("id_postulacion"),
+        ciEstudiante = rs.string("ci_estudiante_ref"),
+        nombreEstudiante = rs.string("nombre_estudiante"),
+        idOferta = rs.int("id_oferta_ref"),
+        tituloOferta = rs.string("titulo_oferta"),
+        nombreEmpresa = rs.string("nombre_empresa"),
+        fechaPostulacion = rs.localDate("fecha_postulacion"),
+        cicloActual = rs.int("ciclo_actual"),
+        estadoEstudiantePractica = rs.string("estado_estudiante_practica"),
+        mallaAcademicaPDF = rs.int("malla_academica_pdf"),
+        curriculumVitaePDF = rs.string("curriculum_vitae_pdf") match {
+          case null => None
+          case s => Some(rs.int("curriculum_vitae_pdf"))
+        }
+      )
+    }.list.apply()
+  }
+
+  /**
+   * Aprueba académicamente una postulación manteniéndola en VALIDADA_COORDINADOR y limpiando comentarios.
+   */
+  def aprobarPostulacion(id: Int)(implicit session: DBSession = AutoSession): Unit = {
+    sql"""
+      UPDATE postulacion_bolsa
+      SET estado_postulacion = 'VALIDADA_COORDINADOR'::estado_postulacion,
+          comentario_rechazo = NULL
+      WHERE id_postulacion = ${id}
+    """.update.apply()
+  }
+
+  /**
+   * Rechaza académicamente una postulación, cambiando su estado a RECHAZADA con su justificación.
+   */
+  def rechazarPostulacion(id: Int, comentario: String)(implicit session: DBSession = AutoSession): Unit = {
+    sql"""
+      UPDATE postulacion_bolsa
+      SET estado_postulacion = 'RECHAZADA'::estado_postulacion,
+          comentario_rechazo = ${comentario}
+      WHERE id_postulacion = ${id}
+    """.update.apply()
+  }
 }

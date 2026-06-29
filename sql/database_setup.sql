@@ -1,3 +1,6 @@
+
+
+
 -- =============================================================================
 -- GestionPracticas - PostgreSQL 18 Setup Script
 -- Database : gestion_practicas
@@ -55,7 +58,7 @@ CREATE TYPE estado_oferta AS ENUM (
 );
 
 CREATE TYPE estado_postulacion AS ENUM (
-    'PENDIENTE', 'APROBADA', 'RECHAZADA', 'CANCELADA_MANUAL', 'CANCELADA_AUTOMATICO'
+    'PENDIENTE', 'VALIDADA_COORDINADOR', 'APROBADA', 'RECHAZADA', 'CANCELADA_MANUAL', 'CANCELADA_AUTOMATICO'
 );
 
 CREATE TYPE estado_convenio AS ENUM (

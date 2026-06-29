@@ -20,6 +20,7 @@ class MonitoreoOfertasLogicSpec extends AnyFlatSpec with Matchers with BeforeAnd
 
     DB.localTx { implicit session =>
       // Limpiar ofertas previas asociadas a la empresa de prueba
+      sql"DELETE FROM postulacion_bolsa WHERE id_oferta_ref IN (SELECT id_oferta FROM oferta_convocatoria WHERE ruc_empresa_ref = ${testEmpresaRuc})".update.apply()
       sql"DELETE FROM oferta_convocatoria WHERE ruc_empresa_ref = ${testEmpresaRuc}".update.apply()
       sql"DELETE FROM archivo_pdf WHERE tipo_archivo = 'T7_PLANTILLA_FORMATO_OFERTA'::tipo_archivo_pdf".update.apply()
 
@@ -63,6 +64,7 @@ class MonitoreoOfertasLogicSpec extends AnyFlatSpec with Matchers with BeforeAnd
 
   override def afterAll(): Unit = {
     DB.localTx { implicit session =>
+      sql"DELETE FROM postulacion_bolsa WHERE id_oferta_ref IN (SELECT id_oferta FROM oferta_convocatoria WHERE ruc_empresa_ref = ${testEmpresaRuc})".update.apply()
       sql"DELETE FROM oferta_convocatoria WHERE ruc_empresa_ref = ${testEmpresaRuc}".update.apply()
       sql"DELETE FROM archivo_pdf WHERE tipo_archivo = 'T7_PLANTILLA_FORMATO_OFERTA'::tipo_archivo_pdf".update.apply()
     }
