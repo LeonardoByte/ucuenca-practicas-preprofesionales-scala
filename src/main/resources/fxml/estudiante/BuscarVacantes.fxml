@@ -2,7 +2,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<SplitPane dividerPositions="0.4" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" prefHeight="700" style="-fx-padding: 10;">
+<SplitPane dividerPositions="0.4" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ucuenca.gestion.controllers.BuscarVacantesController" prefHeight="700" style="-fx-padding: 10;">
     <items>
         <VBox spacing="12" style="-fx-padding: 5;">
             <Label text="Bolsa de Empleo - Ofertas Disponibles" style="-fx-font-weight: bold; -fx-text-fill: #334155; -fx-font-size: 12pt;"/>
@@ -16,9 +16,9 @@
                     <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                 </columnResizePolicy>
                 <columns>
-                    <TableColumn text="Titulo de oferta" prefWidth="180"/>
-                    <TableColumn text="Puesto / Vacante" prefWidth="180"/>
-                    <TableColumn text="Empresa" prefWidth="140"/>
+                    <TableColumn fx:id="colTitulo" text="Titulo de oferta" prefWidth="180"/>
+                    <TableColumn fx:id="colPuesto" text="Puesto / Vacante" prefWidth="180"/>
+                    <TableColumn fx:id="colEmpresa" text="Empresa" prefWidth="140"/>
                 </columns>
             </TableView>
         </VBox>
@@ -80,14 +80,16 @@
                 <VBox spacing="6">
                     <Label text="Documento de Convocatoria Oficial (PDF firmado):" style="-fx-font-size: 9pt; -fx-text-fill: #64748b;"/>
                     <HBox spacing="10" alignment="CENTER_LEFT">
-                        <Button fx:id="btnRevisarOfertaPDF" text="👁 Revisar Convocatoria PDF" style="-fx-background-color: #2563eb; -fx-text-fill: white; -fx-font-weight: bold;"/>
-                        <Button fx:id="btnDescargarOfertaPDF" text="📥 Descargar PDF" style="-fx-background-color: #475569; -fx-text-fill: white;"/>
+                        <Button fx:id="btnRevisarOfertaPDF" text="👁 Revisar Convocatoria PDF" onAction="#handleRevisarPDF" style="-fx-background-color: #2563eb; -fx-text-fill: white; -fx-font-weight: bold;"/>
+                        <Button fx:id="btnDescargarOfertaPDF" text="📥 Descargar PDF" onAction="#handleDescargarPDF" style="-fx-background-color: #475569; -fx-text-fill: white;"/>
                     </HBox>
                 </VBox>
             </VBox>
 
             <HBox spacing="15" alignment="CENTER_RIGHT">
-                <Button fx:id="btnPostularBolsa" text="Confirmar y Postular a Vacante" styleClass="button-primary" prefHeight="35"/>
+                <Label fx:id="lblEstado" visible="false" wrapText="true" style="-fx-font-weight: bold;"/>
+                <Region HBox.hgrow="ALWAYS"/>
+                <Button fx:id="btnPostularBolsa" text="Confirmar y Postular a Vacante" onAction="#handlePostular" styleClass="button-primary" prefHeight="35"/>
             </HBox>
         </VBox>
     </items>
