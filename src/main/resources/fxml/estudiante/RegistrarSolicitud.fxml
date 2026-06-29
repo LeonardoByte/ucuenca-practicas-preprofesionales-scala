@@ -2,61 +2,114 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox spacing="15" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ucuenca.gestion.controllers.RegistrarSolicitudController" style="-fx-padding: 15;">
-    <Label text="Registro de Prácticas por Cuenta Propia - Empresa Propia" style="-fx-font-size: 14pt; -fx-font-weight: bold; -fx-text-fill: #0f172a;"/>
-    <Separator/>
+<ScrollPane fitToWidth="true" pannable="true" style="-fx-background-color: transparent; -fx-background-insets: 0; -fx-padding: 0;" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ucuenca.gestion.controllers.RegistrarSolicitudController">
+    <content>
+        <VBox spacing="12" style="-fx-padding: 12; -fx-background-color: #f8fafc;">
 
-    <GridPane hgap="15" vgap="12" styleClass="card-dashboard" maxWidth="850">
-        <columnConstraints>
-            <ColumnConstraints prefWidth="250"/>
-            <ColumnConstraints prefWidth="550"/>
-        </columnConstraints>
-        <children>
-            <Label text="Nombre de la Institución/Empresa:" GridPane.rowIndex="0" GridPane.columnIndex="0" style="-fx-font-weight: bold;"/>
-            <TextField fx:id="txtNombreEmpresaPropia" promptText="Ej. GAD Municipal del Cantón Cuenca" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+            <VBox spacing="2">
+                <Label text="Registro de Prácticas por Cuenta Propia - Empresa Propia" style="-fx-font-size: 13pt; -fx-font-weight: bold; -fx-text-fill: #0f172a;"/>
+                <Separator/>
+            </VBox>
 
-            <Label text="Correo de Contacto del Encargado:" GridPane.rowIndex="1" GridPane.columnIndex="0" style="-fx-font-weight: bold;"/>
-            <TextField fx:id="txtContactoEmpresaPropia" promptText="ejemplo@contactoempresa.com" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+            <HBox spacing="12" alignment="TOP_CENTER" maxWidth="1100">
 
-            <Label text="Duración Estimada (Horas):" GridPane.rowIndex="2" GridPane.columnIndex="0" style="-fx-font-weight: bold;"/>
-            <HBox spacing="10" alignment="CENTER_LEFT" GridPane.rowIndex="2" GridPane.columnIndex="1">
-                <Spinner fx:id="spnHorasEmpresaPropia" prefWidth="120"/>
-                <Label text="Horas estipuladas en el acuerdo." style="-fx-text-fill: #475569;"/>
+                <VBox styleClass="card-dashboard" HBox.hgrow="ALWAYS" spacing="8" style="-fx-border-left-color: #1e3a8a; -fx-border-left-width: 4px; -fx-padding: 10;">
+                    <Label text="Datos de Identificación de la Empresa Externa" style="-fx-font-weight: bold; -fx-text-fill: #1e3a8a; -fx-font-size: 10.5pt;"/>
+                    <Separator/>
+                    <GridPane hgap="10" vgap="8">
+                        <columnConstraints>
+                            <ColumnConstraints prefWidth="180"/>
+                            <ColumnConstraints hgrow="ALWAYS" minWidth="200"/>
+                        </columnConstraints>
+                        <children>
+                            <Label text="Nombre / Razón Social:" GridPane.rowIndex="0" GridPane.columnIndex="0" style="-fx-font-weight: bold;"/>
+                            <TextField fx:id="txtNombreEmpresaPropia" promptText="Ej. GAD Municipal del Cantón Cuenca" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+
+                            <Label text="RUC de la Empresa (13 dígitos):" GridPane.rowIndex="1" GridPane.columnIndex="0" style="-fx-font-weight: bold;"/>
+                            <TextField fx:id="txtRucEmpresaPropia" promptText="Ej. 0160076020001" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+
+                            <Label text="Correo Institucional:" GridPane.rowIndex="2" GridPane.columnIndex="0" style="-fx-font-weight: bold;"/>
+                            <TextField fx:id="txtContactoEmpresaPropia" promptText="Ej. info@gad.gob.ec" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+
+                            <Label text="Duración Estimada (Horas):" GridPane.rowIndex="3" GridPane.columnIndex="0" style="-fx-font-weight: bold;"/>
+                            <HBox spacing="8" alignment="CENTER_LEFT" GridPane.rowIndex="3" GridPane.columnIndex="1">
+                                <Spinner fx:id="spnHorasEmpresaPropia" prefWidth="100"/>
+                                <Label text="Rango: 40 a 400 hrs." style="-fx-text-fill: #475569; -fx-font-size: 9pt;"/>
+                            </HBox>
+
+                            <Label text="Dirección de la Sede Matriz:" GridPane.rowIndex="4" GridPane.columnIndex="0" style="-fx-font-weight: bold;"/>
+                            <TextField fx:id="txtDireccionMatrizPropia" promptText="Ej. Av. Mariscal Sucre, Cuenca" GridPane.rowIndex="4" GridPane.columnIndex="1"/>
+                        </children>
+                    </GridPane>
+                </VBox>
+
+                <VBox styleClass="card-dashboard" HBox.hgrow="ALWAYS" spacing="8" style="-fx-border-left-color: #0284c7; -fx-border-left-width: 4px; -fx-padding: 10;">
+                    <Label text="Información Institucional de la Organización" style="-fx-font-weight: bold; -fx-text-fill: #0284c7; -fx-font-size: 10.5pt;"/>
+                    <Separator/>
+                    <VBox spacing="6" VBox.vgrow="ALWAYS">
+                        <Label text="Misión de la Organización:" style="-fx-font-weight: bold;"/>
+                        <TextArea fx:id="txtMisionEmpresaPropia" prefHeight="65" promptText="Describa la misión..." wrapText="true" VBox.vgrow="ALWAYS"/>
+
+                        <Label text="Visión de la Organización:" style="-fx-font-weight: bold;"/>
+                        <TextArea fx:id="txtVisionEmpresaPropia" prefHeight="65" promptText="Describa la visión..." wrapText="true" VBox.vgrow="ALWAYS"/>
+                    </VBox>
+                </VBox>
             </HBox>
 
-            <Label text="Dirección de la Sede Matriz:" GridPane.rowIndex="3" GridPane.columnIndex="0" style="-fx-font-weight: bold;"/>
-            <TextField fx:id="txtDireccionMatrizPropia" promptText="Ej. Av. Mariscal Sucre y Huayna Cápac, Cuenca" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
-        </children>
-    </GridPane>
+            <HBox spacing="12" alignment="TOP_CENTER" maxWidth="1100">
 
-    <VBox spacing="12" styleClass="card-dashboard" maxWidth="850" style="-fx-border-left-color: #1e3a8a; -fx-border-left-width: 5px;">
-        <Label text="Información Institucional Obligatoria" style="-fx-font-weight: bold; -fx-text-fill: #1e3a8a;"/>
-        <Separator/>
+                <VBox styleClass="card-dashboard" HBox.hgrow="ALWAYS" spacing="8" style="-fx-border-left-color: #7c3aed; -fx-border-left-width: 4px; -fx-padding: 10;">
+                    <VBox spacing="2">
+                        <Label text="Datos del Supervisor Externo (Tutor Empresarial)" style="-fx-font-weight: bold; -fx-text-fill: #7c3aed; -fx-font-size: 10.5pt;"/>
+                        <Label text="Se creará como usuario al aprobar el trámite. Verifique los datos." style="-fx-font-size: 8.5pt; -fx-text-fill: #64748b;" wrapText="true"/>
+                    </VBox>
+                    <Separator/>
+                    <GridPane hgap="10" vgap="8">
+                        <columnConstraints>
+                            <ColumnConstraints prefWidth="180"/>
+                            <ColumnConstraints hgrow="ALWAYS" minWidth="200"/>
+                        </columnConstraints>
+                        <children>
+                            <Label text="Cédula de Identidad:" GridPane.rowIndex="0" GridPane.columnIndex="0" style="-fx-font-weight: bold;"/>
+                            <TextField fx:id="txtCiSupervisorExterno" promptText="Ej. 0102030405" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
 
-        <VBox spacing="6">
-            <Label text="Misión y visión de la Organización:" style="-fx-font-weight: bold;"/>
-            <TextArea fx:id="txtMisionEmpresaPropia" prefHeight="65" promptText="Escriba la misión de la empresa o institución externa..." wrapText="true"/>
+                            <Label text="Nombres Completos:" GridPane.rowIndex="1" GridPane.columnIndex="0" style="-fx-font-weight: bold;"/>
+                            <TextField fx:id="txtNombresSupervisorExterno" promptText="Ej. Ing. Carlos Peña" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+
+                            <Label text="Correo Electrónico:" GridPane.rowIndex="2" GridPane.columnIndex="0" style="-fx-font-weight: bold;"/>
+                            <TextField fx:id="txtEmailSupervisorExterno" promptText="Ej. supervisor@empresa.com" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+
+                            <Label text="Teléfono de Contacto:" GridPane.rowIndex="3" GridPane.columnIndex="0" style="-fx-font-weight: bold;"/>
+                            <TextField fx:id="txtTelefonoSupervisorExterno" promptText="Ej. 0987654321" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+                        </children>
+                    </GridPane>
+                </VBox>
+
+                <VBox styleClass="card-dashboard" HBox.hgrow="ALWAYS" spacing="8" style="-fx-border-left-color: #f59e0b; -fx-border-left-width: 4px; -fx-padding: 10;">
+                    <VBox spacing="2">
+                        <Label text="Documentación y Soporte del Oficio de Petición" style="-fx-font-weight: bold; -fx-text-fill: #b45309; -fx-font-size: 10.5pt;"/>
+                        <Label text="Descargue la plantilla, complétela y cargue el documento firmado en formato PDF." style="-fx-font-size: 8.5pt; -fx-text-fill: #64748b;" wrapText="true"/>
+                    </VBox>
+                    <Separator/>
+
+                    <VBox spacing="4" VBox.vgrow="ALWAYS">
+                        <Label text="Contenido del Oficio Transcrito:" style="-fx-font-weight: bold;"/>
+                        <TextArea fx:id="txtContenidoOficio" prefHeight="60" promptText="Transcriba aquí el cuerpo del oficio..." wrapText="true" VBox.vgrow="ALWAYS"/>
+                    </VBox>
+
+                    <FlowPane hgap="10" vgap="8" alignment="CENTER_LEFT">
+                        <Button fx:id="btnDescargarPlantillaOficio" text="📥 Descargar Plantilla (.pdf)" style="-fx-background-color: #475569; -fx-text-fill: white; -fx-font-size: 9.5pt;" onAction="#handleDescargarPlantillaOficio"/>
+                        <Button fx:id="btnSubirOficioLlenado" text="📤 Subir PDF Finalizado" style="-fx-background-color: #2563eb; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 9.5pt;" onAction="#handleSubirOficioLlenado"/>
+                        <Label fx:id="lblEstadoArchivoOficio" text="Ningún archivo seleccionado" style="-fx-text-fill: #64748b; -fx-font-style: italic; -fx-font-size: 9pt;"/>
+                    </FlowPane>
+                </VBox>
+            </HBox>
+
+            <HBox spacing="10" alignment="CENTER_RIGHT" maxWidth="1100" style="-fx-padding: 5 0 0 0;">
+                <Label fx:id="lblEstado" text="" style="-fx-font-weight: bold;" wrapText="true" HBox.hgrow="ALWAYS"/>
+                <Button fx:id="btnEnviarSolicitud" text="Enviar Trámite de Solicitud" styleClass="button-primary" style="-fx-font-size: 11pt; -fx-padding: 8 16;"/>
+            </HBox>
+
         </VBox>
-    </VBox>
-
-    <VBox spacing="10" styleClass="card-dashboard" maxWidth="850" style="-fx-border-left-color: #f59e0b; -fx-border-left-width: 5px;">
-        <Label text="Documentación y Soporte del Oficio de Petición" style="-fx-font-weight: bold; -fx-text-fill: #b45309;"/>
-        <Label text="Descargue la plantilla oficial del oficio de solicitud autogestionada, complete los datos requeridos junto a la entidad externa y cargue el documento digital finalizado en formato PDF para pasar la revisión de la coordinación." style="-fx-font-size: 9.5pt; -fx-text-fill: #64748b;" wrapText="true"/>
-
-        <HBox spacing="15" alignment="CENTER_LEFT" style="-fx-padding: 5 0 0 0;">
-            <Button fx:id="btnDescargarPlantillaOficio" text="📥 Descargar Plantilla Solicitud (.pdf)" style="-fx-background-color: #475569; -fx-text-fill: white;" onAction="#handleDescargarPlantillaOficio"/>
-
-            <Separator orientation="VERTICAL" prefHeight="25"/>
-
-            <HBox spacing="10" alignment="CENTER_LEFT">
-                <Button fx:id="btnSubirOficioLlenado" text="📤 Subir Oficio Digital Finalizado (PDF)" style="-fx-background-color: #2563eb; -fx-text-fill: white; -fx-font-weight: bold;" onAction="#handleSubirOficioLlenado"/>
-                <Label fx:id="lblEstadoArchivoOficio" text="Ningún archivo seleccionado (.pdf)" style="-fx-text-fill: #64748b; -fx-font-style: italic;"/>
-            </HBox>
-        </HBox>
-    </VBox>
-
-    <HBox spacing="10" alignment="CENTER_RIGHT" maxWidth="850">
-        <Label fx:id="lblEstado" text="" style="-fx-font-weight: bold;" wrapText="true" HBox.hgrow="ALWAYS"/>
-        <Button fx:id="btnEnviarSolicitud" text="Enviar Trámite de Solicitud" styleClass="button-primary" onAction="#handleEnviarSolicitud"/>
-    </HBox>
-</VBox>
+    </content>
+</ScrollPane>

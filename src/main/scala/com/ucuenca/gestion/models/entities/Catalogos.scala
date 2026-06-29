@@ -73,10 +73,23 @@ case class PostulacionBolsa(
 case class SolicitudEmpresaPropia(
   idSolicitudPropia: Int,
   ciEstudianteRef: String,
+  // Company identification
   nombreEntidadExterna: String,
+  rucEmpresaPropia: String,
   contactoEmpresaPropia: String,
   horasEmpresaPropia: Int,
+  // JIT company profile fields (materialize into empresa_perfil on approval)
+  direccionEmpresaPropia: String,
+  misionEmpresaPropia: String,
+  visionEmpresaPropia: String,
+  // Core office transcript
   contenidoOficioTranscrito: String,
+  // JIT external supervisor fields (materialize into tutor_empresarial_perfil on approval)
+  ciSupervisorExterno: String,
+  nombresSupervisorExterno: String,
+  emailSupervisorExterno: String,
+  telefonoSupervisorExterno: String,
+  // Documents and bilateral resolution flow
   oficioSolicitudInicialPDF: Int,
   oficioPresentacionVueltaPDF: Option[Int],
   codigoOficioVuelta: Option[String],
@@ -85,6 +98,7 @@ case class SolicitudEmpresaPropia(
   justificacionDenegacion: Option[String],
   fechaRegistro: LocalDate
 ) {
-  def fueAprobada: Boolean       = estadoTramite == EstadoConvenio.FORMALIZADO
+  def esPendiente: Boolean        = estadoTramite == EstadoConvenio.PENDIENTE
+  def fueAprobada: Boolean        = estadoTramite == EstadoConvenio.FORMALIZADO
   def tieneTutorAsignado: Boolean = idTutorAcadAsignado.isDefined
 }

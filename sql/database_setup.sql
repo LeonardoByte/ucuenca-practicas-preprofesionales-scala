@@ -297,20 +297,40 @@ CREATE TABLE postulacion_bolsa (
 -- 3.13  solicitud_empresa_propia
 --       Alternative pathway for self-managed internships (outside the bolsa).
 --       codigo_oficio_vuelta format: UCUENCA-VINC-YYYY-NNNN (enforced via regex).
+--       JIT fields (ruc_empresa_propia … telefono_supervisor_externo) are captured
+--       at submission time so that approval can atomically create empresa_perfil
+--       and tutor_empresarial_perfil without leaving orphaned rows on rejection.
 -- ---------------------------------------------------------------------------
 CREATE TABLE solicitud_empresa_propia (
     id_solicitud_propia              SERIAL          PRIMARY KEY,
     ci_estudiante_ref                VARCHAR(10)     NOT NULL
         REFERENCES estudiante_perfil(identificacion),
+    -- Core company identification
     nombre_entidad_externa           TEXT            NOT NULL,
-    contacto_empresa_propia          TEXT            NOT NULL,
+    ruc_empresa_propia               VARCHAR(13)     NOT NULL
+        CHECK (char_length(ruc_empresa_propia) = 13),
+    contacto_empresa_propia          TEXT            NOT NULL,   -- institutional email of the company
     horas_empresa_propia             SMALLINT        NOT NULL
         CHECK (horas_empresa_propia BETWEEN 40 AND 400),
+    -- Company profile data (JIT — used to create empresa_perfil on approval)
+    direccion_empresa_propia         TEXT            NOT NULL,
+    mision_empresa_propia            TEXT            NOT NULL,
+    vision_empresa_propia            TEXT            NOT NULL,
+    -- Core request text (literal transcription of the formal office document)
     contenido_oficio_transcrito      TEXT            NOT NULL,
+    -- External supervisor data (JIT — used to create tutor_empresarial_perfil on approval)
+    ci_supervisor_externo            VARCHAR(10)     NOT NULL
+        CHECK (char_length(ci_supervisor_externo) = 10),
+    nombres_supervisor_externo       TEXT            NOT NULL,
+    email_supervisor_externo         TEXT            NOT NULL,
+    telefono_supervisor_externo      VARCHAR(10)     NOT NULL
+        CHECK (char_length(telefono_supervisor_externo) = 10),
+    -- Documents
     oficio_solicitud_inicial_pdf     INT             NOT NULL    -- [PDF #4]
         REFERENCES archivo_pdf(id_archivo_pdf),
     oficio_presentacion_vuelta_pdf   INT                         -- [PDF #5]
         REFERENCES archivo_pdf(id_archivo_pdf),
+    -- Coordinator resolution fields (populated in Micro-Rebanada 3.2)
     codigo_oficio_vuelta             TEXT            UNIQUE
         CHECK (codigo_oficio_vuelta ~ '^UCUENCA-VINC-\d{4}-\d{4}$'),
     id_tutor_acad_asignado           VARCHAR(10)

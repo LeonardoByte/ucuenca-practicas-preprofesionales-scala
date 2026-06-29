@@ -26,12 +26,32 @@ object RegistrarSolicitudLogic {
   }
 
   private def validarCamposObligatorios(dto: RegistrarSolicitudDTO): Either[SolicitudEmpresaPropiaFailure, Unit] = {
+    // Company identification
     if (dto.nombreEntidadExterna == null || dto.nombreEntidadExterna.trim.isEmpty)
       Left(SolicitudEmpresaPropiaFailure.Validacion("El nombre de la institución/empresa es obligatorio."))
+    else if (dto.rucEmpresaPropia == null || dto.rucEmpresaPropia.trim.length != 13 || !dto.rucEmpresaPropia.trim.forall(_.isDigit))
+      Left(SolicitudEmpresaPropiaFailure.Validacion("El RUC de la empresa debe tener exactamente 13 dígitos numéricos."))
     else if (dto.contactoEmpresaPropia == null || dto.contactoEmpresaPropia.trim.isEmpty)
-      Left(SolicitudEmpresaPropiaFailure.Validacion("El correo de contacto del encargado es obligatorio."))
+      Left(SolicitudEmpresaPropiaFailure.Validacion("El correo institucional de la empresa es obligatorio."))
+    // JIT company profile fields
+    else if (dto.direccionEmpresaPropia == null || dto.direccionEmpresaPropia.trim.isEmpty)
+      Left(SolicitudEmpresaPropiaFailure.Validacion("La dirección de la sede matriz es obligatoria."))
+    else if (dto.misionEmpresaPropia == null || dto.misionEmpresaPropia.trim.isEmpty)
+      Left(SolicitudEmpresaPropiaFailure.Validacion("La misión de la organización es obligatoria."))
+    else if (dto.visionEmpresaPropia == null || dto.visionEmpresaPropia.trim.isEmpty)
+      Left(SolicitudEmpresaPropiaFailure.Validacion("La visión de la organización es obligatoria."))
+    // Core office transcript
     else if (dto.contenidoOficioTranscrito == null || dto.contenidoOficioTranscrito.trim.isEmpty)
       Left(SolicitudEmpresaPropiaFailure.Validacion("El contenido del oficio transcrito es obligatorio."))
+    // JIT external supervisor fields
+    else if (dto.ciSupervisorExterno == null || dto.ciSupervisorExterno.trim.length != 10 || !dto.ciSupervisorExterno.trim.forall(_.isDigit))
+      Left(SolicitudEmpresaPropiaFailure.Validacion("La cédula del supervisor externo debe tener exactamente 10 dígitos numéricos."))
+    else if (dto.nombresSupervisorExterno == null || dto.nombresSupervisorExterno.trim.isEmpty)
+      Left(SolicitudEmpresaPropiaFailure.Validacion("El nombre completo del supervisor externo es obligatorio."))
+    else if (dto.emailSupervisorExterno == null || !dto.emailSupervisorExterno.contains("@"))
+      Left(SolicitudEmpresaPropiaFailure.Validacion("El correo electrónico del supervisor externo no es válido."))
+    else if (dto.telefonoSupervisorExterno == null || dto.telefonoSupervisorExterno.trim.length != 10 || !dto.telefonoSupervisorExterno.trim.forall(_.isDigit))
+      Left(SolicitudEmpresaPropiaFailure.Validacion("El teléfono del supervisor externo debe tener exactamente 10 dígitos numéricos."))
     else
       Right(())
   }

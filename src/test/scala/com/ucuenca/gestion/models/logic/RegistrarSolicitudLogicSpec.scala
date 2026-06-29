@@ -14,9 +14,17 @@ class RegistrarSolicitudLogicSpec extends AnyFlatSpec with Matchers with BeforeA
   private def baseDto: RegistrarSolicitudDTO = RegistrarSolicitudDTO(
     ciEstudianteRef           = testEstudianteCI,
     nombreEntidadExterna      = "GAD Municipal del Cantón Cuenca",
+    rucEmpresaPropia          = "0160076020001",
     contactoEmpresaPropia     = "contacto@gad.gob.ec",
     horasEmpresaPropia        = 160,
+    direccionEmpresaPropia    = "Av. Mariscal Sucre y Huayna Cápac, Cuenca",
+    misionEmpresaPropia       = "Fomentar el desarrollo sostenible y equitativo del cantón Cuenca.",
+    visionEmpresaPropia       = "Ser referente de gestión pública eficiente y transparente en Ecuador.",
     contenidoOficioTranscrito = "Por medio del presente oficio solicito la autorización...",
+    ciSupervisorExterno       = "0102030405",
+    nombresSupervisorExterno  = "Ing. Carlos Andrés Peña López",
+    emailSupervisorExterno    = "supervisor@gad.gob.ec",
+    telefonoSupervisorExterno = "0987654321",
     pdfNombreOriginal         = "oficio_solicitud.pdf",
     pdfRutaSegura             = "uploads/oficio_solicitud.pdf"
   )
@@ -56,6 +64,8 @@ class RegistrarSolicitudLogicSpec extends AnyFlatSpec with Matchers with BeforeA
     }
   }
 
+  // ─── Company name ────────────────────────────────────────────────────────────
+
   "RegistrarSolicitudLogic" should "rechazar la solicitud si el nombre de la entidad está vacío" in {
     val resultado = RegistrarSolicitudLogic.registrar(baseDto.copy(nombreEntidadExterna = ""))
     resultado shouldBe Left(SolicitudEmpresaPropiaFailure.Validacion("El nombre de la institución/empresa es obligatorio."))
@@ -66,15 +76,87 @@ class RegistrarSolicitudLogicSpec extends AnyFlatSpec with Matchers with BeforeA
     resultado shouldBe Left(SolicitudEmpresaPropiaFailure.Validacion("El nombre de la institución/empresa es obligatorio."))
   }
 
-  it should "rechazar la solicitud si el contacto está vacío" in {
-    val resultado = RegistrarSolicitudLogic.registrar(baseDto.copy(contactoEmpresaPropia = "   "))
-    resultado shouldBe Left(SolicitudEmpresaPropiaFailure.Validacion("El correo de contacto del encargado es obligatorio."))
+  // ─── RUC ─────────────────────────────────────────────────────────────────────
+
+  it should "rechazar si el RUC tiene menos de 13 dígitos" in {
+    val resultado = RegistrarSolicitudLogic.registrar(baseDto.copy(rucEmpresaPropia = "016007602000"))
+    resultado shouldBe Left(SolicitudEmpresaPropiaFailure.Validacion("El RUC de la empresa debe tener exactamente 13 dígitos numéricos."))
   }
 
-  it should "rechazar la solicitud si el contenido del oficio está vacío" in {
+  it should "rechazar si el RUC tiene más de 13 dígitos" in {
+    val resultado = RegistrarSolicitudLogic.registrar(baseDto.copy(rucEmpresaPropia = "01600760200015"))
+    resultado shouldBe Left(SolicitudEmpresaPropiaFailure.Validacion("El RUC de la empresa debe tener exactamente 13 dígitos numéricos."))
+  }
+
+  it should "rechazar si el RUC contiene caracteres no numéricos" in {
+    val resultado = RegistrarSolicitudLogic.registrar(baseDto.copy(rucEmpresaPropia = "016007602000X"))
+    resultado shouldBe Left(SolicitudEmpresaPropiaFailure.Validacion("El RUC de la empresa debe tener exactamente 13 dígitos numéricos."))
+  }
+
+  // ─── Company contact email ────────────────────────────────────────────────────
+
+  it should "rechazar la solicitud si el correo institucional de la empresa está vacío" in {
+    val resultado = RegistrarSolicitudLogic.registrar(baseDto.copy(contactoEmpresaPropia = "   "))
+    resultado shouldBe Left(SolicitudEmpresaPropiaFailure.Validacion("El correo institucional de la empresa es obligatorio."))
+  }
+
+  // ─── JIT company profile fields ──────────────────────────────────────────────
+
+  it should "rechazar si la dirección de la sede matriz está vacía" in {
+    val resultado = RegistrarSolicitudLogic.registrar(baseDto.copy(direccionEmpresaPropia = ""))
+    resultado shouldBe Left(SolicitudEmpresaPropiaFailure.Validacion("La dirección de la sede matriz es obligatoria."))
+  }
+
+  it should "rechazar si la misión de la organización está vacía" in {
+    val resultado = RegistrarSolicitudLogic.registrar(baseDto.copy(misionEmpresaPropia = ""))
+    resultado shouldBe Left(SolicitudEmpresaPropiaFailure.Validacion("La misión de la organización es obligatoria."))
+  }
+
+  it should "rechazar si la visión de la organización está vacía" in {
+    val resultado = RegistrarSolicitudLogic.registrar(baseDto.copy(visionEmpresaPropia = ""))
+    resultado shouldBe Left(SolicitudEmpresaPropiaFailure.Validacion("La visión de la organización es obligatoria."))
+  }
+
+  // ─── Office transcript ────────────────────────────────────────────────────────
+
+  it should "rechazar la solicitud si el contenido del oficio transcrito está vacío" in {
     val resultado = RegistrarSolicitudLogic.registrar(baseDto.copy(contenidoOficioTranscrito = ""))
     resultado shouldBe Left(SolicitudEmpresaPropiaFailure.Validacion("El contenido del oficio transcrito es obligatorio."))
   }
+
+  // ─── External supervisor ─────────────────────────────────────────────────────
+
+  it should "rechazar si la cédula del supervisor externo tiene menos de 10 dígitos" in {
+    val resultado = RegistrarSolicitudLogic.registrar(baseDto.copy(ciSupervisorExterno = "010203040"))
+    resultado shouldBe Left(SolicitudEmpresaPropiaFailure.Validacion("La cédula del supervisor externo debe tener exactamente 10 dígitos numéricos."))
+  }
+
+  it should "rechazar si la cédula del supervisor externo tiene más de 10 dígitos" in {
+    val resultado = RegistrarSolicitudLogic.registrar(baseDto.copy(ciSupervisorExterno = "01020304050"))
+    resultado shouldBe Left(SolicitudEmpresaPropiaFailure.Validacion("La cédula del supervisor externo debe tener exactamente 10 dígitos numéricos."))
+  }
+
+  it should "rechazar si el nombre del supervisor externo está vacío" in {
+    val resultado = RegistrarSolicitudLogic.registrar(baseDto.copy(nombresSupervisorExterno = ""))
+    resultado shouldBe Left(SolicitudEmpresaPropiaFailure.Validacion("El nombre completo del supervisor externo es obligatorio."))
+  }
+
+  it should "rechazar si el correo del supervisor externo no contiene @" in {
+    val resultado = RegistrarSolicitudLogic.registrar(baseDto.copy(emailSupervisorExterno = "supervisorgad.gob.ec"))
+    resultado shouldBe Left(SolicitudEmpresaPropiaFailure.Validacion("El correo electrónico del supervisor externo no es válido."))
+  }
+
+  it should "rechazar si el teléfono del supervisor externo tiene menos de 10 dígitos" in {
+    val resultado = RegistrarSolicitudLogic.registrar(baseDto.copy(telefonoSupervisorExterno = "098765432"))
+    resultado shouldBe Left(SolicitudEmpresaPropiaFailure.Validacion("El teléfono del supervisor externo debe tener exactamente 10 dígitos numéricos."))
+  }
+
+  it should "rechazar si el teléfono del supervisor externo contiene letras" in {
+    val resultado = RegistrarSolicitudLogic.registrar(baseDto.copy(telefonoSupervisorExterno = "09876543AB"))
+    resultado shouldBe Left(SolicitudEmpresaPropiaFailure.Validacion("El teléfono del supervisor externo debe tener exactamente 10 dígitos numéricos."))
+  }
+
+  // ─── Hours range ─────────────────────────────────────────────────────────────
 
   it should "rechazar si las horas propuestas son inferiores al mínimo permitido de 40" in {
     val resultado = RegistrarSolicitudLogic.registrar(baseDto.copy(horasEmpresaPropia = 39))
@@ -96,6 +178,8 @@ class RegistrarSolicitudLogicSpec extends AnyFlatSpec with Matchers with BeforeA
     resultado shouldBe Left(SolicitudEmpresaPropiaFailure.Validacion("El archivo PDF del oficio firmado es obligatorio."))
   }
 
+  // ─── PDF ─────────────────────────────────────────────────────────────────────
+
   it should "rechazar la solicitud si no se adjunta un PDF firmado" in {
     val resultado = RegistrarSolicitudLogic.registrar(baseDto.copy(pdfNombreOriginal = "", pdfRutaSegura = ""))
     resultado shouldBe Left(SolicitudEmpresaPropiaFailure.Validacion("El archivo PDF del oficio firmado es obligatorio."))
@@ -105,6 +189,8 @@ class RegistrarSolicitudLogicSpec extends AnyFlatSpec with Matchers with BeforeA
     val resultado = RegistrarSolicitudLogic.registrar(baseDto.copy(pdfNombreOriginal = ""))
     resultado shouldBe Left(SolicitudEmpresaPropiaFailure.Validacion("El archivo PDF del oficio firmado es obligatorio."))
   }
+
+  // ─── Student state ───────────────────────────────────────────────────────────
 
   it should "bloquear el trámite si el estudiante ya tiene una práctica activa" in {
     DB.localTx { implicit session =>
@@ -129,7 +215,9 @@ class RegistrarSolicitudLogicSpec extends AnyFlatSpec with Matchers with BeforeA
     }
   }
 
-  it should "registrar la solicitud exitosamente en estado PENDIENTE si pasa todas las validaciones" in {
+  // ─── Happy path ──────────────────────────────────────────────────────────────
+
+  it should "registrar la solicitud exitosamente en estado PENDIENTE con todos los campos JIT" in {
     val dto = baseDto.copy(pdfNombreOriginal = "oficio_solicitud_test.pdf", pdfRutaSegura = "uploads/oficio_solicitud_test.pdf")
     val resultado = RegistrarSolicitudLogic.registrar(dto)
 
@@ -138,8 +226,8 @@ class RegistrarSolicitudLogicSpec extends AnyFlatSpec with Matchers with BeforeA
 
     val dbRow = DB.readOnly { implicit session =>
       sql"""
-        SELECT s.ci_estudiante_ref, s.nombre_entidad_externa, s.horas_empresa_propia,
-               s.estado_tramite, p.tipo_archivo
+        SELECT s.ci_estudiante_ref, s.nombre_entidad_externa, s.ruc_empresa_propia,
+               s.horas_empresa_propia, s.estado_tramite, p.tipo_archivo
         FROM solicitud_empresa_propia s
         JOIN archivo_pdf p ON s.oficio_solicitud_inicial_pdf = p.id_archivo_pdf
         WHERE s.id_solicitud_propia = ${solicitudId}
@@ -147,6 +235,7 @@ class RegistrarSolicitudLogicSpec extends AnyFlatSpec with Matchers with BeforeA
         (
           rs.string("ci_estudiante_ref"),
           rs.string("nombre_entidad_externa"),
+          rs.string("ruc_empresa_propia"),
           rs.int("horas_empresa_propia"),
           rs.string("estado_tramite"),
           rs.string("tipo_archivo")
@@ -157,6 +246,7 @@ class RegistrarSolicitudLogicSpec extends AnyFlatSpec with Matchers with BeforeA
     dbRow shouldBe Some((
       testEstudianteCI,
       "GAD Municipal del Cantón Cuenca",
+      "0160076020001",
       160,
       "PENDIENTE",
       "T4_OFICIO_SOLICITUD_PROP_INICIAL"

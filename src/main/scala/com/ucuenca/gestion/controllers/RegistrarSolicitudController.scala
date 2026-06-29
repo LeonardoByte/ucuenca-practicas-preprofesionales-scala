@@ -11,16 +11,28 @@ import com.ucuenca.gestion.utils.SessionManager
 
 class RegistrarSolicitudController {
 
-  @FXML var txtNombreEmpresaPropia: TextField  = _
-  @FXML var txtContactoEmpresaPropia: TextField = _
+  // Company identification
+  @FXML var txtNombreEmpresaPropia: TextField      = _
+  @FXML var txtRucEmpresaPropia: TextField         = _
+  @FXML var txtContactoEmpresaPropia: TextField    = _
   @FXML var spnHorasEmpresaPropia: Spinner[Integer] = _
-  @FXML var txtDireccionMatrizPropia: TextField = _
-  @FXML var txtMisionEmpresaPropia: TextArea    = _
-  @FXML var btnDescargarPlantillaOficio: Button = _
-  @FXML var btnSubirOficioLlenado: Button       = _
-  @FXML var lblEstadoArchivoOficio: Label       = _
-  @FXML var btnEnviarSolicitud: Button          = _
-  @FXML var lblEstado: Label                    = _
+  @FXML var txtDireccionMatrizPropia: TextField    = _
+  // Institutional profile
+  @FXML var txtMisionEmpresaPropia: TextArea       = _
+  @FXML var txtVisionEmpresaPropia: TextArea       = _
+  // External supervisor
+  @FXML var txtCiSupervisorExterno: TextField      = _
+  @FXML var txtNombresSupervisorExterno: TextField = _
+  @FXML var txtEmailSupervisorExterno: TextField   = _
+  @FXML var txtTelefonoSupervisorExterno: TextField = _
+  // Office transcript
+  @FXML var txtContenidoOficio: TextArea           = _
+  // PDF upload controls
+  @FXML var btnDescargarPlantillaOficio: Button    = _
+  @FXML var btnSubirOficioLlenado: Button          = _
+  @FXML var lblEstadoArchivoOficio: Label          = _
+  @FXML var btnEnviarSolicitud: Button             = _
+  @FXML var lblEstado: Label                       = _
 
   private var oficioFile: java.io.File = _
 
@@ -34,9 +46,9 @@ class RegistrarSolicitudController {
   @FXML
   def handleDescargarPlantillaOficio(event: ActionEvent): Unit = {
     try {
-      val srcFile = new java.io.File("docs/archivos_pdf/oficio_de_presentacion.pdf")
+      val srcFile = new java.io.File("docs/archivos_pdf/solicitud_de_oficio.pdf")
       if (!srcFile.exists()) {
-        showError("Error: No se encontró el archivo de plantilla en 'docs/archivos_pdf/oficio_de_presentacion.pdf'.")
+        showError("Error: No se encontró el archivo de plantilla en 'docs/archivos_pdf/solicitud_de_oficio.pdf'.")
         return
       }
       val fileChooser = new FileChooser()
@@ -81,12 +93,6 @@ class RegistrarSolicitudController {
 
     val ciEstudiante = activeUserOpt.get.identificacion
 
-    val direccion = txtDireccionMatrizPropia.getText
-    if (direccion == null || direccion.trim.isEmpty) {
-      showError("La dirección de la sede matriz es obligatoria.")
-      return
-    }
-
     if (oficioFile == null) {
       showError("Debe adjuntar el archivo PDF del oficio firmado antes de enviar.")
       return
@@ -100,9 +106,17 @@ class RegistrarSolicitudController {
     val dto = RegistrarSolicitudDTO(
       ciEstudianteRef           = ciEstudiante,
       nombreEntidadExterna      = txtNombreEmpresaPropia.getText,
+      rucEmpresaPropia          = txtRucEmpresaPropia.getText,
       contactoEmpresaPropia     = txtContactoEmpresaPropia.getText,
       horasEmpresaPropia        = Option(spnHorasEmpresaPropia.getValue).map(_.intValue()).getOrElse(0),
-      contenidoOficioTranscrito = txtMisionEmpresaPropia.getText,
+      direccionEmpresaPropia    = txtDireccionMatrizPropia.getText,
+      misionEmpresaPropia       = txtMisionEmpresaPropia.getText,
+      visionEmpresaPropia       = txtVisionEmpresaPropia.getText,
+      contenidoOficioTranscrito = txtContenidoOficio.getText,
+      ciSupervisorExterno       = txtCiSupervisorExterno.getText,
+      nombresSupervisorExterno  = txtNombresSupervisorExterno.getText,
+      emailSupervisorExterno    = txtEmailSupervisorExterno.getText,
+      telefonoSupervisorExterno = txtTelefonoSupervisorExterno.getText,
       pdfNombreOriginal         = oficioFile.getName,
       pdfRutaSegura             = pdfPath
     )
@@ -132,10 +146,17 @@ class RegistrarSolicitudController {
 
   private def clearForm(): Unit = {
     txtNombreEmpresaPropia.clear()
+    txtRucEmpresaPropia.clear()
     txtContactoEmpresaPropia.clear()
     spnHorasEmpresaPropia.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(40, 400, 240, 10))
     txtDireccionMatrizPropia.clear()
     txtMisionEmpresaPropia.clear()
+    txtVisionEmpresaPropia.clear()
+    txtContenidoOficio.clear()
+    txtCiSupervisorExterno.clear()
+    txtNombresSupervisorExterno.clear()
+    txtEmailSupervisorExterno.clear()
+    txtTelefonoSupervisorExterno.clear()
     oficioFile = null
     lblEstadoArchivoOficio.setText("Ningún archivo seleccionado (.pdf)")
   }
