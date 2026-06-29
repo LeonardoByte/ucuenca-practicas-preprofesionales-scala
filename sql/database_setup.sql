@@ -58,7 +58,8 @@ CREATE TYPE estado_oferta AS ENUM (
 );
 
 CREATE TYPE estado_postulacion AS ENUM (
-    'PENDIENTE', 'VALIDADA_COORDINADOR', 'APROBADA', 'RECHAZADA', 'CANCELADA_MANUAL', 'CANCELADA_AUTOMATICO'
+    'PENDIENTE', 'VALIDADA_COORDINADOR', 'APROBADA',
+	'RECHAZADA', 'CANCELADA_MANUAL', 'CANCELADA_AUTOMATICO'
 );
 
 CREATE TYPE estado_convenio AS ENUM (
@@ -70,7 +71,8 @@ CREATE TYPE estado_actividad AS ENUM (
 );
 
 CREATE TYPE estado_cronograma AS ENUM (
-    'F1_PENDIENTE', 'EN_DESARROLLO', 'F2_F3_PENDIENTE', 'EVALUADA', 'CERRADA_VALIDA'
+    'TUTOR_ACADEMICO_PENDIENTE', 'F1_PENDIENTE', 'EN_DESARROLLO',
+	'F2_F3_PENDIENTE', 'EVALUADA', 'CERRADA_VALIDA'
 );
 
 CREATE TYPE estado_formulario2 AS ENUM (
@@ -331,7 +333,7 @@ CREATE TABLE practica_registro (
         REFERENCES estudiante_perfil(identificacion),
     ruc_empresa_ref            VARCHAR(13)       NOT NULL
         REFERENCES empresa_perfil(identificacion),
-    id_tutor_academico_ref     VARCHAR(10)       NOT NULL
+    id_tutor_academico_ref     VARCHAR(10)
         REFERENCES usuario(identificacion),
     id_tutor_empresarial_ref   VARCHAR(10)       NOT NULL
         REFERENCES tutor_empresarial_perfil(identificacion),

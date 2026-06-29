@@ -86,10 +86,10 @@ object GestionCandidatosRepository {
       ) VALUES (
         ${ciEstudiante},
         ${rucEmpresa},
-        '0000000001',
+        NULL,
         ${idTutorEmpresarial},
         'BOLSA_EMPLEO'::origen_rama,
-        'F1_PENDIENTE'::estado_cronograma,
+        'TUTOR_ACADEMICO_PENDIENTE'::estado_cronograma,
         ${horasTotales}
       )
     """.update.apply()

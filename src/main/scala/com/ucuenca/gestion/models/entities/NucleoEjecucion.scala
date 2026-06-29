@@ -7,7 +7,7 @@ case class PracticaRegistro(
   idPractica: Int,
   ciEstudianteRef: String,
   rucEmpresaRef: String,
-  idTutorAcademicoRef: String,
+  idTutorAcademicoRef: Option[String],
   idTutorEmpresarialRef: String,
   origenRama: OrigenRama,
   estadoCronograma: EstadoCronograma,
