@@ -2,7 +2,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<SplitPane dividerPositions="0.35" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" prefHeight="720" style="-fx-padding: 10;">
+<SplitPane dividerPositions="0.35" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ucuenca.gestion.controllers.GestionCandidatosController" prefHeight="720" style="-fx-padding: 10;">
     <items>
         <VBox spacing="10" style="-fx-padding: 5;">
             <Label text="Candidatos Validados por la Universidad" style="-fx-font-weight: bold; -fx-text-fill: #334155;"/>
@@ -15,8 +15,8 @@
                     <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
                 </columnResizePolicy>
                 <columns>
-                    <TableColumn text="Estudiante" prefWidth="140"/>
-                    <TableColumn text="Promedio" prefWidth="80"/>
+                    <TableColumn fx:id="colEstudiante" text="Estudiante" prefWidth="140"/>
+                    <TableColumn fx:id="colPromedio" text="Promedio" prefWidth="80"/>
                 </columns>
             </TableView>
         </VBox>
@@ -33,8 +33,8 @@
                             <Region VBox.vgrow="ALWAYS"/>
                             <Separator/>
                             <HBox spacing="10" alignment="CENTER_LEFT">
-                                <Button fx:id="btnRevisarMallaPDF" text="👁 Revisar Malla PDF" style="-fx-background-color: #2563eb; -fx-text-fill: white; -fx-font-weight: bold;"/>
-                                <Button fx:id="btnDescargarMallaPDF" text="📥 Descargar" style="-fx-background-color: #475569; -fx-text-fill: white;"/>
+                                <Button fx:id="btnRevisarMallaPDF" text="👁 Revisar Malla PDF" onAction="#handleRevisarMalla" style="-fx-background-color: #2563eb; -fx-text-fill: white; -fx-font-weight: bold;"/>
+                                <Button fx:id="btnDescargarMallaPDF" text="📥 Descargar" onAction="#handleDescargarMalla" style="-fx-background-color: #475569; -fx-text-fill: white;"/>
                             </HBox>
                         </VBox>
                     </Tab>
@@ -44,8 +44,8 @@
                             <TextArea fx:id="txtExtractoCV" prefHeight="150" editable="false" style="-fx-font-family: 'Courier New'; -fx-background-color: #f8fafc;" text="[Contenido del archivo de hoja de vida indexado por el sistema para evaluación de competencias corporativas...]" wrapText="true" VBox.vgrow="ALWAYS"/>
                             <Separator/>
                             <HBox spacing="10" alignment="CENTER_LEFT">
-                                <Button fx:id="btnRevisarCVPDF" text="👁 Revisar CV PDF" style="-fx-background-color: #2563eb; -fx-text-fill: white; -fx-font-weight: bold;"/>
-                                <Button fx:id="btnDescargarCVPDF" text="📥 Descargar" style="-fx-background-color: #475569; -fx-text-fill: white;"/>
+                                <Button fx:id="btnRevisarCVPDF" text="👁 Revisar CV PDF" onAction="#handleRevisarCV" style="-fx-background-color: #2563eb; -fx-text-fill: white; -fx-font-weight: bold;"/>
+                                <Button fx:id="btnDescargarCVPDF" text="📥 Descargar" onAction="#handleDescargarCV" style="-fx-background-color: #475569; -fx-text-fill: white;"/>
                             </HBox>
                         </VBox>
                     </Tab>
@@ -61,8 +61,10 @@
             </VBox>
 
             <HBox spacing="15" alignment="CENTER_RIGHT">
-                <Button text="Rechazar Postulante" styleClass="button-danger"/>
-                <Button text="Aceptar Estudiante y Asignar Tutor" styleClass="button-primary"/>
+                <Label fx:id="lblEstado" visible="false" wrapText="true" style="-fx-font-weight: bold;"/>
+                <Region HBox.hgrow="ALWAYS"/>
+                <Button fx:id="btnDenegar" text="Rechazar Postulante" onAction="#handleRechazar" styleClass="button-danger"/>
+                <Button fx:id="btnAceptar" text="Aceptar Estudiante y Asignar Tutor" onAction="#handleAceptar" styleClass="button-primary"/>
             </HBox>
         </VBox>
     </items>

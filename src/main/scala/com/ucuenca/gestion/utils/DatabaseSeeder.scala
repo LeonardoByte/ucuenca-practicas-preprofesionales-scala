@@ -148,6 +148,10 @@ object DatabaseSeeder {
       INSERT INTO usuario_sistema (username, password_hash, identificacion_usuario_ref)
       VALUES ('tutoremp', ${PasswordHasher.hash("tutor123")}, '0808080808')
     """.update.apply()
+    sql"""
+      INSERT INTO tutor_empresarial_perfil (identificacion, empresa_id_ref, telefono_contacto)
+      VALUES ('0808080808', '0505050505001', '0999999999')
+    """.update.apply()
 
     // --- Ofertas semilla ---
     // Oferta 1: PENDIENTE (Para que la revise el coordinador)

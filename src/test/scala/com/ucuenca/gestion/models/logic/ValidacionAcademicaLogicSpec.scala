@@ -78,16 +78,16 @@ class ValidacionAcademicaLogicSpec extends AnyFlatSpec with Matchers with Before
     lista.exists(_.idPostulacion == testPostulacionId) shouldBe true
   }
 
-  it should "permitir la aprobación académica manteniendo el estado PENDIENTE" in {
+  it should "permitir la aprobación académica actualizando al estado VALIDADA_COORDINADOR" in {
     val result = ValidacionAcademicaLogic.aprobar(testPostulacionId)
     result.isRight shouldBe true
 
-    // Verificar en base que sigue PENDIENTE
+    // Verificar en base que cambió a VALIDADA_COORDINADOR
     val estadoOpt = DB.readOnly { implicit session =>
       sql"SELECT estado_postulacion FROM postulacion_bolsa WHERE id_postulacion = ${testPostulacionId}"
         .map(rs => rs.string("estado_postulacion")).single.apply()
     }
-    estadoOpt shouldBe Some("PENDIENTE")
+    estadoOpt shouldBe Some("VALIDADA_COORDINADOR")
   }
 
   it should "rechazar una postulación si el comentario de rechazo está vacío o nulo" in {
