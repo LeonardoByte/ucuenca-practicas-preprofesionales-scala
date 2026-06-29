@@ -88,7 +88,7 @@
             <children>
                 <Label fx:id="lblEstado" visible="false" wrapText="true" style="-fx-font-weight: bold;"/>
                 <Region HBox.hgrow="ALWAYS"/>
-                <Button text="Enviar Solicitud de Convenio" onAction="#handleEnviarSolicitudConvenio" styleClass="button-primary"/>
+                <Button fx:id="btnEnviarSolicitudConvenio" text="Enviar Solicitud de Convenio" onAction="#handleEnviarSolicitudConvenio" styleClass="button-primary"/>
             </children>
         </HBox>
     </children>

@@ -2,7 +2,7 @@ package com.ucuenca.gestion.controllers
 
 import javafx.fxml.FXML
 import javafx.event.ActionEvent
-import javafx.scene.control.{Button, Label, Spinner, SpinnerValueFactory, TextArea, TextField}
+import javafx.scene.control.{Button, Label, Spinner, SpinnerValueFactory, TextArea, TextField, Alert}
 import javafx.stage.FileChooser
 import scala.util.control.NonFatal
 import com.ucuenca.gestion.models.dto.RegistrarSolicitudDTO
@@ -43,12 +43,21 @@ class RegistrarSolicitudController {
     )
   }
 
+  private def mostrarAlerta(titulo: String, cabecera: String, mensaje: String, tipo: Alert.AlertType): Unit = {
+    val alert = new Alert(tipo)
+    alert.setTitle(titulo)
+    alert.setHeaderText(cabecera)
+    alert.setContentText(mensaje)
+    alert.showAndWait()
+  }
+
   @FXML
   def handleDescargarPlantillaOficio(event: ActionEvent): Unit = {
     try {
       val srcFile = new java.io.File("docs/archivos_pdf/solicitud_de_oficio.pdf")
       if (!srcFile.exists()) {
         showError("Error: No se encontró el archivo de plantilla en 'docs/archivos_pdf/solicitud_de_oficio.pdf'.")
+        mostrarAlerta("Plantilla no encontrada", "Error al buscar archivo", "No se encontró el archivo de plantilla en 'docs/archivos_pdf/solicitud_de_oficio.pdf'.", Alert.AlertType.ERROR)
         return
       }
       val fileChooser = new FileChooser()
@@ -63,10 +72,12 @@ class RegistrarSolicitudController {
           java.nio.file.StandardCopyOption.REPLACE_EXISTING
         )
         showSuccess(s"Plantilla guardada exitosamente en: ${dest.getName}")
+        mostrarAlerta("Plantilla Guardada", "Descarga Exitosa", s"Plantilla guardada exitosamente en: ${dest.getName}", Alert.AlertType.INFORMATION)
       }
     } catch {
       case NonFatal(e) =>
         showError(s"Error al descargar la plantilla: ${e.getMessage}")
+        mostrarAlerta("Error de Descarga", "Excepción al descargar", e.getMessage, Alert.AlertType.ERROR)
     }
   }
 
@@ -87,14 +98,18 @@ class RegistrarSolicitudController {
   def handleEnviarSolicitud(event: ActionEvent): Unit = {
     val activeUserOpt = SessionManager.getUsuario
     if (activeUserOpt.isEmpty) {
-      showError("Error de sesión: no hay un estudiante autenticado en el sistema.")
+      val errMsg = "Error de sesión: no hay un estudiante autenticado en el sistema."
+      showError(errMsg)
+      mostrarAlerta("Error de Sesión", "Usuario no autenticado", errMsg, Alert.AlertType.ERROR)
       return
     }
 
     val ciEstudiante = activeUserOpt.get.identificacion
 
     if (oficioFile == null) {
-      showError("Debe adjuntar el archivo PDF del oficio firmado antes de enviar.")
+      val errMsg = "Debe adjuntar el archivo PDF del oficio firmado antes de enviar."
+      showError(errMsg)
+      mostrarAlerta("Archivo Requerido", "Falta oficio firmado", errMsg, Alert.AlertType.ERROR)
       return
     }
 
@@ -123,12 +138,17 @@ class RegistrarSolicitudController {
 
     RegistrarSolicitudLogic.registrar(dto) match {
       case Right(solicitudId) =>
-        showSuccess(s"¡Trámite enviado con éxito! Su solicitud #$solicitudId quedó registrada en estado PENDIENTE.")
+        val msg = s"¡Trámite enviado con éxito! Su solicitud #$solicitudId quedó registrada en estado PENDIENTE."
+        showSuccess(msg)
+        mostrarAlerta("Registro Exitoso", "Trámite de Solicitud Recibido", msg, Alert.AlertType.INFORMATION)
         clearForm()
       case Left(SolicitudEmpresaPropiaFailure.Validacion(msg)) =>
         showError(msg)
+        mostrarAlerta("Error de Validación", "No se puede procesar el trámite", msg, Alert.AlertType.ERROR)
       case Left(SolicitudEmpresaPropiaFailure.ErrorPersistencia(msg)) =>
-        showError(s"Error técnico al registrar la solicitud: $msg")
+        val errMsg = s"Error técnico al registrar la solicitud: $msg"
+        showError(errMsg)
+        mostrarAlerta("Error de Persistencia", "Fallo al guardar en base de datos", errMsg, Alert.AlertType.ERROR)
     }
   }
 
@@ -173,3 +193,4 @@ class RegistrarSolicitudController {
     lblEstado.setVisible(true)
   }
 }
+

@@ -2,7 +2,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<SplitPane dividerPositions="0.38" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" prefHeight="700" style="-fx-padding: 10;">
+<SplitPane dividerPositions="0.38" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ucuenca.gestion.controllers.SolicitudesConvenioController" prefHeight="700" style="-fx-padding: 10;">
     <items>
         <!-- Panel Izquierdo: Listado de peticiones de convenios de empresas -->
         <VBox spacing="10" style="-fx-padding: 5;">
@@ -12,8 +12,8 @@
                     <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
                 </columnResizePolicy>
                 <columns>
-                    <TableColumn text="Empresa Solicitante" prefWidth="160"/>
-                    <TableColumn text="RUC Jurídico" prefWidth="120"/>
+                    <TableColumn fx:id="colEmpresa" text="Empresa Solicitante" prefWidth="160"/>
+                    <TableColumn fx:id="colRuc" text="RUC Jurídico" prefWidth="120"/>
                 </columns>
             </TableView>
         </VBox>
@@ -32,8 +32,8 @@
 
                 <!-- Pareja de botones estándar para manejo de PDFs -->
                 <HBox spacing="10" alignment="CENTER_LEFT">
-                    <Button fx:id="btnRevisarConvenioPDF" text="👁 Revisar Convenio PDF" style="-fx-background-color: #2563eb; -fx-text-fill: white; -fx-font-weight: bold;"/>
-                    <Button fx:id="btnDescargarConvenioPDF" text="📥 Descargar" style="-fx-background-color: #475569; -fx-text-fill: white;"/>
+                    <Button fx:id="btnRevisarConvenioPDF" onAction="#handleRevisarPDF" text="👁 Revisar Convenio PDF" style="-fx-background-color: #2563eb; -fx-text-fill: white; -fx-font-weight: bold;"/>
+                    <Button fx:id="btnDescargarConvenioPDF" onAction="#handleDescargarPDF" text="📥 Descargar" style="-fx-background-color: #475569; -fx-text-fill: white;"/>
                 </HBox>
             </VBox>
 
@@ -45,9 +45,10 @@
 
             <!-- Botones finales de resolución -->
             <HBox spacing="15" alignment="CENTER_RIGHT">
-                <Button text="Rechazar Petición" styleClass="button-danger"/>
-                <Button text="Formalizar Convenio Legal" styleClass="button-primary"/>
+                <Button fx:id="btnRechazar" onAction="#handleRechazar" text="Rechazar Petición" styleClass="button-danger"/>
+                <Button fx:id="btnAprobar" onAction="#handleAprobar" text="Formalizar Convenio Legal" styleClass="button-primary"/>
             </HBox>
+            <Label fx:id="lblEstado" visible="false" wrapText="true"/>
         </VBox>
     </items>
 </SplitPane>

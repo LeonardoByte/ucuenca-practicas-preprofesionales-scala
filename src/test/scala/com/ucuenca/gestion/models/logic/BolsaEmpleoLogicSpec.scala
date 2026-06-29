@@ -22,9 +22,9 @@ class BolsaEmpleoLogicSpec extends AnyFlatSpec with Matchers with BeforeAndAfter
     DatabaseConnection.initialize()
 
     DB.localTx { implicit session =>
-      // Limpiar previas por identificaciones y nombres específicos para evitar violar llaves foráneas de otros datos seed
       sql"DELETE FROM practica_registro WHERE ci_estudiante_ref IN (${eligibleStudentCi}, ${ineligibleCycleStudentCi}, ${ineligibleStatusStudentCi})".update.apply()
       sql"DELETE FROM postulacion_bolsa WHERE ci_estudiante_ref IN (${eligibleStudentCi}, ${ineligibleCycleStudentCi}, ${ineligibleStatusStudentCi})".update.apply()
+      sql"DELETE FROM solicitud_empresa_propia WHERE ci_estudiante_ref IN (${eligibleStudentCi}, ${ineligibleCycleStudentCi}, ${ineligibleStatusStudentCi})".update.apply()
       sql"DELETE FROM estudiante_perfil WHERE identificacion IN (${eligibleStudentCi}, ${ineligibleCycleStudentCi}, ${ineligibleStatusStudentCi})".update.apply()
       sql"DELETE FROM usuario WHERE identificacion IN (${eligibleStudentCi}, ${ineligibleCycleStudentCi}, ${ineligibleStatusStudentCi})".update.apply()
       sql"DELETE FROM oferta_convocatoria WHERE ruc_empresa_ref = ${testEmpresaRuc}".update.apply()
@@ -72,6 +72,7 @@ class BolsaEmpleoLogicSpec extends AnyFlatSpec with Matchers with BeforeAndAfter
     DB.localTx { implicit session =>
       sql"DELETE FROM practica_registro WHERE ci_estudiante_ref IN (${eligibleStudentCi}, ${ineligibleCycleStudentCi}, ${ineligibleStatusStudentCi})".update.apply()
       sql"DELETE FROM postulacion_bolsa WHERE ci_estudiante_ref IN (${eligibleStudentCi}, ${ineligibleCycleStudentCi}, ${ineligibleStatusStudentCi})".update.apply()
+      sql"DELETE FROM solicitud_empresa_propia WHERE ci_estudiante_ref IN (${eligibleStudentCi}, ${ineligibleCycleStudentCi}, ${ineligibleStatusStudentCi})".update.apply()
       sql"DELETE FROM estudiante_perfil WHERE identificacion IN (${eligibleStudentCi}, ${ineligibleCycleStudentCi}, ${ineligibleStatusStudentCi})".update.apply()
       sql"DELETE FROM usuario WHERE identificacion IN (${eligibleStudentCi}, ${ineligibleCycleStudentCi}, ${ineligibleStatusStudentCi})".update.apply()
       sql"DELETE FROM oferta_convocatoria WHERE ruc_empresa_ref = ${testEmpresaRuc}".update.apply()

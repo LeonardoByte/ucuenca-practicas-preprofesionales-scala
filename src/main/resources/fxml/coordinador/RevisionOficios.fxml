@@ -2,7 +2,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<SplitPane dividerPositions="0.35" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" prefHeight="700" style="-fx-padding: 10;">
+<SplitPane dividerPositions="0.35" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="com.ucuenca.gestion.controllers.RevisionOficiosController" prefHeight="700" style="-fx-padding: 10;">
     <items>
         <VBox spacing="10" style="-fx-padding: 5;">
             <Label text="Solicitudes Autogestionadas" style="-fx-font-weight: bold; -fx-text-fill: #334155;"/>
@@ -11,8 +11,8 @@
                     <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
                 </columnResizePolicy>
                 <columns>
-                    <TableColumn text="Estudiante" prefWidth="140"/>
-                    <TableColumn text="Entidad Externa" prefWidth="160"/>
+                    <TableColumn fx:id="colEstudiante" text="Estudiante" prefWidth="140"/>
+                    <TableColumn fx:id="colEntidadExterna" text="Entidad Externa" prefWidth="160"/>
                 </columns>
             </TableView>
         </VBox>
@@ -29,8 +29,8 @@
                 <Separator style="-fx-padding: 2 0;"/>
 
                 <HBox spacing="10" alignment="CENTER_LEFT">
-                    <Button fx:id="btnRevisarOficioPDF" text="👁 Revisar Oficio PDF" style="-fx-background-color: #2563eb; -fx-text-fill: white; -fx-font-weight: bold;"/>
-                    <Button fx:id="btnDescargarOficioPDF" text="📥 Descargar" style="-fx-background-color: #475569; -fx-text-fill: white;"/>
+                    <Button fx:id="btnRevisarOficioPDF" onAction="#handleRevisarPDF" text="👁 Revisar Oficio PDF" style="-fx-background-color: #2563eb; -fx-text-fill: white; -fx-font-weight: bold;"/>
+                    <Button fx:id="btnDescargarOficioPDF" onAction="#handleDescargarPDF" text="📥 Descargar" style="-fx-background-color: #475569; -fx-text-fill: white;"/>
                 </HBox>
             </VBox>
 
@@ -53,9 +53,10 @@
             </VBox>
 
             <HBox spacing="15" alignment="CENTER_RIGHT">
-                <Button text="Rechazar Trámite y Cerrar Proceso" styleClass="button-danger"/>
-                <Button text="Aprobar y Registrar Práctica Formal" styleClass="button-primary"/>
+                <Button fx:id="btnRechazar" onAction="#handleRechazar" text="Rechazar Trámite y Cerrar Proceso" styleClass="button-danger"/>
+                <Button fx:id="btnAprobar" onAction="#handleAprobar" text="Aprobar y Registrar Práctica Formal" styleClass="button-primary"/>
             </HBox>
+            <Label fx:id="lblEstado" visible="false" wrapText="true"/>
         </VBox>
     </items>
 </SplitPane>
