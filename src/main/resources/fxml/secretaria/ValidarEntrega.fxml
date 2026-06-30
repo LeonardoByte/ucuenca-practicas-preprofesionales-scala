@@ -2,7 +2,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox spacing="15" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" style="-fx-padding: 15;" maxWidth="850">
+<VBox spacing="15" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ucuenca.gestion.controllers.ValidarEntregaController" style="-fx-padding: 15;" maxWidth="850">
     <Label text="Validación de Entrega Física - Cartas Compromiso" style="-fx-font-size: 14pt; -fx-font-weight: bold; -fx-text-fill: #0f172a;"/>
     <Separator/>
 
@@ -16,12 +16,11 @@
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
         </columnResizePolicy>
         <columns>
-            <TableColumn prefWidth="130" text="Cédula de Identidad (CI)" />
-            <TableColumn prefWidth="250" text="Nombre del Estudiante" />
-            <!-- Al marcar una de las casillas de las cartas compromiso se abrira una ventana
-            emergente pidiendo cofirmacion, al aceptar se quitara esa fila de la tabla -->
+            <TableColumn fx:id="colCedula" prefWidth="130" text="Cédula de Identidad (CI)" />
+            <TableColumn fx:id="colNombre" prefWidth="250" text="Nombre del Estudiante" />
+            <!-- Al marcar una de las casillas de las cartas compromiso se certificará automáticamente y se quitará esa fila de la tabla -->
             <TableColumn fx:id="colCertificacionCopias" prefWidth="220" text="Entrega de 3 Copias Físicas (Validar)" />
-            <TableColumn prefWidth="130" text="Fecha Validación" />
+            <TableColumn fx:id="colFecha" prefWidth="130" text="Fecha Validación" />
         </columns>
     </TableView>
 
@@ -29,4 +28,6 @@
         <Label text="Efecto Operacional de la Validación:" style="-fx-font-weight: bold; -fx-text-fill: #059669;"/>
         <Label text="* Al marcar la casilla de verificación (Checkbox) de la fila, el sistema certificará automáticamente la entrega de las 3 copias físicas firmadas en la base de datos, destrabando en tiempo real el flujo digital congelado en rojo dentro del panel del estudiante." style="-fx-font-size: 9.5pt; -fx-text-fill: #334155;" wrapText="true"/>
     </VBox>
+    
+    <Label fx:id="lblEstado" visible="false" wrapText="true"/>
 </VBox>
