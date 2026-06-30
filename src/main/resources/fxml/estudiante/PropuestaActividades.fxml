@@ -2,7 +2,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox spacing="15" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" style="-fx-padding: 15;">
+<VBox spacing="15" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ucuenca.gestion.controllers.PropuestaActividadesController" style="-fx-padding: 15;">
     <Label text="Cronograma de Trabajo - Propuesta y Planificación de Actividades" style="-fx-font-size: 14pt; -fx-font-weight: bold; -fx-text-fill: #0f172a;"/>
     <Separator/>
 
@@ -11,7 +11,7 @@
         <Label text="* Si una actividad previa fue rechazada, redacte su versión corregida como una nueva propuesta aquí abajo." style="-fx-font-size: 9pt; -fx-text-fill: #64748b; -fx-font-style: italic;"/>
         <HBox spacing="15" alignment="CENTER_LEFT">
             <TextField fx:id="txtNuevaActividadEstudiante" promptText="Describa explícitamente la tarea técnica propuesta para su cronograma..." HBox.hgrow="ALWAYS"/>
-            <Button fx:id="btnRegistrarActividad" text="Registrar Actividad" styleClass="button-primary"/>
+            <Button fx:id="btnRegistrarActividad" onAction="#handleRegistrar" text="Registrar Actividad" styleClass="button-primary"/>
         </HBox>
     </VBox>
 
@@ -27,12 +27,14 @@
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
         </columnResizePolicy>
         <columns>
-            <TableColumn text="Nro" prefWidth="50" maxWidth="60" minWidth="40"/>
-            <TableColumn text="Descripción de la Tarea Propuesta" prefWidth="450"/>
-            <TableColumn text="Estado de Aprobación" prefWidth="150"/>
-            <TableColumn text="Comentarios de Observación y Ajuste" prefWidth="250"/>
+            <TableColumn fx:id="colNumero" text="Nro" prefWidth="50" maxWidth="60" minWidth="40"/>
+            <TableColumn fx:id="colDescripcion" text="Descripción de la Tarea Propuesta" prefWidth="450"/>
+            <TableColumn fx:id="colEstado" text="Estado de Aprobación" prefWidth="150"/>
+            <TableColumn fx:id="colObservaciones" text="Comentarios de Observación y Ajuste" prefWidth="250"/>
             <!-- Campo para eliminar esa columna rechazada y no ensucie la tabla -->
             <TableColumn fx:id="colAccionActividad" text="Acción" prefWidth="100" maxWidth="120" minWidth="80"/>
         </columns>
     </TableView>
+    
+    <Label fx:id="lblEstado" visible="false" wrapText="true"/>
 </VBox>

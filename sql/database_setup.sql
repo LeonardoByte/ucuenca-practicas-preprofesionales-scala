@@ -67,7 +67,8 @@ CREATE TYPE estado_convenio AS ENUM (
 );
 
 CREATE TYPE estado_actividad AS ENUM (
-    'PENDIENTE', 'APROBADA', 'RECHAZADA'
+    'PENDIENTE', 'APROBADA', 'RECHAZADA',
+	'DESCARTAR_ESTUDIANTE', 'DESCARTAR_TUTOR'
 );
 
 CREATE TYPE estado_cronograma AS ENUM (

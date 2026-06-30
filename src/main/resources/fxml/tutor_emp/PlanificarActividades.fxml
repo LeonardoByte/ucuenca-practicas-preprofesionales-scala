@@ -2,20 +2,26 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox spacing="15" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" style="-fx-padding: 15;">
+<VBox spacing="15" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ucuenca.gestion.controllers.PlanificarActividadesController" style="-fx-padding: 15;">
     <Label text="Cronograma de Trabajo - Propuesta y Planificación de Actividades" style="-fx-font-size: 14pt; -fx-font-weight: bold; -fx-text-fill: #0f172a;"/>
     <Separator/>
 
-    <VBox spacing="8" styleClass="card-dashboard" style="-fx-border-left-color: #2563eb; -fx-border-left-width: 5px;">
+    <!-- Selector de estudiante para el tutor empresarial -->
+    <HBox spacing="15" alignment="CENTER_LEFT" styleClass="card-dashboard" style="-fx-padding: 10; -fx-background-color: #f8fafc; -fx-border-left-color: #475569; -fx-border-left-width: 5px;">
+        <Label text="Seleccionar Estudiante Asignado:" style="-fx-font-weight: bold;"/>
+        <ComboBox fx:id="cmbEstudianteSeleccionado" promptText="Seleccione un estudiante de la nómina..." prefWidth="350"/>
+    </HBox>
+
+    <VBox fx:id="vboxEdicionActividades" spacing="8" styleClass="card-dashboard" style="-fx-border-left-color: #2563eb; -fx-border-left-width: 5px;">
         <Label text="Redacción de Nueva Actividad para Fiscalización Metodológica:" style="-fx-font-weight: bold;"/>
         <Label text="* Si una actividad previa fue rechazada por el tutor académico, redacte su versión corregida como una nueva propuesta aquí abajo." style="-fx-font-size: 9pt; -fx-text-fill: #64748b; -fx-font-style: italic;"/>
         <HBox spacing="15" alignment="CENTER_LEFT">
             <TextField fx:id="txtNuevaActividadTutorEmp" promptText="Describa explícitamente la tarea técnica propuesta para el cronograma del estudiante..." HBox.hgrow="ALWAYS"/>
-            <Button fx:id="btnRegistrarActividad" text="Registrar Actividad" styleClass="button-primary"/>
+            <Button fx:id="btnRegistrarActividad" onAction="#handleRegistrar" text="Registrar Actividad" styleClass="button-primary"/>
         </HBox>
     </VBox>
 
-    <HBox alignment="CENTER_LEFT" spacing="15" styleClass="card-dashboard" style="-fx-padding: 10; -fx-background-color: #f8fafc;">
+    <HBox fx:id="hboxRestriccionF1" alignment="CENTER_LEFT" spacing="15" styleClass="card-dashboard" style="-fx-padding: 10; -fx-background-color: #f8fafc;">
         <Label text="Validación de Restricción del Formulario 1 (Rango Estricto entre 3 y 6 Tareas Aprobadas):" style="-fx-font-weight: bold;"/>
         <Label fx:id="lblContadorTareasValidadas" text="Tareas validadas actuales: 0 / Bloqueado" style="-fx-font-size: 11pt; -fx-text-fill: #ef4444; -fx-font-weight: bold;"/>
     </HBox>
@@ -27,12 +33,14 @@
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
         </columnResizePolicy>
         <columns>
-            <TableColumn text="Nro" prefWidth="50" maxWidth="60" minWidth="40"/>
-            <TableColumn text="Descripción de la Tarea Propuesta" prefWidth="450"/>
-            <TableColumn text="Estado de Aprobación (Docente)" prefWidth="150"/>
-            <TableColumn text="Comentarios de Observación y Ajuste" prefWidth="250"/>
+            <TableColumn fx:id="colNumero" text="Nro" prefWidth="50" maxWidth="60" minWidth="40"/>
+            <TableColumn fx:id="colDescripcion" text="Descripción de la Tarea Propuesta" prefWidth="450"/>
+            <TableColumn fx:id="colEstado" text="Estado de Aprobación (Docente)" prefWidth="150"/>
+            <TableColumn fx:id="colObservaciones" text="Comentarios de Observación y Ajuste" prefWidth="250"/>
             <!-- Campo para eliminar esa columna rechazada y no ensucie la tabla -->
             <TableColumn fx:id="colAccionActividad" text="Acción" prefWidth="100" maxWidth="120" minWidth="80"/>
         </columns>
     </TableView>
+    
+    <Label fx:id="lblEstado" visible="false" wrapText="true"/>
 </VBox>

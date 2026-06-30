@@ -1,5 +1,5 @@
 package com.ucuenca.gestion.models.enums;
 
 public enum EstadoActividad {
-    PENDIENTE, APROBADA, RECHAZADA
+    PENDIENTE, APROBADA, RECHAZADA, DESCARTAR_ESTUDIANTE, DESCARTAR_TUTOR
 }
