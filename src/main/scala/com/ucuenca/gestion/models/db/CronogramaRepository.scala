@@ -3,6 +3,7 @@ package com.ucuenca.gestion.models.db
 import scalikejdbc._
 import com.ucuenca.gestion.models.entities.{PracticaRegistro, ActividadCronograma}
 import com.ucuenca.gestion.models.enums.{OrigenRama, EstadoCronograma, OrigenCreacionActividad, EstadoActividad}
+import com.ucuenca.gestion.models.dto.StudentTutoradoDTO
 
 object CronogramaRepository {
 
@@ -108,5 +109,74 @@ object CronogramaRepository {
       WHERE id_practica_ref = ${idPractica}
         AND estado_actividad = 'APROBADA'::estado_actividad
     """.map(rs => rs.int(1)).single.apply().getOrElse(0)
+  }
+
+  // --- NUEVOS MÉTODOS PARA MICRO-SLICE 4.3 ---
+
+  /**
+   * Obtiene la lista de estudiantes asignados a un tutor académico junto con su cantidad de actividades PENDIENTES.
+   */
+  def listarEstudiantesTutorados(tutorCI: String)(implicit session: DBSession = AutoSession): List[StudentTutoradoDTO] = {
+    sql"""
+      SELECT 
+        pr.id_practica,
+        u_est.nombres_completos AS nombre_estudiante,
+        u_emp.nombres_completos AS nombre_empresa,
+        ep.ciclo_actual,
+        (SELECT COUNT(1) FROM actividad_cronograma ac WHERE ac.id_practica_ref = pr.id_practica AND ac.estado_actividad = 'PENDIENTE'::estado_actividad) AS pendientes_count
+      FROM practica_registro pr
+      INNER JOIN estudiante_perfil ep ON pr.ci_estudiante_ref = ep.identificacion
+      INNER JOIN usuario u_est ON ep.identificacion = u_est.identificacion
+      INNER JOIN usuario u_emp ON pr.ruc_empresa_ref = u_emp.identificacion
+      WHERE pr.id_tutor_academico_ref = ${tutorCI}
+      ORDER BY u_est.nombres_completos ASC
+    """.map { rs =>
+      StudentTutoradoDTO(
+        idPractica = rs.int("id_practica"),
+        nombreEstudiante = rs.string("nombre_estudiante"),
+        nombreEmpresa = rs.string("nombre_empresa"),
+        cicloActual = rs.int("ciclo_actual"),
+        pendientesCount = rs.int("pendientes_count")
+      )
+    }.list.apply()
+  }
+
+  /**
+   * Obtiene las actividades que tienen estado PENDIENTE para una práctica.
+   */
+  def listarActividadesPendientesPorPractica(idPractica: Int)(implicit session: DBSession = AutoSession): List[ActividadCronograma] = {
+    sql"""
+      SELECT * FROM actividad_cronograma
+      WHERE id_practica_ref = ${idPractica}
+        AND estado_actividad = 'PENDIENTE'::estado_actividad
+      ORDER BY numero_secuencial ASC
+    """.map { rs =>
+      ActividadCronograma(
+        idActividad = rs.int("id_actividad"),
+        idPracticaRef = rs.int("id_practica_ref"),
+        numeroSecuencial = rs.int("numero_secuencial"),
+        descripcionTarea = rs.string("descripcion_tarea"),
+        origenCreacion = OrigenCreacionActividad.valueOf(rs.string("origen_creacion")),
+        estadoActividad = EstadoActividad.valueOf(rs.string("estado_actividad")),
+        comentarioObservacion = rs.stringOpt("comentario_observacion"),
+        fechaRegistro = rs.localDate("fecha_registro")
+      )
+    }.list.apply()
+  }
+
+  /**
+   * Actualiza el estado de una actividad (aprobación o rechazo), garantizando la inmutabilidad
+   * al exigir que el estado actual sea estrictamente PENDIENTE.
+   */
+  def evaluarActividad(idActividad: Int, nuevoEstado: EstadoActividad, comentario: Option[String])(implicit session: DBSession = AutoSession): Boolean = {
+    val affected = sql"""
+      UPDATE actividad_cronograma
+      SET estado_actividad = ${nuevoEstado.name}::estado_actividad,
+          comentario_observacion = ${comentario}
+      WHERE id_actividad = ${idActividad}
+        AND estado_actividad = 'PENDIENTE'::estado_actividad
+    """.update.apply()
+    
+    affected > 0
   }
 }

@@ -2,7 +2,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox spacing="15" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" style="-fx-padding: 15;" maxWidth="850">
+<VBox spacing="15" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ucuenca.gestion.controllers.ValidarActividadesController" style="-fx-padding: 15;" maxWidth="850">
     <Label text="Evaluación y Control Metodológico de Tareas Propuestas" style="-fx-font-size: 14pt; -fx-font-weight: bold; -fx-text-fill: #0f172a;"/>
     <Separator/>
 
@@ -12,10 +12,10 @@
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
         </columnResizePolicy>
         <columns>
-            <TableColumn prefWidth="250" text="Nombres del Estudiante" />
-            <TableColumn prefWidth="200" text="Empresa de Acogida" />
-            <TableColumn prefWidth="150" text="Ciclo Actual" />
-            <TableColumn prefWidth="150" text="Actividades pendientes" /> <!-- La cantidad de actividades pendientes a revision-->
+            <TableColumn fx:id="colEstudiante" prefWidth="250" text="Nombres del Estudiante" />
+            <TableColumn fx:id="colEmpresa" prefWidth="200" text="Empresa de Acogida" />
+            <TableColumn fx:id="colCiclo" prefWidth="150" text="Ciclo Actual" />
+            <TableColumn fx:id="colPendientesCount" prefWidth="150" text="Actividades pendientes" />
         </columns>
     </TableView>
 
@@ -28,8 +28,8 @@
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
         </columnResizePolicy>
         <columns>
-            <TableColumn prefWidth="450" text="Descripción de la Tarea Propuesta" />
-            <TableColumn prefWidth="150" text="Origen de Carga" />
+            <TableColumn fx:id="colDescripcionAct" prefWidth="450" text="Descripción de la Tarea Propuesta" />
+            <TableColumn fx:id="colOrigenAct" prefWidth="150" text="Origen de Carga" />
         </columns>
     </TableView>
 
@@ -39,8 +39,10 @@
     </VBox>
 
     <HBox spacing="10" alignment="CENTER_LEFT">
-        <Button text="Rechazar Tarea Propuesta" styleClass="button-danger" style="-fx-background-color: #ef4444; -fx-text-fill: white; -fx-font-weight: bold;"/>
+        <Button fx:id="btnRechazar" onAction="#handleRechazar" text="Rechazar Tarea Propuesta" styleClass="button-danger" />
         <Region HBox.hgrow="ALWAYS"/>
-        <Button text="Aprobación Rápida de Actividad 	" styleClass="button-primary" style="-fx-background-color: #2563eb; -fx-text-fill: white; -fx-font-weight: bold;"/>
+        <Button fx:id="btnAprobar" onAction="#handleAprobar" text="Aprobación Rápida de Actividad" styleClass="button-primary" />
     </HBox>
+    
+    <Label fx:id="lblEstado" visible="false" wrapText="true"/>
 </VBox>
