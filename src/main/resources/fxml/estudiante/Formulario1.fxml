@@ -2,7 +2,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox spacing="15" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" style="-fx-padding: 15;">
+<VBox spacing="15" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ucuenca.gestion.controllers.Formulario1Controller" style="-fx-padding: 15;">
     <Label text="Expediente de Inicio - Presentación del Formulario 1 Digital" style="-fx-font-size: 14pt; -fx-font-weight: bold; -fx-text-fill: #0f172a;"/>
     <Separator/>
 
@@ -27,8 +27,8 @@
 
     <Label text="1. Descargar Documentación Base" style="-fx-font-weight: bold; -fx-text-fill: #334155;-fx-padding: 5 0 0 0;"/>
     <HBox spacing="15" alignment="CENTER_LEFT" maxWidth="850">
-        <Button fx:id="btnDescargarPlantillaFormulario" text="📥 Descargar Plantilla Formulario 1 (.pdf)" style="-fx-background-color: #475569; -fx-text-fill: white;"/>
-        <Button fx:id="btnDescargarPlantillaCarta" text="📥 Descargar Formato Carta Compromiso Base (.pdf)" style="-fx-background-color: #475569; -fx-text-fill: white;"/>
+        <Button fx:id="btnDescargarPlantillaFormulario" onAction="#handleDescargarPlantillaForm" text="📥 Descargar Plantilla Formulario 1 (.pdf)" style="-fx-background-color: #475569; -fx-text-fill: white;"/>
+        <Button fx:id="btnDescargarPlantillaCarta" onAction="#handleDescargarPlantillaCarta" text="📥 Descargar Formato Carta Compromiso Base (.pdf)" style="-fx-background-color: #475569; -fx-text-fill: white;"/>
     </HBox>
 
     <Separator maxWidth="850" style="-fx-padding: 5 0 5 0;"/>
@@ -36,7 +36,7 @@
     <Label text="2. Carga del Documento Llenado y Envío Formal" style="-fx-font-weight: bold; -fx-text-fill: #334155;"/>
     <HBox spacing="15" alignment="CENTER_LEFT" maxWidth="850" style="-fx-padding: 5 0 0 0;">
         <HBox spacing="10" alignment="CENTER_LEFT">
-            <Button fx:id="btnSubirFormularioLlenado" text="📤 Seleccionar Formulario 1 (.pdf)" style="-fx-background-color: #2563eb; -fx-text-fill: white; -fx-font-weight: bold;"/>
+            <Button fx:id="btnSubirFormularioLlenado" onAction="#handleSubirFormulario" text="📤 Seleccionar Formulario 1 (.pdf)" style="-fx-background-color: #2563eb; -fx-text-fill: white; -fx-font-weight: bold;"/>
             <Label fx:id="lblEstadoArchivoFormulario" text="Ningún archivo seleccionado (.pdf)" style="-fx-text-fill: #64748b; -fx-font-style: italic; -fx-font-size: 9.5pt;"/>
         </HBox>
 
@@ -44,6 +44,8 @@
 
         <Separator orientation="VERTICAL" prefHeight="25"/>
 
-        <Button fx:id="btnPresentarFormulario1" text="Presentar Formulario 1 🚀" style="-fx-background-color: #10b981; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 8 15 8 15;" disable="true"/>
+        <Button fx:id="btnPresentarFormulario1" onAction="#handlePresentar" text="Presentar Formulario 1 🚀" style="-fx-background-color: #10b981; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 8 15 8 15;" disable="true"/>
     </HBox>
+    
+    <Label fx:id="lblEstado" visible="false" wrapText="true"/>
 </VBox>

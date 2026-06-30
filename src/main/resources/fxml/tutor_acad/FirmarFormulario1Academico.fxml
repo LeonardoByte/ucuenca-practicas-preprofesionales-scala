@@ -2,7 +2,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox spacing="15" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" style="-fx-padding: 15;">
+<VBox spacing="15" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ucuenca.gestion.controllers.FirmarF1AcademicoController" style="-fx-padding: 15;">
     <Label text="Certificación de Inicio Formal - Firma del Formulario 1 Digital" style="-fx-font-size: 14pt; -fx-font-weight: bold; -fx-text-fill: #0f172a;"/>
     <Separator/>
 
@@ -12,20 +12,20 @@
     </HBox>
 
     <!-- Formato Adaptado de Carga Documental y Firmas -->
-    <VBox spacing="12" styleClass="card-dashboard" maxWidth="850" style="-fx-border-left-color: #2563eb; -fx-border-left-width: 5px;">
+    <VBox fx:id="vboxAccionesFirma" spacing="12" styleClass="card-dashboard" maxWidth="850" style="-fx-border-left-color: #2563eb; -fx-border-left-width: 5px;">
         <Label text="Flujo Decisional del Formulario 1 (Plan de Aprendizaje)" style="-fx-font-weight: bold; -fx-text-fill: #1e3a8a;"/>
         <Label text="Descargue el expediente del Formulario 1 que ya se encuentra debidamente llenado por el estudiante y validado por el tutor empresarial de contraparte. Examine el documento, plásmele su firma digital institucional y proceda a cargar el archivo firmado para autorizar el inicio." style="-fx-font-size: 9.5pt; -fx-text-fill: #64748b;" wrapText="true"/>
         <Separator/>
 
         <HBox spacing="15" alignment="CENTER_LEFT" style="-fx-padding: 5 0 0 0;">
             <!-- Descarga de archivo ya llenado -->
-            <Button fx:id="btnDescargarFormulario1Llenado" text="📥 Descargar Formulario 1 Llenado (.pdf)" style="-fx-background-color: #475569; -fx-text-fill: white;"/>
+            <Button fx:id="btnDescargarFormulario1Llenado" onAction="#handleDescargar" text="📥 Descargar Formulario 1 Llenado (.pdf)" style="-fx-background-color: #475569; -fx-text-fill: white;"/>
 
             <Separator orientation="VERTICAL" prefHeight="25"/>
 
             <!-- Componente de carga del archivo ya firmado -->
             <HBox spacing="10" alignment="CENTER_LEFT">
-                <Button fx:id="btnSubirF1DocenteFirmado" text="📤 Subir Formulario Firmado (PDF)" style="-fx-background-color: #2563eb; -fx-text-fill: white; -fx-font-weight: bold;"/>
+                <Button fx:id="btnSubirF1DocenteFirmado" onAction="#handleSubir" text="📤 Subir Formulario Firmado (PDF)" style="-fx-background-color: #2563eb; -fx-text-fill: white; -fx-font-weight: bold;"/>
                 <Label fx:id="lblEstadoF1Docente" text="Ningún archivo seleccionado (.pdf)" style="-fx-text-fill: #64748b; -fx-font-style: italic;"/>
             </HBox>
         </HBox>
@@ -33,6 +33,8 @@
 
     <HBox spacing="10" alignment="CENTER_LEFT" maxWidth="850">
         <Region HBox.hgrow="ALWAYS"/>
-        <Button text="Enviar Formulario 1 Validado" styleClass="button-primary"/>
+        <Button fx:id="btnEnviar" onAction="#handleEnviar" text="Enviar Formulario 1 Validado" styleClass="button-primary" disable="true"/>
     </HBox>
+    
+    <Label fx:id="lblEstado" visible="false" wrapText="true"/>
 </VBox>
