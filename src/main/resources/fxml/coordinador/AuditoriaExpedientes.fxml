@@ -1,73 +1,84 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
 
-<VBox spacing="15" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml">
-    <Label text="Control de Calidad Documental Legal para Cierre de Expediente" style="-fx-font-size: 14pt; -fx-font-weight: bold;"/>
+<SplitPane dividerPositions="0.35" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ucuenca.gestion.controllers.AuditoriaExpedientesController" prefHeight="700" style="-fx-padding: 10;">
+    <items>
+        <!-- Panel Izquierdo: Lista de Alumnos en Proceso de Cierre -->
+        <VBox spacing="10" style="-fx-padding: 5;">
+            <Label text="Expedientes de Cierre Listos" style="-fx-font-weight: bold; -fx-text-fill: #334155;"/>
+            <TableView fx:id="tblExpedientesCierre" VBox.vgrow="ALWAYS">
+                <columnResizePolicy>
+                    <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                </columnResizePolicy>
+                <columns>
+                    <TableColumn fx:id="colEstudiante" text="Estudiante" prefWidth="150"/>
+                    <TableColumn fx:id="colEmpresa" text="Empresa" prefWidth="150"/>
+                </columns>
+            </TableView>
+        </VBox>
 
-    <TabPane prefHeight="350" style="-fx-border-color: #cbd5e1;" VBox.vgrow="ALWAYS">
-        <tabs>
-            <Tab text="Pestaña 1: Formulario 1 (Plan Firmado)" closable="false">
-                <VBox style="-fx-padding: 15;" spacing="15">
-                    <Label text="Detalles del plan de actividades con firmas del tutor institucional y empresarial válidas."/>
+        <!-- Panel Derecho: Detalle de la Auditoría del Expediente -->
+        <VBox spacing="15" style="-fx-padding: 10;" alignment="TOP_LEFT">
+            <Label text="Control de Calidad Documental Legal para Cierre de Expediente" style="-fx-font-size: 13pt; -fx-font-weight: bold; -fx-text-fill: #1e3a8a;"/>
+            <Separator/>
 
-                    <GridPane hgap="10" vgap="10">
-                    </GridPane>
-                    <Region VBox.vgrow="ALWAYS"/>
+            <TabPane fx:id="tabPaneCierre" prefHeight="350" style="-fx-border-color: #cbd5e1;" VBox.vgrow="ALWAYS">
+                <tabs>
+                    <Tab text="Pestaña 1: Formulario 1 (Plan Firmado)" closable="false">
+                        <VBox style="-fx-padding: 15;" spacing="15">
+                            <Label text="Detalles del plan de actividades con firmas del tutor institucional y empresarial válidas."/>
+                            <Region VBox.vgrow="ALWAYS"/>
+                            <HBox spacing="10" alignment="CENTER_RIGHT">
+                                <Button fx:id="btnRevisarPlan" text="👁 Revisar Plan PDF" style="-fx-background-color: #2563eb; -fx-text-fill: white; -fx-font-weight: bold;" onAction="#handleRevisarPlanPDF"/>
+                                <Button fx:id="btnDescargarPlan" text="📥 Descargar" style="-fx-background-color: #475569; -fx-text-fill: white;" onAction="#handleDescargarPlanPDF"/>
+                            </HBox>
+                        </VBox>
+                    </Tab>
 
-                    <HBox spacing="10" alignment="CENTER_RIGHT">
-                        <Button fx:id="btnRevisarPlan" text="👁 Revisar Plan PDF" style="-fx-background-color: #2563eb; -fx-text-fill: white; -fx-font-weight: bold;"/>
-                        <Button fx:id="btnDescargarPlan" text="📥 Descargar" style="-fx-background-color: #475569; -fx-text-fill: white;"/>
-                    </HBox>
-                </VBox>
-            </Tab>
+                    <Tab text="Pestaña 2: Formulario 2 (Evaluación Empresa)" closable="false">
+                        <VBox style="-fx-padding: 15;" spacing="15">
+                            <Label text="Cuestionario de desempeño y rúbrica técnica rellenada por la entidad jurídica externa."/>
+                            <Region VBox.vgrow="ALWAYS"/>
+                            <HBox spacing="10" alignment="CENTER_RIGHT">
+                                <Button fx:id="btnRevisarEvaluacion" text="👁 Revisar Evaluación PDF" style="-fx-background-color: #2563eb; -fx-text-fill: white; -fx-font-weight: bold;" onAction="#handleRevisarEvaluacionPDF"/>
+                                <Button fx:id="btnDescargarEvaluacion" text="📥 Descargar" style="-fx-background-color: #475569; -fx-text-fill: white;" onAction="#handleDescargarEvaluacionPDF"/>
+                            </HBox>
+                        </VBox>
+                    </Tab>
 
-            <Tab text="Pestaña 2: Formulario 2 (Evaluación Empresa)" closable="false">
-                <VBox style="-fx-padding: 15;" spacing="15">
-                    <Label text="Cuestionario de desempeño y rúbrica técnica rellenada por la entidad jurídica externa."/>
+                    <Tab text="Pestaña 3: Formulario 3 (Informe Académico)" closable="false">
+                        <VBox style="-fx-padding: 15;" spacing="15">
+                            <Label text="Informe técnico consolidado emitido y firmado por el docente tutor asignado."/>
+                            <Region VBox.vgrow="ALWAYS"/>
+                            <HBox spacing="10" alignment="CENTER_RIGHT">
+                                <Button fx:id="btnRevisarInforme" text="👁 Revisar Informe PDF" style="-fx-background-color: #2563eb; -fx-text-fill: white; -fx-font-weight: bold;" onAction="#handleRevisarInformePDF"/>
+                                <Button fx:id="btnDescargarInforme" text="📥 Descargar" style="-fx-background-color: #475569; -fx-text-fill: white;" onAction="#handleDescargarInformePDF"/>
+                            </HBox>
+                        </VBox>
+                    </Tab>
+                </tabs>
+            </TabPane>
 
-                    <GridPane hgap="10" vgap="10">
-                    </GridPane>
-                    <Region VBox.vgrow="ALWAYS"/>
+            <HBox spacing="20" alignment="CENTER_LEFT" styleClass="card-dashboard" style="-fx-padding: 10;">
+                <CheckBox text="Indicador de Validación de Cartas Compromiso Físicas de Secretaría (Requerido)" fx:id="chkValidacionSecretaria"/>
+                <Separator orientation="VERTICAL" prefHeight="30"/>
+                <Label text="Registrar Nota Final Calificación (Numérico):" style="-fx-font-weight: bold;"/>
+                <TextField fx:id="txtNotaFinal" prefWidth="100" promptText="0.00 / 100"/>
+            </HBox>
 
-                    <HBox spacing="10" alignment="CENTER_RIGHT">
-                        <Button fx:id="btnRevisarEvaluacion" text="👁 Revisar Evaluación PDF" style="-fx-background-color: #2563eb; -fx-text-fill: white; -fx-font-weight: bold;"/>
-                        <Button fx:id="btnDescargarEvaluacion" text="📥 Descargar" style="-fx-background-color: #475569; -fx-text-fill: white;"/>
-                    </HBox>
-                </VBox>
-            </Tab>
+            <VBox spacing="5">
+                <Label text="Caja de Observaciones Obligatoria en caso de Rechazo de Expediente:" style="-fx-font-weight: bold;"/>
+                <TextArea fx:id="txtObservacionesExpediente" prefHeight="70" promptText="Escriba qué documento o firma falta..." wrapText="true"/>
+            </VBox>
 
-            <Tab text="Pestaña 3: Formulario 3 (Informe Académico)" closable="false">
-                <VBox style="-fx-padding: 15;" spacing="15">
-                    <Label text="Informe técnico consolidado emitido y firmado por el docente tutor asignado."/>
-
-                    <GridPane hgap="10" vgap="10">
-                    </GridPane>
-                    <Region VBox.vgrow="ALWAYS"/>
-
-                    <HBox spacing="10" alignment="CENTER_RIGHT">
-                        <Button fx:id="btnRevisarInforme" text="👁 Revisar Informe PDF" style="-fx-background-color: #2563eb; -fx-text-fill: white; -fx-font-weight: bold;"/>
-                        <Button fx:id="btnDescargarInforme" text="📥 Descargar" style="-fx-background-color: #475569; -fx-text-fill: white;"/>
-                    </HBox>
-                </VBox>
-            </Tab>
-        </tabs>
-    </TabPane>
-
-    <HBox spacing="20" alignment="CENTER_LEFT" styleClass="card-dashboard">
-        <CheckBox text="Indicador de Validación de Cartas Compromiso Físicas de Secretaría (Requerido)" fx:id="chkValidacionSecretaria"/>
-        <Separator orientation="VERTICAL" prefHeight="30"/>
-        <Label text="Registrar Nota Final Calificación (Numérico):" style="-fx-font-weight: bold;"/>
-        <TextField fx:id="txtNotaFinal" prefWidth="100" promptText="0.00 / 100"/>
-    </HBox>
-
-    <VBox spacing="5">
-        <Label text="Caja de Observaciones Obligatoria en caso de Rechazo de Expediente:" style="-fx-font-weight: bold;"/>
-        <TextArea fx:id="txtObservacionesExpediente" prefHeight="70" promptText="Escriba qué documento o firma falta..."/>
-    </VBox>
-
-    <HBox spacing="10">
-        <Button text="Aprobar Cierre Legal" styleClass="button-primary"/>
-        <Button text="Rechazar Expediente Técnico" styleClass="button-danger"/>
-    </HBox>
-</VBox>
+            <HBox spacing="10" alignment="CENTER_LEFT">
+                <Button fx:id="btnRechazarCierre" text="Rechazar Expediente Técnico ❌" styleClass="button-danger" onAction="#handleRechazarCierre" style="-fx-background-color: #ef4444; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 8 15;"/>
+                <Label fx:id="lblEstado" text="" visible="false" style="-fx-font-size: 10.5pt; -fx-font-weight: bold;" wrapText="true" maxWidth="400"/>
+                <Region HBox.hgrow="ALWAYS"/>
+                <Button fx:id="btnAprobarCierre" text="Aprobar Cierre Legal y Calificar 🚀" styleClass="button-primary" onAction="#handleAprobarCierre" style="-fx-background-color: #10b981; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 8 15;"/>
+            </HBox>
+        </VBox>
+    </items>
+</SplitPane>
