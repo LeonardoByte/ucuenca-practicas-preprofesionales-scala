@@ -2,7 +2,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox spacing="15" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" style="-fx-padding: 15;">
+<VBox spacing="15" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ucuenca.gestion.controllers.RevisarFormulario2Controller" style="-fx-padding: 15;">
     <Label text="Inspección de Consistencia de Evaluación Empresarial (Formulario 2)" style="-fx-font-size: 14pt; -fx-font-weight: bold; -fx-text-fill: #0f172a;"/>
     <Separator/>
 
@@ -22,8 +22,8 @@
 
         <!-- Pareja de botones estándar para manejo de PDFs -->
         <HBox spacing="10" alignment="CENTER_LEFT">
-            <Button fx:id="btnRevisarF2PDF" text="👁 Revisar Formulario 2 PDF" style="-fx-background-color: #2563eb; -fx-text-fill: white; -fx-font-weight: bold;"/>
-            <Button fx:id="btnDescargarF2PDF" text="📥 Descargar para Revisión" style="-fx-background-color: #475569; -fx-text-fill: white;"/>
+            <Button fx:id="btnRevisarF2PDF" text="👁 Revisar Formulario 2 PDF" style="-fx-background-color: #2563eb; -fx-text-fill: white; -fx-font-weight: bold;" onAction="#handleRevisarPDF"/>
+            <Button fx:id="btnDescargarF2PDF" text="📥 Descargar para Revisión" style="-fx-background-color: #475569; -fx-text-fill: white;" onAction="#handleDescargarPDF"/>
         </HBox>
     </VBox>
 
@@ -34,8 +34,9 @@
     </VBox>
 
     <HBox spacing="10" alignment="CENTER_LEFT">
-        <Button text="Rechazar Formulario 2" styleClass="button-danger"/>
+        <Button fx:id="btnRechazarF2" text="Rechazar Formulario 2" styleClass="button-danger" onAction="#handleRechazarF2"/>
+        <Label fx:id="lblEstado" text="" visible="false" style="-fx-font-size: 10.5pt; -fx-font-weight: bold;"/>
         <Region HBox.hgrow="ALWAYS"/>
-        <Button text="Registrar Conformidad Académica" styleClass="button-primary"/>
+        <Button fx:id="btnAprobarF2" text="Registrar Conformidad Académica" styleClass="button-primary" onAction="#handleAprobarF2"/>
     </HBox>
 </VBox>
