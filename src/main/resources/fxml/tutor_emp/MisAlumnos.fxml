@@ -3,13 +3,9 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.geometry.Insets?>
 
-<VBox spacing="20" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1"
-style="-fx-padding: 15;"
-alignment="TOP_CENTER">
-
+<VBox spacing="20" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ucuenca.gestion.controllers.MisAlumnosController" style="-fx-padding: 15;" alignment="TOP_CENTER">
     <VBox spacing="20" maxWidth="1260.0" VBox.vgrow="ALWAYS" alignment="TOP_LEFT">
         <children>
-
             <Label text="Panel de Tutela Técnica - Mis Alumnos Asignados" style="-fx-font-size: 16pt; -fx-font-weight: bold; -fx-text-fill: #1e3a8a;"/>
             <Separator/>
 
@@ -17,25 +13,25 @@ alignment="TOP_CENTER">
                 <children>
                     <VBox styleClass="card-dashboard" prefWidth="285" spacing="10" style="-fx-border-left-color: #2563eb; -fx-border-left-width: 5px;">
                         <Label text="Fase de Inicio (Formulario 1)" style="-fx-text-fill: #64748b; -fx-font-weight: bold;"/>
-                        <Label text="2 Alumnos" style="-fx-font-size: 22pt; -fx-font-weight: bold; -fx-text-fill: #2563eb;"/>
+                        <Label fx:id="lblAlumnosInicio" text="0 Alumnos" style="-fx-font-size: 22pt; -fx-font-weight: bold; -fx-text-fill: #2563eb;"/>
                         <Label text="Estructurando cronograma y plan de actividades" style="-fx-font-size: 9pt; -fx-text-fill: #94a3b8;"/>
                     </VBox>
 
                     <VBox styleClass="card-dashboard" prefWidth="285" spacing="10" style="-fx-border-left-color: #f59e0b; -fx-border-left-width: 5px;">
                         <Label text="Fase de Desarrollo" style="-fx-text-fill: #64748b; -fx-font-weight: bold;"/>
-                        <Label text="5 Alumnos" style="-fx-font-size: 22pt; -fx-font-weight: bold; -fx-text-fill: #f59e0b;"/>
+                        <Label fx:id="lblAlumnosDesarrollo" text="0 Alumnos" style="-fx-font-size: 22pt; -fx-font-weight: bold; -fx-text-fill: #f59e0b;"/>
                         <Label text="Ejecutando horas y tareas en el espacio laboral" style="-fx-font-size: 9pt; -fx-text-fill: #94a3b8;"/>
                     </VBox>
 
                     <VBox styleClass="card-dashboard" prefWidth="285" spacing="10" style="-fx-border-left-color: #10b981; -fx-border-left-width: 5px;">
                         <Label text="Peticiones de Cierre Recibidas" style="-fx-text-fill: #64748b; -fx-font-weight: bold;"/>
-                        <Label text="1 Alumno" style="-fx-font-size: 22pt; -fx-font-weight: bold; -fx-text-fill: #10b981;"/>
+                        <Label fx:id="lblAlumnosCierre" text="0 Alumnos" style="-fx-font-size: 22pt; -fx-font-weight: bold; -fx-text-fill: #10b981;"/>
                         <Label text="Horas completadas en espera del Formulario 2" style="-fx-font-size: 9pt; -fx-text-fill: #94a3b8;"/>
                     </VBox>
 
                     <VBox styleClass="card-dashboard" prefWidth="285" spacing="10" style="-fx-border-left-color: #6366f1; -fx-border-left-width: 5px;">
                         <Label text="Actividades Planificadas" style="-fx-text-fill: #64748b; -fx-font-weight: bold;"/>
-                        <Label text="3 Tareas" style="-fx-font-size: 22pt; -fx-font-weight: bold; -fx-text-fill: #6366f1;"/>
+                        <Label fx:id="lblTareasPlanificadas" text="0 Tareas" style="-fx-font-size: 22pt; -fx-font-weight: bold; -fx-text-fill: #6366f1;"/>
                         <Label text="Propuestas del cronograma enviadas a revisión" style="-fx-font-size: 9pt; -fx-text-fill: #94a3b8;"/>
                     </VBox>
                 </children>
@@ -50,14 +46,13 @@ alignment="TOP_CENTER">
                     <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
                 </columnResizePolicy>
                 <columns>
-                    <TableColumn prefWidth="250" text="Nombre Completo del Alumno" />
-                    <TableColumn prefWidth="200" text="Carrera Universitaria" />
-                    <TableColumn prefWidth="120" text="Ciclo Actual" />
-                    <TableColumn prefWidth="180" text="Etapa Actual del Proceso" />
-                    <TableColumn prefWidth="150" text="Petición de Cierre (F2)" />
+                    <TableColumn fx:id="colEstudiante" prefWidth="250" text="Nombre Completo del Alumno" />
+                    <TableColumn fx:id="colCarrera" prefWidth="200" text="Carrera Universitaria" />
+                    <TableColumn fx:id="colCiclo" prefWidth="120" text="Ciclo Actual" />
+                    <TableColumn fx:id="colEtapa" prefWidth="180" text="Etapa Actual del Proceso" />
+                    <TableColumn fx:id="colCierre" prefWidth="150" text="Petición de Cierre (F2)" />
                 </columns>
             </TableView>
-
         </children>
     </VBox>
 </VBox>

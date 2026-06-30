@@ -3,7 +3,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.geometry.Insets?>
 
-<VBox spacing="20" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" style="-fx-padding: 15;">
+<VBox spacing="20" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ucuenca.gestion.controllers.EstadoSistemaController" style="-fx-padding: 15;">
     <Label text="Cuadro de Mando Integrado - Consola de Estado Técnico y Operativo" style="-fx-font-size: 16pt; -fx-font-weight: bold; -fx-text-fill: #1e3a8a;"/>
     <Separator/>
 
@@ -12,13 +12,13 @@
         <children>
             <VBox styleClass="card-dashboard" prefWidth="340" spacing="10" style="-fx-border-left-color: #10b981; -fx-border-left-width: 5px;">
                 <Label text="Servidor Motor Relacional" style="-fx-text-fill: #64748b; -fx-font-weight: bold;"/>
-                <Label text="ACTIVO" style="-fx-font-size: 24pt; -fx-font-weight: bold; -fx-text-fill: #10b981;"/>
+                <Label fx:id="lblEstadoBD" text="ACTIVO" style="-fx-font-size: 24pt; -fx-font-weight: bold; -fx-text-fill: #10b981;"/>
                 <Label text="PostgreSQL 18.0 (Estable) / Pool: 14 Activas" style="-fx-font-size: 9pt; -fx-text-fill: #94a3b8;"/>
             </VBox>
 
             <VBox styleClass="card-dashboard" prefWidth="340" spacing="10" style="-fx-border-left-color: #2563eb; -fx-border-left-width: 5px;">
                 <Label text="Prácticas Preprofesionales Activas" style="-fx-text-fill: #64748b; -fx-font-weight: bold;"/>
-                <Label text="115" style="-fx-font-size: 24pt; -fx-font-weight: bold; -fx-text-fill: #2563eb;"/>
+                <Label fx:id="lblPracticasActivas" text="0" style="-fx-font-size: 24pt; -fx-font-weight: bold; -fx-text-fill: #2563eb;"/>
                 <Label text="Procesos de ejecución en el ciclo actual 2026" style="-fx-font-size: 9pt; -fx-text-fill: #94a3b8;"/>
             </VBox>
         </children>
@@ -31,43 +31,43 @@
         <children>
             <VBox styleClass="card-dashboard" prefWidth="280" spacing="10" style="-fx-border-left-color: #3b82f6; -fx-border-left-width: 5px;">
                 <Label text="Estudiantes Matriculados" style="-fx-text-fill: #64748b; -fx-font-weight: bold;"/>
-                <Label text="240" style="-fx-font-size: 26pt; -fx-font-weight: bold; -fx-text-fill: #3b82f6;"/>
+                <Label fx:id="lblEstudiantes" text="0" style="-fx-font-size: 26pt; -fx-font-weight: bold; -fx-text-fill: #3b82f6;"/>
                 <Label text="Cuentas de alumnos habilitados" style="-fx-font-size: 9pt; -fx-text-fill: #94a3b8;"/>
             </VBox>
 
             <VBox styleClass="card-dashboard" prefWidth="280" spacing="10" style="-fx-border-left-color: #8b5cf6; -fx-border-left-width: 5px;">
                 <Label text="Tutores Académicos" style="-fx-text-fill: #64748b; -fx-font-weight: bold;"/>
-                <Label text="32" style="-fx-font-size: 26pt; -fx-font-weight: bold; -fx-text-fill: #8b5cf6;"/>
+                <Label fx:id="lblTutoresAcad" text="0" style="-fx-font-size: 26pt; -fx-font-weight: bold; -fx-text-fill: #8b5cf6;"/>
                 <Label text="Cuentas de docentes de la Universidad" style="-fx-font-size: 9pt; -fx-text-fill: #94a3b8;"/>
             </VBox>
 
             <VBox styleClass="card-dashboard" prefWidth="280" spacing="10" style="-fx-border-left-color: #f59e0b; -fx-border-left-width: 5px;">
                 <Label text="Entidades Jurídicas" style="-fx-text-fill: #64748b; -fx-font-weight: bold;"/>
-                <Label text="45" style="-fx-font-size: 26pt; -fx-font-weight: bold; -fx-text-fill: #f59e0b;"/>
+                <Label fx:id="lblEmpresas" text="0" style="-fx-font-size: 26pt; -fx-font-weight: bold; -fx-text-fill: #f59e0b;"/>
                 <Label text="Perfiles de empresas externas registrados" style="-fx-font-size: 9pt; -fx-text-fill: #94a3b8;"/>
             </VBox>
 
             <VBox styleClass="card-dashboard" prefWidth="280" spacing="10" style="-fx-border-left-color: #ec4899; -fx-border-left-width: 5px;">
                 <Label text="Tutores Empresariales" style="-fx-text-fill: #64748b; -fx-font-weight: bold;"/>
-                <Label text="58" style="-fx-font-size: 26pt; -fx-font-weight: bold; -fx-text-fill: #ec4899;"/>
+                <Label fx:id="lblTutoresEmp" text="0" style="-fx-font-size: 26pt; -fx-font-weight: bold; -fx-text-fill: #ec4899;"/>
                 <Label text="Cuentas de responsables de contraparte" style="-fx-font-size: 9pt; -fx-text-fill: #94a3b8;"/>
             </VBox>
 
             <VBox styleClass="card-dashboard" prefWidth="280" spacing="10" style="-fx-border-left-color: #64748b; -fx-border-left-width: 5px;">
                 <Label text="Coordinadores Vinculación" style="-fx-text-fill: #64748b; -fx-font-weight: bold;"/>
-                <Label text="7" style="-fx-font-size: 26pt; -fx-font-weight: bold; -fx-text-fill: #64748b;"/>
+                <Label fx:id="lblCoordinadores" text="0" style="-fx-font-size: 26pt; -fx-font-weight: bold; -fx-text-fill: #64748b;"/>
                 <Label text="Cuentas de delegados de carrera" style="-fx-font-size: 9pt; -fx-text-fill: #94a3b8;"/>
             </VBox>
 
             <VBox styleClass="card-dashboard" prefWidth="280" spacing="10" style="-fx-border-left-color: #06b6d4; -fx-border-left-width: 5px;">
                 <Label text="Personal de Secretaría" style="-fx-text-fill: #64748b; -fx-font-weight: bold;"/>
-                <Label text="5" style="-fx-font-size: 26pt; -fx-font-weight: bold; -fx-text-fill: #06b6d4;"/>
+                <Label fx:id="lblSecretarias" text="0" style="-fx-font-size: 26pt; -fx-font-weight: bold; -fx-text-fill: #06b6d4;"/>
                 <Label text="Cuentas de apoyo administrativo" style="-fx-font-size: 9pt; -fx-text-fill: #94a3b8;"/>
             </VBox>
 
             <VBox styleClass="card-dashboard" prefWidth="280" spacing="10" style="-fx-border-left-color: #0f172a; -fx-border-left-width: 5px;">
                 <Label text="Administradores" style="-fx-text-fill: #64748b; -fx-font-weight: bold;"/>
-                <Label text="2" style="-fx-font-size: 26pt; -fx-font-weight: bold; -fx-text-fill: #0f172a;"/>
+                <Label fx:id="lblAdmins" text="0" style="-fx-font-size: 26pt; -fx-font-weight: bold; -fx-text-fill: #0f172a;"/>
                 <Label text="Cuentas de soporte de sistemas" style="-fx-font-size: 9pt; -fx-text-fill: #94a3b8;"/>
             </VBox>
         </children>

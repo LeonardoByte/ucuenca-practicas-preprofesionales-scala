@@ -2,7 +2,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox spacing="20" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" style="-fx-padding: 15;">
+<VBox spacing="20" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ucuenca.gestion.controllers.CuadroMandoController" style="-fx-padding: 15;">
     <Label text="Cuadro de Mando - Estado de Entidad Jurídica" style="-fx-font-size: 16pt; -fx-font-weight: bold; -fx-text-fill: #1e3a8a;"/>
     <Separator/>
 
@@ -11,19 +11,19 @@
         <children>
             <VBox styleClass="card-dashboard" prefWidth="320" spacing="10" style="-fx-border-left-color: #2563eb; -fx-border-left-width: 5px;">
                 <Label text="Vacantes Cubiertas Globales" style="-fx-text-fill: #64748b; -fx-font-weight: bold;"/>
-                <Label text="8 / 15" style="-fx-font-size: 24pt; -fx-font-weight: bold; -fx-text-fill: #2563eb;"/>
+                <Label fx:id="lblVacantesCubiertas" text="0 / 0" style="-fx-font-size: 24pt; -fx-font-weight: bold; -fx-text-fill: #2563eb;"/>
                 <Label text="Practicantes vinculados en convocatorias activas" style="-fx-font-size: 9pt; -fx-text-fill: #94a3b8;"/>
             </VBox>
 
             <VBox styleClass="card-dashboard" prefWidth="320" spacing="10" style="-fx-border-left-color: #10b981; -fx-border-left-width: 5px;">
                 <Label text="Vigencia del Convenio Legal" style="-fx-text-fill: #64748b; -fx-font-weight: bold;"/>
-                <Label text="VIGENTE" style="-fx-font-size: 24pt; -fx-font-weight: bold; -fx-text-fill: #10b981;"/>
+                <Label fx:id="lblVigenciaConvenio" text="VERIFICANDO" style="-fx-font-size: 24pt; -fx-font-weight: bold; -fx-text-fill: #10b981;"/>
                 <Label text="Alianza activa con la Universidad de Cuenca" style="-fx-font-size: 9pt; -fx-text-fill: #94a3b8;"/>
             </VBox>
 
             <VBox styleClass="card-dashboard" prefWidth="320" spacing="10" style="-fx-border-left-color: #ec4899; -fx-border-left-width: 5px;">
                 <Label text="Tutores Empresariales Registrados" style="-fx-text-fill: #64748b; -fx-font-weight: bold;"/>
-                <Label text="4" style="-fx-font-size: 24pt; -fx-font-weight: bold; -fx-text-fill: #ec4899;"/>
+                <Label fx:id="lblTutoresRegistrados" text="0" style="-fx-font-size: 24pt; -fx-font-weight: bold; -fx-text-fill: #ec4899;"/>
                 <Label text="Responsables técnicos asignados en la firma" style="-fx-font-size: 9pt; -fx-text-fill: #94a3b8;"/>
             </VBox>
         </children>

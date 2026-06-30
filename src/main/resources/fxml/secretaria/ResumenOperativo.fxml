@@ -3,7 +3,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.geometry.Insets?>
 
-<VBox spacing="20" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" style="-fx-padding: 15;">
+<VBox spacing="20" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ucuenca.gestion.controllers.ResumenOperativoController" style="-fx-padding: 15;">
     <Label text="Cuadro de Mando - Resumen Operativo de Secretaría" style="-fx-font-size: 16pt; -fx-font-weight: bold; -fx-text-fill: #1e3a8a;"/>
     <Separator/>
 
@@ -13,14 +13,14 @@
             <!-- Tarjeta 1: Cartas Compromiso Pendientes -->
             <VBox styleClass="card-dashboard" prefWidth="340" spacing="10" style="-fx-border-left-color: #ea580c; -fx-border-left-width: 5px;">
                 <Label text="Cartas Compromiso por Firmar" style="-fx-text-fill: #64748b; -fx-font-weight: bold;"/>
-                <Label text="15 Carpetas" style="-fx-font-size: 24pt; -fx-font-weight: bold; -fx-text-fill: #ea580c;"/>
+                <Label fx:id="lblCartasPendientes" text="0 Carpetas" style="-fx-font-size: 24pt; -fx-font-weight: bold; -fx-text-fill: #ea580c;"/>
                 <Label text="Copias físicas en espera de validación de entrega" style="-fx-font-size: 9pt; -fx-text-fill: #94a3b8;"/>
             </VBox>
 
             <!-- Tarjeta 2: Solicitudes de Convenio -->
             <VBox styleClass="card-dashboard" prefWidth="340" spacing="10" style="-fx-border-left-color: #1e3a8a; -fx-border-left-width: 5px;">
                 <Label text="Solicitudes de Convenio Jurídico" style="-fx-text-fill: #64748b; -fx-font-weight: bold;"/>
-                <Label text="2 Peticiones" style="-fx-font-size: 24pt; -fx-font-weight: bold; -fx-text-fill: #1e3a8a;"/>
+                <Label fx:id="lblConveniosPendientes" text="0 Peticiones" style="-fx-font-size: 24pt; -fx-font-weight: bold; -fx-text-fill: #1e3a8a;"/>
                 <Label text="Nuevos convenios de empresas por procesar" style="-fx-font-size: 9pt; -fx-text-fill: #94a3b8;"/>
             </VBox>
         </children>

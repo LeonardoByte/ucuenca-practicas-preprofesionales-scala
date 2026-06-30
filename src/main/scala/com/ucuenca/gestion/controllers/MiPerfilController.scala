@@ -80,7 +80,8 @@ class MiPerfilController {
           lblOfertasDisponibles.setStyle("-fx-font-size: 24pt; -fx-font-weight: bold; -fx-text-fill: #dc2626;")
           lblEstadoPractica.setStyle("-fx-font-size: 20pt; -fx-font-weight: bold; -fx-text-fill: #ea580c;") // Naranja oscuro (Orange 600)
         } else {
-          lblOfertasDisponibles.setText("12")
+          val count = EstudiantePerfilLogic.obtenerOfertasDisponiblesCount().getOrElse(0)
+          lblOfertasDisponibles.setText(count.toString)
           lblOfertasDisponibles.setStyle("-fx-font-size: 24pt; -fx-font-weight: bold; -fx-text-fill: #3b82f6;")
           lblEstadoPractica.setStyle("-fx-font-size: 20pt; -fx-font-weight: bold; -fx-text-fill: #10b981;") // Verde (Emerald 500)
         }

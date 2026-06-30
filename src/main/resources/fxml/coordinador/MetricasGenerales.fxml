@@ -3,7 +3,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.geometry.Insets?>
 
-<VBox spacing="20" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" style="-fx-padding: 15;">
+<VBox spacing="20" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ucuenca.gestion.controllers.MetricasGeneralesController" style="-fx-padding: 15;">
     <Label text="Cuadro de Mando Integrado - Métricas Generales de Coordinación" style="-fx-font-size: 16pt; -fx-font-weight: bold; -fx-text-fill: #1e3a8a;"/>
     <Separator/>
 
@@ -13,35 +13,35 @@
             <!-- Métrica 1: Postulaciones por revisar -->
             <VBox styleClass="card-dashboard" prefWidth="280" spacing="10" style="-fx-border-left-color: #3b82f6; -fx-border-left-width: 5px;">
                 <Label text="Postulaciones por Revisar" style="-fx-text-fill: #64748b; -fx-font-weight: bold;"/>
-                <Label text="14" style="-fx-font-size: 26pt; -fx-font-weight: bold; -fx-text-fill: #3b82f6;"/>
+                <Label fx:id="lblPostulacionesPendientes" text="0" style="-fx-font-size: 26pt; -fx-font-weight: bold; -fx-text-fill: #3b82f6;"/>
                 <Label text="Estudiantes esperando filtro de bolsa" style="-fx-font-size: 9pt; -fx-text-fill: #94a3b8;"/>
             </VBox>
 
             <!-- Métrica 2: Ofertas por revisar -->
             <VBox styleClass="card-dashboard" prefWidth="280" spacing="10" style="-fx-border-left-color: #f59e0b; -fx-border-left-width: 5px;">
                 <Label text="Ofertas de Empresas por Revisar" style="-fx-text-fill: #64748b; -fx-font-weight: bold;"/>
-                <Label text="6" style="-fx-font-size: 26pt; -fx-font-weight: bold; -fx-text-fill: #f59e0b;"/>
+                <Label fx:id="lblOfertasPendientes" text="0" style="-fx-font-size: 26pt; -fx-font-weight: bold; -fx-text-fill: #f59e0b;"/>
                 <Label text="Convocatorias pendientes de validación" style="-fx-font-size: 9pt; -fx-text-fill: #94a3b8;"/>
             </VBox>
 
             <!-- Métrica 3: Oficios de empresa propia por revisar -->
             <VBox styleClass="card-dashboard" prefWidth="280" spacing="10" style="-fx-border-left-color: #8b5cf6; -fx-border-left-width: 5px;">
                 <Label text="Oficios Empresa Propia por Revisar" style="-fx-text-fill: #64748b; -fx-font-weight: bold;"/>
-                <Label text="4" style="-fx-font-size: 26pt; -fx-font-weight: bold; -fx-text-fill: #8b5cf6;"/>
+                <Label fx:id="lblOficiosPendientes" text="0" style="-fx-font-size: 26pt; -fx-font-weight: bold; -fx-text-fill: #8b5cf6;"/>
                 <Label text="Trámites autogestionados pendientes" style="-fx-font-size: 9pt; -fx-text-fill: #94a3b8;"/>
             </VBox>
 
             <!-- Métrica 4: Asignación de tutores pendientes -->
             <VBox styleClass="card-dashboard" prefWidth="280" spacing="10" style="-fx-border-left-color: #ec4899; -fx-border-left-width: 5px;">
                 <Label text="Asignación de Tutores Pendientes" style="-fx-text-fill: #64748b; -fx-font-weight: bold;"/>
-                <Label text="9" style="-fx-font-size: 26pt; -fx-font-weight: bold; -fx-text-fill: #ec4899;"/>
+                <Label fx:id="lblAsignacionesPendientes" text="0" style="-fx-font-size: 26pt; -fx-font-weight: bold; -fx-text-fill: #ec4899;"/>
                 <Label text="Alumnos aceptados sin tutor docente" style="-fx-font-size: 9pt; -fx-text-fill: #94a3b8;"/>
             </VBox>
 
             <!-- Métrica 5: Auditoría de expedientes -->
             <VBox styleClass="card-dashboard" prefWidth="280" spacing="10" style="-fx-border-left-color: #10b981; -fx-border-left-width: 5px;">
                 <Label text="Auditoría de Expedientes (Cierre)" style="-fx-text-fill: #64748b; -fx-font-weight: bold;"/>
-                <Label text="22" style="-fx-font-size: 26pt; -fx-font-weight: bold; -fx-text-fill: #10b981;"/>
+                <Label fx:id="lblAuditoriasPendientes" text="0" style="-fx-font-size: 26pt; -fx-font-weight: bold; -fx-text-fill: #10b981;"/>
                 <Label text="Bloques F1, F2 y F3 listos para firma" style="-fx-font-size: 9pt; -fx-text-fill: #94a3b8;"/>
             </VBox>
         </children>

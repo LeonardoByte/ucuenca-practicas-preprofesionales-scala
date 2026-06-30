@@ -97,4 +97,10 @@ class EstudiantePerfilLogicSpec extends AnyFlatSpec with Matchers with BeforeAnd
     // Estado PRACTICA_ACREDITADA -> SI bloquea
     EstudiantePerfilLogic.validarBloqueoPostulacion(EstadoEstudiantePractica.PRACTICA_ACREDITADA) shouldBe true
   }
+
+  it should "obtener con éxito el conteo de ofertas aprobadas y publicadas" in {
+    val result = EstudiantePerfilLogic.obtenerOfertasDisponiblesCount()
+    result.isRight shouldBe true
+    result.getOrElse(-1) should be >= 0
+  }
 }

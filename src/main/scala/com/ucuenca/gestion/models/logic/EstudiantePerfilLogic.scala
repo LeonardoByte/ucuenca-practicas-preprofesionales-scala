@@ -66,4 +66,21 @@ object EstudiantePerfilLogic {
   def validarBloqueoPostulacion(estadoPractica: EstadoEstudiantePractica): Boolean = {
     estadoPractica != EstadoEstudiantePractica.SIN_PRACTICA
   }
+
+  /**
+   * Obtiene la cantidad de ofertas de empleo aprobadas y publicadas en la bolsa de empleo.
+   */
+  def obtenerOfertasDisponiblesCount(): Either[PerfilFailure, Int] = {
+    try {
+      import scalikejdbc._
+      val count = DB.readOnly { implicit session =>
+        sql"SELECT COUNT(*) FROM oferta_convocatoria WHERE estado_oferta = 'APROBADA'"
+          .map(rs => rs.int(1)).single.apply().getOrElse(0)
+      }
+      Right(count)
+    } catch {
+      case NonFatal(e) =>
+        Left(PerfilFailure.ErrorPersistencia(s"Error al contar ofertas disponibles: ${e.getMessage}"))
+    }
+  }
 }
