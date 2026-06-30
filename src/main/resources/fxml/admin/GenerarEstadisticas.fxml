@@ -1,22 +1,92 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
 
-<VBox spacing="20" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml">
-    <Label text="Extracción de Información Analítica Institucional Exigida" style="-fx-font-size: 14pt; -fx-font-weight: bold;"/>
-    <VBox spacing="15" styleClass="card-dashboard" maxWidth="750">
-        <Label text="Interfaz de Criterios y Selectores de Carga Operativa:" style="-fx-font-weight: bold;"/>
-        <HBox spacing="15">
-            <ComboBox promptText="Periodo Académico Vigente..."/>
-            <ComboBox promptText="Filtrar por Carrera..."/>
+<VBox spacing="20" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ucuenca.gestion.controllers.GenerarEstadisticasController" style="-fx-padding: 15;">
+    <Label text="Extracción de Información Analítica e Indicadores Institucionales" style="-fx-font-size: 16pt; -fx-font-weight: bold; -fx-text-fill: #1e3a8a;"/>
+    <Separator/>
+    
+    <VBox spacing="15" styleClass="card-dashboard" style="-fx-background-color: #f8fafc; -fx-padding: 12; -fx-border-radius: 4; -fx-border-color: #e2e8f0;">
+        <Label text="Interfaz de Filtros y Selectores Académicos:" style="-fx-font-weight: bold; -fx-text-fill: #334155;"/>
+        <HBox spacing="15" alignment="CENTER_LEFT">
+            <ComboBox fx:id="cmbPeriodo" promptText="Periodo Académico Vigente..." prefWidth="250"/>
+            <ComboBox fx:id="cmbCarrera" promptText="Filtrar por Carrera..." prefWidth="300"/>
+            <Button text="Limpiar Filtros" onAction="#handleClearFilters" style="-fx-background-color: #64748b; -fx-text-fill: white;"/>
         </HBox>
-        <Separator style="-fx-padding: 10 0;"/>
-        <Label text="Botones de Exportación Rápida de Informes y Tablas Limpias:" style="-fx-font-weight: bold;"/>
-        <VBox spacing="10">
-            <Button text="1. Exportar Lista Consolidada de Estudiantes con Prácticas Activas" styleClass="button-download" maxWidth="Infinity"/>
-            <Button text="2. Exportar Listado Ordenado de Empresas con Mayor Número de Practicantes" styleClass="button-download" maxWidth="Infinity"/>
-            <Button text="3. Exportar Resumen Analítico Porcentual de Postulaciones de Periodo" styleClass="button-download" maxWidth="Infinity"/>
-            <Button text="4. Exportar Reporte de Índices de Satisfacción del Desempeño Corporativo" styleClass="button-download" maxWidth="Infinity"/>
-        </VBox>
     </VBox>
+    
+    <!-- TabPane que contiene los 4 informes analíticos exigidos -->
+    <TabPane fx:id="tabPaneInformes" prefHeight="480" tabClosingPolicy="UNAVAILABLE" VBox.vgrow="ALWAYS" style="-fx-border-color: #cbd5e1; -fx-border-radius: 4; -fx-background-color: white;">
+        <tabs>
+            <!-- Informe 1: Estudiantes Activos -->
+            <Tab text="1. Estudiantes con Prácticas Activas">
+                <VBox spacing="10" style="-fx-padding: 10;">
+                    <Label text="Lista Consolidada de Alumnos con Cronogramas en Ejecución" style="-fx-font-weight: bold; -fx-text-fill: #475569;"/>
+                    <TableView fx:id="tblActiveStudents" VBox.vgrow="ALWAYS">
+                        <columnResizePolicy>
+                            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
+                        </columnResizePolicy>
+                        <columns>
+                            <TableColumn fx:id="colActiveStudent" text="Nombres del Estudiante" prefWidth="250"/>
+                            <TableColumn fx:id="colActiveCareer" text="Carrera" prefWidth="180"/>
+                            <TableColumn fx:id="colActiveCompany" text="Empresa de Acogida" prefWidth="250"/>
+                            <TableColumn fx:id="colActiveHours" text="Horas Acumuladas" prefWidth="130"/>
+                            <TableColumn fx:id="colActiveStage" text="Etapa del Proceso" prefWidth="150"/>
+                        </columns>
+                    </TableView>
+                </VBox>
+            </Tab>
+            
+            <!-- Informe 2: Ranking de Empresas -->
+            <Tab text="2. Ranking de Empresas Receptoras">
+                <VBox spacing="10" style="-fx-padding: 10;">
+                    <Label text="Ordenación Descendente de Plazas Habilitadas y Ocupadas por Organización" style="-fx-font-weight: bold; -fx-text-fill: #475569;"/>
+                    <TableView fx:id="tblTopCompanies" VBox.vgrow="ALWAYS">
+                        <columnResizePolicy>
+                            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
+                        </columnResizePolicy>
+                        <columns>
+                            <TableColumn fx:id="colTopCompany" text="Razón Social Empresa" prefWidth="400"/>
+                            <TableColumn fx:id="colTopRuc" text="RUC / Identificación" prefWidth="200"/>
+                            <TableColumn fx:id="colTopCount" text="Practicantes Activos" prefWidth="200"/>
+                        </columns>
+                    </TableView>
+                </VBox>
+            </Tab>
+            
+            <!-- Informe 3: Resumen Porcentual de Postulaciones -->
+            <Tab text="3. Porcentajes de Postulaciones">
+                <VBox spacing="10" style="-fx-padding: 10;">
+                    <Label text="Distribución de Estados en Solicitudes de la Bolsa de Empleo" style="-fx-font-weight: bold; -fx-text-fill: #475569;"/>
+                    <TableView fx:id="tblPostulations" VBox.vgrow="ALWAYS">
+                        <columnResizePolicy>
+                            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
+                        </columnResizePolicy>
+                        <columns>
+                            <TableColumn fx:id="colPostulationState" text="Estado de Postulación" prefWidth="300"/>
+                            <TableColumn fx:id="colPostulationCount" text="Cantidad de Solicitudes" prefWidth="250"/>
+                            <TableColumn fx:id="colPostulationPercent" text="Porcentaje Relativo" prefWidth="250"/>
+                        </columns>
+                    </TableView>
+                </VBox>
+            </Tab>
+            
+            <!-- Informe 4: Averages de Satisfacción Corporativa -->
+            <Tab text="4. Satisfacción y Desempeño Corporativo">
+                <VBox spacing="10" style="-fx-padding: 10;">
+                    <Label text="Índice de Calificación Promedio Obtenido por Organización (Cierre Aprobado)" style="-fx-font-weight: bold; -fx-text-fill: #475569;"/>
+                    <TableView fx:id="tblSatisfaction" VBox.vgrow="ALWAYS">
+                        <columnResizePolicy>
+                            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
+                        </columnResizePolicy>
+                        <columns>
+                            <TableColumn fx:id="colSatCompany" text="Empresa Receptora" prefWidth="500"/>
+                            <TableColumn fx:id="colSatAverage" text="Índice de Calificación Promedio (Sobre 100.00)" prefWidth="300"/>
+                        </columns>
+                    </TableView>
+                </VBox>
+            </Tab>
+        </tabs>
+    </TabPane>
 </VBox>
