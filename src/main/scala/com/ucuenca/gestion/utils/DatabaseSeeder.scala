@@ -31,13 +31,23 @@ object DatabaseSeeder {
     println("Limpiando base de datos para reinserción de datos semilla...")
     // Eliminar datos en orden de dependencia
     sql"DELETE FROM postulacion_bolsa".update.apply()
+    sql"DELETE FROM validacion_carta_compromiso".update.apply()
+    sql"DELETE FROM actividad_cronograma".update.apply()
+    sql"DELETE FROM expediente_formulario1".update.apply()
+    sql"DELETE FROM formulario2_evaluacion".update.apply()
+    sql"DELETE FROM formulario3_informe".update.apply()
+    sql"DELETE FROM auditoria_cierre".update.apply()
+    sql"DELETE FROM practica_registro".update.apply()
     sql"DELETE FROM solicitud_empresa_propia".update.apply()
     sql"DELETE FROM oferta_convocatoria".update.apply()
+    sql"DELETE FROM tutor_empresarial_perfil".update.apply()
+    sql"DELETE FROM solicitud_convenio".update.apply()
     sql"DELETE FROM estudiante_perfil".update.apply()
     sql"DELETE FROM empresa_perfil".update.apply()
     sql"DELETE FROM usuario_sistema".update.apply()
     sql"DELETE FROM usuario".update.apply()
     sql"DELETE FROM archivo_pdf".update.apply()
+    sql"DELETE FROM periodo_academico".update.apply()
 
     println("Insertando datos semilla de desarrollo completos...")
 

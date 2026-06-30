@@ -39,11 +39,29 @@ class ConvenioLogicSpec extends AnyFlatSpec with Matchers with BeforeAndAfterAll
   }
 
   private def cleanDb()(implicit session: DBSession): Unit = {
+    // 1. Collect PDF IDs associated with the company's covenant requests
+    val pdfIds = sql"SELECT convenio_documento_pdf FROM solicitud_convenio WHERE ruc_empresa = ${testRuc}"
+      .map(_.int("convenio_documento_pdf")).list.apply()
+
+    // 2. Delete covenant request
     sql"DELETE FROM solicitud_convenio WHERE ruc_empresa = ${testRuc}".update.apply()
+
+    // 3. Delete profiles and users
     sql"DELETE FROM empresa_perfil WHERE identificacion = ${testRuc}".update.apply()
     sql"DELETE FROM usuario_sistema WHERE username = ${testRuc}".update.apply()
     sql"DELETE FROM usuario WHERE identificacion = ${testRuc}".update.apply()
-    sql"DELETE FROM archivo_pdf WHERE nombre_original = 'convenio_test.pdf' OR ruta_segura_servidor LIKE '%convenio_%'".update.apply()
+
+    // 4. Delete specific PDFs that are now unreferenced
+    if (pdfIds.nonEmpty) {
+      sql"DELETE FROM archivo_pdf WHERE id_archivo_pdf IN (${pdfIds})".update.apply()
+    }
+
+    // 5. Clean up any remaining orphaned test PDFs
+    sql"""
+      DELETE FROM archivo_pdf
+      WHERE nombre_original = 'convenio_test.pdf'
+        AND id_archivo_pdf NOT IN (SELECT convenio_documento_pdf FROM solicitud_convenio)
+    """.update.apply()
   }
 
   "ConvenioLogic" should "rechazar el registro si faltan campos obligatorios" in {
