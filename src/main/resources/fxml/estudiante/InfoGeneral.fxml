@@ -3,7 +3,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.geometry.Insets?>
 
-<VBox spacing="20" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" style="-fx-padding: 15;">
+<VBox spacing="20" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ucuenca.gestion.controllers.InfoGeneralController" style="-fx-padding: 15;">
     <VBox spacing="4">
         <Label text="Información General y Progreso de la Práctica" style="-fx-font-size: 16pt; -fx-font-weight: bold; -fx-text-fill: #1e3a8a;"/>
         <Label text="Seguimiento en tiempo real de su estado operativo y cumplimiento de horas." style="-fx-font-size: 9.5pt; -fx-text-fill: #64748b; -fx-font-style: italic;"/>
@@ -66,4 +66,10 @@
             </children>
         </GridPane>
     </VBox>
+
+    <Separator/>
+    <HBox spacing="15" alignment="CENTER_LEFT" maxWidth="850">
+        <Button fx:id="btnSolicitarEvaluacionFinal" text="Solicitar Evaluación Final" styleClass="button-primary" onAction="#handleSolicitarEvaluacion" style="-fx-background-color: #2563eb; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 8 16;"/>
+        <Label fx:id="lblEstado" text="" visible="false" style="-fx-font-size: 10.5pt; -fx-font-weight: bold;"/>
+    </HBox>
 </VBox>

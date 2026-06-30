@@ -2,7 +2,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox spacing="15" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" style="-fx-padding: 15;">
+<VBox spacing="15" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ucuenca.gestion.controllers.Formulario2Controller" style="-fx-padding: 15;">
     <Label text="Evaluación Técnica del Desempeño del Practicante (Formulario 2)" style="-fx-font-size: 14pt; -fx-font-weight: bold; -fx-text-fill: #0f172a;"/>
     <Separator/>
 
@@ -29,13 +29,13 @@
 
                         <HBox spacing="15" alignment="CENTER_LEFT" style="-fx-padding: 5 0 0 0;">
                             <!-- Botón para descargar la plantilla oficial vacía -->
-                            <Button fx:id="btnDescargarPlantillaF2" text="📥 Descargar Plantilla Formulario 2 (.pdf)" style="-fx-background-color: #475569; -fx-text-fill: white;"/>
+                            <Button fx:id="btnDescargarPlantillaF2" text="📥 Descargar Plantilla Formulario 2 (.pdf)" style="-fx-background-color: #475569; -fx-text-fill: white;" onAction="#handleDescargarPlantilla"/>
 
                             <Separator orientation="VERTICAL" prefHeight="25"/>
 
                             <!-- Botón para subir el archivo definitivo rellenado/firmado -->
                             <HBox spacing="10" alignment="CENTER_LEFT">
-                                <Button fx:id="btnSubirEvaluacionLlena" text="📤 Subir Evaluación Técnica Llena (PDF)" style="-fx-background-color: #2563eb; -fx-text-fill: white; -fx-font-weight: bold;"/>
+                                <Button fx:id="btnSubirEvaluacionLlena" text="📤 Subir Evaluación Técnica Llena (PDF)" style="-fx-background-color: #2563eb; -fx-text-fill: white; -fx-font-weight: bold;" onAction="#handleSubirArchivo"/>
                                 <Label fx:id="lblEstadoArchivoF2" text="Ningún archivo seleccionado (.pdf)" style="-fx-text-fill: #64748b; -fx-font-style: italic;"/>
                             </HBox>
                         </HBox>
@@ -52,8 +52,9 @@
                     <Region VBox.vgrow="ALWAYS"/>
 
                     <HBox spacing="10" alignment="CENTER_LEFT">
+                        <Label fx:id="lblEstado" text="" visible="false" style="-fx-font-size: 10.5pt; -fx-font-weight: bold;"/>
                         <Region HBox.hgrow="ALWAYS"/>
-                        <Button text="Transmitir Evaluación Final Guardada" styleClass="button-primary"/>
+                        <Button fx:id="btnTransmitirF2" text="Transmitir Evaluación Final Guardada" styleClass="button-primary" onAction="#handleTransmitirF2"/>
                     </HBox>
                 </children>
             </VBox>
