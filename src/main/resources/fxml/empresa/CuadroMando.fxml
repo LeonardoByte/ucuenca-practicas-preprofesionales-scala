@@ -1,26 +1,60 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
 
 <VBox spacing="20" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ucuenca.gestion.controllers.CuadroMandoController" style="-fx-padding: 15;">
-    <Label text="Cuadro de Mando - Estado de Entidad Jurídica" style="-fx-font-size: 16pt; -fx-font-weight: bold; -fx-text-fill: #1e3a8a;"/>
+    <!-- Fila Superior: Títulos Base + Tarjeta de Identidad Aplanada Horizontalmente (Ultra Compacta) -->
+    <HBox alignment="CENTER_LEFT" spacing="10">
+        <children>
+            <VBox spacing="0">
+                <children>
+                    <Label text="Cuadro de Mando" style="-fx-font-size: 14pt; -fx-font-weight: bold; -fx-text-fill: #1e3a8a;"/>
+                    <Label text="Estado de Entidad Jurídica" style="-fx-font-size: 9.5pt; -fx-text-fill: #64748b;"/>
+                </children>
+            </VBox>
+
+            <!-- Región expansora invisible para empujar el badge de identidad al extremo derecho -->
+            <Region HBox.hgrow="ALWAYS" />
+
+            <!-- Badge de Perfil Aplanado: Todo en una sola línea horizontal para minimizar el alto -->
+            <HBox alignment="CENTER_LEFT" spacing="8" style="-fx-background-color: #f1f5f9; -fx-padding: 4 10; -fx-background-radius: 4px; -fx-border-color: #cbd5e1; -fx-border-radius: 4px;">
+                <children>
+                    <Label text="👤" style="-fx-font-size: 10pt;"/>
+                    <Label fx:id="lblUsuarioNombreDashboard" text="[Nombre de la Empresa / Contacto]" style="-fx-text-fill: #0f172a; -fx-font-weight: bold; -fx-font-size: 9.5pt;"/>
+
+                    <Separator orientation="VERTICAL" prefHeight="14.0"/>
+
+                    <Label text="Rol:" style="-fx-text-fill: #64748b; -fx-font-weight: bold; -fx-font-size: 9pt;"/>
+                    <Label fx:id="lblUsuarioRolDashboard" text="Entidad Jurídica" style="-fx-text-fill: #2563eb; -fx-font-weight: bold; -fx-font-size: 9pt;"/>
+                </children>
+            </HBox>
+        </children>
+    </HBox>
     <Separator/>
 
     <Label text="Métricas Generales de la Organización" style="-fx-font-size: 12pt; -fx-font-weight: bold; -fx-text-fill: #475569;"/>
     <FlowPane hgap="20" vgap="20" prefWidth="1100">
         <children>
+            <!-- Vacantes Cubiertas Globales -->
             <VBox styleClass="card-dashboard" prefWidth="320" spacing="10" style="-fx-border-left-color: #2563eb; -fx-border-left-width: 5px;">
                 <Label text="Vacantes Cubiertas Globales" style="-fx-text-fill: #64748b; -fx-font-weight: bold;"/>
                 <Label fx:id="lblVacantesCubiertas" text="0 / 0" style="-fx-font-size: 24pt; -fx-font-weight: bold; -fx-text-fill: #2563eb;"/>
                 <Label text="Practicantes vinculados en convocatorias activas" style="-fx-font-size: 9pt; -fx-text-fill: #94a3b8;"/>
             </VBox>
 
+            <!-- Vigencia del Convenio Legal -->
             <VBox styleClass="card-dashboard" prefWidth="320" spacing="10" style="-fx-border-left-color: #10b981; -fx-border-left-width: 5px;">
                 <Label text="Vigencia del Convenio Legal" style="-fx-text-fill: #64748b; -fx-font-weight: bold;"/>
                 <Label fx:id="lblVigenciaConvenio" text="VERIFICANDO" style="-fx-font-size: 24pt; -fx-font-weight: bold; -fx-text-fill: #10b981;"/>
                 <Label text="Alianza activa con la Universidad de Cuenca" style="-fx-font-size: 9pt; -fx-text-fill: #94a3b8;"/>
             </VBox>
 
+            <!-- Tutores Empresariales Registrados -->
             <VBox styleClass="card-dashboard" prefWidth="320" spacing="10" style="-fx-border-left-color: #ec4899; -fx-border-left-width: 5px;">
                 <Label text="Tutores Empresariales Registrados" style="-fx-text-fill: #64748b; -fx-font-weight: bold;"/>
                 <Label fx:id="lblTutoresRegistrados" text="0" style="-fx-font-size: 24pt; -fx-font-weight: bold; -fx-text-fill: #ec4899;"/>

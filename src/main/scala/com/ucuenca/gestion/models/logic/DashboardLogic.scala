@@ -10,6 +10,16 @@ object DashboardFailure {
 
 object DashboardLogic {
 
+  // Obtener los nombres
+  def nameUser(userCI: String): Either[DashboardFailure, String] = {
+    try{
+      Right(DashboardRepository.getName(userCI))
+    } catch {
+      case NonFatal(e) => Left(DashboardFailure.ErrorCarga(e.getMessage))
+    }
+  }
+
+  // Administrador
   def fetchAdminMetrics(): Either[DashboardFailure, Map[String, Int]] = {
     try {
       Right(DashboardRepository.getAdminMetrics())
@@ -18,6 +28,7 @@ object DashboardLogic {
     }
   }
 
+  // Coordinador
   def fetchCoordinatorMetrics(): Either[DashboardFailure, Map[String, Int]] = {
     try {
       Right(DashboardRepository.getCoordinatorMetrics())
@@ -26,6 +37,7 @@ object DashboardLogic {
     }
   }
 
+  // Empresa
   def fetchCompanyMetrics(rucEmpresa: String): Either[DashboardFailure, Map[String, String]] = {
     try {
       Right(DashboardRepository.getCompanyMetrics(rucEmpresa))
@@ -34,6 +46,7 @@ object DashboardLogic {
     }
   }
 
+  // Secretaria
   def fetchSecretaryMetrics(): Either[DashboardFailure, Map[String, Int]] = {
     try {
       Right(DashboardRepository.getSecretaryMetrics())
@@ -42,6 +55,7 @@ object DashboardLogic {
     }
   }
 
+  // Tutor academico
   def fetchAcademicTutorMetrics(tutorCI: String): Either[DashboardFailure, Map[String, Int]] = {
     try {
       Right(DashboardRepository.getAcademicTutorMetrics(tutorCI))
@@ -50,6 +64,7 @@ object DashboardLogic {
     }
   }
 
+  // Tutor empresarial
   def fetchCorporateTutorMetrics(tutorEmpCI: String): Either[DashboardFailure, Map[String, Int]] = {
     try {
       Right(DashboardRepository.getCorporateTutorMetrics(tutorEmpCI))

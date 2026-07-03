@@ -22,6 +22,7 @@ class AlumnosTutoradosController {
   @FXML var lblAlumnosDesarrollo: Label = _
   @FXML var lblAlumnosEvaluacion: Label = _
   @FXML var lblTareasPendientes: Label = _
+  @FXML var lblUsuarioNombreDashboard: Label = _
 
   @FXML var tblAlumnosTutorados: TableView[TutoradoTableItem] = _
   @FXML var colEstudiante: TableColumn[TutoradoTableItem, String] = _
@@ -42,10 +43,19 @@ class AlumnosTutoradosController {
     // 2. Obtener sesión e inicializar datos
     SessionManager.getUsuario match {
       case Some(usuario) =>
+        cargarName(usuario.identificacion)
         cargarMetricas(usuario.identificacion)
         cargarTablaTutorados(usuario.identificacion)
       case None =>
         System.err.println("Sesión inválida o expirada en el panel de tutor académico.")
+    }
+  }
+
+  private def cargarName(tutorAcadCI: String): Unit = {
+    DashboardLogic.nameUser(tutorAcadCI) match {
+      case Right(nombre) =>lblUsuarioNombreDashboard.setText(s"[${nombre}]")
+      case Left(DashboardFailure.ErrorCarga(msg)) =>
+        System.err.println(s"Error al cargar el nombre del tutor académico: $msg")
     }
   }
 

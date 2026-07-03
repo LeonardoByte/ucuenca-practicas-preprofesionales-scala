@@ -1,31 +1,69 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
 
 <VBox spacing="20" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ucuenca.gestion.controllers.AlumnosTutoradosController" style="-fx-padding: 15;" maxWidth="1260">
-    <Label text="Control Rápido de Estudiantes Asignados bajo su Fiscalización" style="-fx-font-size: 16pt; -fx-font-weight: bold; -fx-text-fill: #1e3a8a;"/>
+    <!-- Fila Superior: Títulos Base + Tarjeta de Identidad Aplanada Horizontalmente (Ultra Compacta) -->
+    <HBox alignment="CENTER_LEFT" spacing="10">
+        <children>
+            <VBox spacing="0">
+                <children>
+                    <Label text="Control Rápido de Estudiantes" style="-fx-font-size: 14pt; -fx-font-weight: bold; -fx-text-fill: #1e3a8a;"/>
+                    <Label text="Asignados bajo su Fiscalización" style="-fx-font-size: 9.5pt; -fx-text-fill: #64748b;"/>
+                </children>
+            </VBox>
+
+            <!-- Región expansora invisible para empujar el badge de identidad al extremo derecho -->
+            <Region HBox.hgrow="ALWAYS" />
+
+            <!-- Badge de Perfil Aplanado: Todo en una sola línea horizontal para minimizar el alto -->
+            <HBox alignment="CENTER_LEFT" spacing="8" style="-fx-background-color: #f1f5f9; -fx-padding: 4 10; -fx-background-radius: 4px; -fx-border-color: #cbd5e1; -fx-border-radius: 4px;">
+                <children>
+                    <Label text="👤" style="-fx-font-size: 10pt;"/>
+                    <Label fx:id="lblUsuarioNombreDashboard" text="[Nombre Completo del Tutor]" style="-fx-text-fill: #0f172a; -fx-font-weight: bold; -fx-font-size: 9.5pt;"/>
+
+                    <Separator orientation="VERTICAL" prefHeight="14.0"/>
+
+                    <Label text="Rol:" style="-fx-text-fill: #64748b; -fx-font-weight: bold; -fx-font-size: 9pt;"/>
+                    <Label fx:id="lblUsuarioRolDashboard" text="Tutor Académico" style="-fx-text-fill: #2563eb; -fx-font-weight: bold; -fx-font-size: 9pt;"/>
+                </children>
+            </HBox>
+        </children>
+    </HBox>
     <Separator/>
 
+    <!-- Distribución de las métricas mediante FlowPane interactivo -->
     <FlowPane hgap="20" vgap="20" prefWidth="1260">
         <children>
+            <!-- Métrica 1: Fase de Inicio -->
             <VBox styleClass="card-dashboard" prefWidth="285" spacing="10" style="-fx-border-left-color: #2563eb; -fx-border-left-width: 5px;">
                 <Label text="Fase de Inicio (Formulario 1)" style="-fx-text-fill: #64748b; -fx-font-weight: bold;"/>
                 <Label fx:id="lblAlumnosInicio" text="0 Alumnos" style="-fx-font-size: 22pt; -fx-font-weight: bold; -fx-text-fill: #2563eb;"/>
                 <Label text="Estudiantes estructurando cronograma inicial" style="-fx-font-size: 9pt; -fx-text-fill: #94a3b8;"/>
             </VBox>
 
+            <!-- Métrica 2: Fase de Desarrollo -->
             <VBox styleClass="card-dashboard" prefWidth="285" spacing="10" style="-fx-border-left-color: #f59e0b; -fx-border-left-width: 5px;">
                 <Label text="Fase de Desarrollo de Prácticas" style="-fx-text-fill: #64748b; -fx-font-weight: bold;"/>
                 <Label fx:id="lblAlumnosDesarrollo" text="0 Alumnos" style="-fx-font-size: 22pt; -fx-font-weight: bold; -fx-text-fill: #f59e0b;"/>
                 <Label text="Ejecutando horas técnicas en empresas" style="-fx-font-size: 9pt; -fx-text-fill: #94a3b8;"/>
             </VBox>
 
+            <!-- Métrica 3: Evaluación Final -->
             <VBox styleClass="card-dashboard" prefWidth="285" spacing="10" style="-fx-border-left-color: #10b981; -fx-border-left-width: 5px;">
                 <Label text="Listos para Evaluación Final" style="-fx-text-fill: #64748b; -fx-font-weight: bold;"/>
                 <Label fx:id="lblAlumnosEvaluacion" text="0 Alumnos" style="-fx-font-size: 22pt; -fx-font-weight: bold; -fx-text-fill: #10b981;"/>
                 <Label text="Esperando validación de cierres (F2 y F3)" style="-fx-font-size: 9pt; -fx-text-fill: #94a3b8;"/>
             </VBox>
 
+            <!-- Métrica 4: Actividades por revisar -->
             <VBox styleClass="card-dashboard" prefWidth="285" spacing="10" style="-fx-border-left-color: #6366f1; -fx-border-left-width: 5px;">
                 <Label text="Actividades por Revisar" style="-fx-text-fill: #64748b; -fx-font-weight: bold;"/>
                 <Label fx:id="lblTareasPendientes" text="0 Tareas" style="-fx-font-size: 22pt; -fx-font-weight: bold; -fx-text-fill: #6366f1;"/>
@@ -38,6 +76,7 @@
 
     <Label text="Nómina Completa de Estudiantes Asignados" style="-fx-font-size: 12pt; -fx-font-weight: bold; -fx-text-fill: #475569;"/>
 
+    <!-- Tabla de datos vinculados -->
     <TableView fx:id="tblAlumnosTutorados" prefHeight="350" VBox.vgrow="ALWAYS">
         <columnResizePolicy>
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>

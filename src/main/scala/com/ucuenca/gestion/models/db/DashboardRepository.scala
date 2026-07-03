@@ -5,6 +5,17 @@ import scalikejdbc._
 object DashboardRepository {
 
   /**
+   * Metodo apra la obtencion del nombre del usuario
+   */
+  def getName(coordinadorCI: String)(implicit session: DBSession = AutoSession): String = {
+    sql"SELECT nombres_completos FROM usuario WHERE identificacion = $coordinadorCI"
+      .map(rs => rs.string(1))
+      .single
+      .apply()
+      .getOrElse("N/A")
+  }
+
+  /**
    * Obtiene métricas en tiempo real para el rol Administrador.
    */
   def getAdminMetrics()(implicit session: DBSession = AutoSession): Map[String, Int] = {

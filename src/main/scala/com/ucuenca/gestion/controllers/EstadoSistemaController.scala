@@ -2,8 +2,8 @@ package com.ucuenca.gestion.controllers
 
 import javafx.fxml.FXML
 import javafx.scene.control.Label
-import com.ucuenca.gestion.models.logic.{DashboardLogic, DashboardFailure}
-import scala.util.control.NonFatal
+import com.ucuenca.gestion.models.logic.{DashboardFailure, DashboardLogic}
+import com.ucuenca.gestion.utils.SessionManager
 
 class EstadoSistemaController {
 
@@ -16,10 +16,25 @@ class EstadoSistemaController {
   @FXML var lblCoordinadores: Label = _
   @FXML var lblSecretarias: Label = _
   @FXML var lblAdmins: Label = _
+  @FXML var lblUsuarioNombreDashboard: Label = _
 
   @FXML
   def initialize(): Unit = {
-    cargarMetricas()
+    SessionManager.getUsuario match {
+      case Some(usuario) =>
+        cargarName(usuario.identificacion)
+        cargarMetricas()
+      case None =>
+        System.err.println("Sesión inválida o expirada en el cuadro de mando del administrador.")
+    }
+  }
+
+  private def cargarName(adminCI: String): Unit = {
+    DashboardLogic.nameUser(adminCI) match {
+      case Right(nombre) =>lblUsuarioNombreDashboard.setText(s"[${nombre}]")
+      case Left(DashboardFailure.ErrorCarga(msg)) =>
+        System.err.println(s"Error al cargar el nombre del administrador: $msg")
+    }
   }
 
   private def cargarMetricas(): Unit = {

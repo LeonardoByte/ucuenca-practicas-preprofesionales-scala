@@ -4,7 +4,6 @@ import javafx.fxml.FXML
 import javafx.scene.control._
 import javafx.event.ActionEvent
 import com.ucuenca.gestion.models.entities._
-import com.ucuenca.gestion.models.enums._
 import com.ucuenca.gestion.models.logic.{EstudiantePerfilLogic, PerfilFailure}
 import com.ucuenca.gestion.utils.SessionManager
 import scala.util.control.NonFatal
@@ -33,6 +32,9 @@ class MiPerfilController {
   @FXML var btnRevisarMalla: Button = _
   @FXML var btnDescargarMalla: Button = _
 
+  // --- Nombre de, estudiante
+  @FXML var lblUsuarioNombreDashboard: Label = _
+
   private var estudianteId: String = _
   private var cvPdfEntity: Option[ArchivoPDF] = None
   private var mallaPdfEntity: Option[ArchivoPDF] = None
@@ -59,6 +61,9 @@ class MiPerfilController {
       case Right((usuario, perfil, mallaOpt, cvOpt)) =>
         mallaPdfEntity = mallaOpt
         cvPdfEntity = cvOpt
+
+        // 0. Mostrar el nombre del estudiante
+        lblUsuarioNombreDashboard.setText(s"[${usuario.nombresCompletos}]")
 
         // 1. Mostrar ciclo y matrícula
         lblCiclo.setText(s"Ciclo ${perfil.cicloActual}")

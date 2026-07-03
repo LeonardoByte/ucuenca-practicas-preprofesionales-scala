@@ -1,38 +1,81 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.ToolBar?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
 
 <BorderPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ucuenca.gestion.controllers.CoordinadorMainController" prefWidth="1280.0" prefHeight="850.0" stylesheets="@../../css/styles.css">
     <top>
-        <MenuBar>
-            <Menu text="Inicio">
-                <MenuItem text="Métricas Generales" onAction="#handleMetricasGenerales"/>
-            </Menu>
-            <Menu text="Ofertas">
-                <MenuItem text="Revisión de Ofertas" onAction="#handleRevisionOfertas"/>
-            </Menu>
-            <Menu text="Postulaciones">
-                <MenuItem text="Validar Alumnos" onAction="#handleValidarAlumnos"/>
-            </Menu>
-            <Menu text="Empresa Propia">
-                <MenuItem text="Revisión de Oficios" onAction="#handleRevisionOficios"/>
-            </Menu>
-            <Menu text="Tutorías">
-                <MenuItem text="Asignar Docentes" onAction="#handleAsignarDocentes"/>
-            </Menu>
-            <Menu text="Cierres">
-                <MenuItem text="Auditoría de Expedientes" onAction="#handleAuditoriaExpedientes"/>
-            </Menu>
-            <Menu text="Sesión">
-                <MenuItem text="Cerrar Sesión" onAction="#handleCerrarSesion"/>
-                <MenuItem text="Salir del Sistema" onAction="#handleSalirSistema"/>
-            </Menu>
-            <Menu text="Ayuda">
-                <MenuItem text="Acerca del programa" onAction="#handleAcercaPrograma"/>
-                <MenuItem text="Acerca del desarrollador" onAction="#handleAcercaDesarrollador"/>
-                <MenuItem text="Repositorio GitHub" onAction="#handleRepositorioGitHub"/>
-            </Menu>
-        </MenuBar>
+        <!-- Agrupación vertical para apilar la navegación por menús y los accesos rápidos -->
+        <VBox>
+            <children>
+                <!-- 1. BARRA DE MENÚS (MenuBar): Conserva tu árbol de navegación original intacto -->
+                <MenuBar>
+                    <Menu text="Inicio">
+                        <MenuItem text="Métricas Generales" onAction="#handleMetricasGenerales"/>
+                    </Menu>
+                    <Menu text="Ofertas">
+                        <MenuItem text="Revisión de Ofertas" onAction="#handleRevisionOfertas"/>
+                    </Menu>
+                    <Menu text="Postulaciones">
+                        <MenuItem text="Validar Alumnos" onAction="#handleValidarAlumnos"/>
+                    </Menu>
+                    <Menu text="Empresa Propia">
+                        <MenuItem text="Revisión de Oficios" onAction="#handleRevisionOficios"/>
+                    </Menu>
+                    <Menu text="Tutorías">
+                        <MenuItem text="Asignar Docentes" onAction="#handleAsignarDocentes"/>
+                    </Menu>
+                    <Menu text="Cierres">
+                        <MenuItem text="Auditoría de Expedientes" onAction="#handleAuditoriaExpedientes"/>
+                    </Menu>
+                    <Menu text="Sesión">
+                        <MenuItem text="Cerrar Sesión" onAction="#handleCerrarSesion"/>
+                        <MenuItem text="Salir del Sistema" onAction="#handleSalirSistema"/>
+                    </Menu>
+                    <Menu text="Ayuda">
+                        <MenuItem text="Acerca del programa" onAction="#handleAcercaPrograma"/>
+                        <MenuItem text="Acerca del desarrollador" onAction="#handleAcercaDesarrollador"/>
+                        <MenuItem text="Repositorio GitHub" onAction="#handleRepositorioGitHub"/>
+                    </Menu>
+                </MenuBar>
+
+                <!-- 2. BARRA DE HERRAMIENTAS (ToolBar): Botones directos segmentados por bloques de control con separadores -->
+                <ToolBar>
+                    <items>
+                        <!-- Bloque de Inicio -->
+                        <Button text="📊 Métricas Generales" onAction="#handleMetricasGenerales"/>
+
+                        <Separator orientation="VERTICAL"/>
+
+                        <!-- Bloque de Gestión Operativa (Bolsa de Empleo y Convenios Autogestionados) -->
+                        <Button text="💼 Revisión de Ofertas" onAction="#handleRevisionOfertas"/>
+                        <Button text="🎓 Validar Alumnos" onAction="#handleValidarAlumnos"/>
+                        <Button text="🏢 Revisión de Oficios" onAction="#handleRevisionOficios"/>
+
+                        <Separator orientation="VERTICAL"/>
+
+                        <!-- Bloque de Seguimiento Académico y Cierres Legales -->
+                        <Button text="👨‍🏫 Asignar Docentes" onAction="#handleAsignarDocentes"/>
+                        <Button text="📋 Auditoría de Expedientes" onAction="#handleAuditoriaExpedientes"/>
+
+                        <!-- Región expansora invisible para empujar las acciones de sesión al extremo derecho -->
+                        <Region HBox.hgrow="ALWAYS" />
+
+                        <!-- Botón de salida rápida acoplado a tu estilo de peligro -->
+                        <Button text="🚪 Cerrar Sesión" onAction="#handleCerrarSesion" styleClass="button-danger"/>
+                    </items>
+                </ToolBar>
+            </children>
+        </VBox>
     </top>
     <center>
         <!-- Panel de Visualización Central Único encargado de reemplazar el contenido -->

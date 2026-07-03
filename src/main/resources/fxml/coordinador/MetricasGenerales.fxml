@@ -1,10 +1,41 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.geometry.Insets?>
 
 <VBox spacing="20" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ucuenca.gestion.controllers.MetricasGeneralesController" style="-fx-padding: 15;">
-    <Label text="Cuadro de Mando Integrado - Métricas Generales de Coordinación" style="-fx-font-size: 16pt; -fx-font-weight: bold; -fx-text-fill: #1e3a8a;"/>
+    <!-- Fila Superior: Títulos Base + Tarjeta de Identidad Aplanada Horizontalmente (Ultra Compacta) -->
+    <HBox alignment="CENTER_LEFT" spacing="10">
+        <children>
+            <VBox spacing="0">
+                <children>
+                    <Label text="Cuadro de Mando Integrado" style="-fx-font-size: 14pt; -fx-font-weight: bold; -fx-text-fill: #1e3a8a;"/>
+                    <Label text="Métricas Generales de Coordinación" style="-fx-font-size: 9.5pt; -fx-text-fill: #64748b;"/>
+                </children>
+            </VBox>
+
+            <!-- Región expansora invisible para empujar el badge de identidad al extremo derecho -->
+            <Region HBox.hgrow="ALWAYS" />
+
+            <!-- Badge de Perfil Aplanado: Todo en una sola línea horizontal para minimizar el alto -->
+            <HBox alignment="CENTER_LEFT" spacing="8" style="-fx-background-color: #f1f5f9; -fx-padding: 4 10; -fx-background-radius: 4px; -fx-border-color: #cbd5e1; -fx-border-radius: 4px;">
+                <children>
+                    <Label text="👤" style="-fx-font-size: 10pt;"/>
+                    <Label fx:id="lblUsuarioNombreDashboard" text="[Nombre Completo del Coordinador]" style="-fx-text-fill: #0f172a; -fx-font-weight: bold; -fx-font-size: 9.5pt;"/>
+
+                    <Separator orientation="VERTICAL" prefHeight="14.0"/>
+
+                    <Label text="Rol:" style="-fx-text-fill: #64748b; -fx-font-weight: bold; -fx-font-size: 9pt;"/>
+                    <Label fx:id="lblUsuarioRolDashboard" text="Coordinador de Vinculación" style="-fx-text-fill: #2563eb; -fx-font-weight: bold; -fx-font-size: 9pt;"/>
+                </children>
+            </HBox>
+        </children>
+    </HBox>
     <Separator/>
 
     <!-- Distribución de las 5 métricas obligatorias mediante FlowPane interactivo -->

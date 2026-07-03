@@ -10,14 +10,24 @@ class CuadroMandoController {
   @FXML var lblVacantesCubiertas: Label = _
   @FXML var lblVigenciaConvenio: Label = _
   @FXML var lblTutoresRegistrados: Label = _
+  @FXML var lblUsuarioNombreDashboard: Label = _
 
   @FXML
   def initialize(): Unit = {
     SessionManager.getUsuario match {
       case Some(usuario) =>
+        cargarName(usuario.identificacion)
         cargarMetricas(usuario.identificacion)
       case None =>
         System.err.println("Sesión inválida o expirada en el cuadro de mando de empresa.")
+    }
+  }
+
+  private def cargarName(rucEmpresa: String): Unit = {
+    DashboardLogic.nameUser(rucEmpresa) match {
+      case Right(nombre) =>lblUsuarioNombreDashboard.setText(s"[${nombre}]")
+      case Left(DashboardFailure.ErrorCarga(msg)) =>
+        System.err.println(s"Error al cargar el nombre de la empresa: $msg")
     }
   }
 

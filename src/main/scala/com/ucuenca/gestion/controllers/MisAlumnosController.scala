@@ -1,11 +1,13 @@
 package com.ucuenca.gestion.controllers
 
+import com.ucuenca.gestion.models.db.DashboardRepository
 import javafx.fxml.FXML
 import javafx.scene.control._
 import javafx.beans.property.SimpleStringProperty
-import com.ucuenca.gestion.models.logic.{DashboardLogic, DashboardFailure}
+import com.ucuenca.gestion.models.logic.{DashboardFailure, DashboardLogic}
 import com.ucuenca.gestion.utils.SessionManager
 import scalikejdbc._
+
 import scala.util.control.NonFatal
 
 case class CorporateTableItem(
@@ -22,6 +24,7 @@ class MisAlumnosController {
   @FXML var lblAlumnosDesarrollo: Label = _
   @FXML var lblAlumnosCierre: Label = _
   @FXML var lblTareasPlanificadas: Label = _
+  @FXML var lblUsuarioNombreDashboard: Label = _
 
   @FXML var tblAlumnosAsignados: TableView[CorporateTableItem] = _
   @FXML var colEstudiante: TableColumn[CorporateTableItem, String] = _
@@ -42,10 +45,19 @@ class MisAlumnosController {
     // 2. Obtener sesión e inicializar datos
     SessionManager.getUsuario match {
       case Some(usuario) =>
+        cargarName(usuario.identificacion)
         cargarMetricas(usuario.identificacion)
         cargarTablaAsignados(usuario.identificacion)
       case None =>
         System.err.println("Sesión inválida o expirada en el panel de tutor empresarial.")
+    }
+  }
+
+  private def cargarName(tutorEmpCI: String): Unit = {
+    DashboardLogic.nameUser(tutorEmpCI) match {
+      case Right(nombre) =>lblUsuarioNombreDashboard.setText(s"[${nombre}]")
+      case Left(DashboardFailure.ErrorCarga(msg)) =>
+        System.err.println(s"Error al cargar el nombre del tutor empresarial: $msg")
     }
   }
 
