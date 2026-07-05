@@ -6,7 +6,6 @@ import javafx.beans.property.SimpleStringProperty
 import javafx.event.ActionEvent
 import javafx.stage.FileChooser
 import java.io.File
-import java.nio.file.Files
 import com.ucuenca.gestion.models.db.AuditoriaRepository
 import com.ucuenca.gestion.models.logic.{AuditoriaCierreLogic, AuditoriaCierreFailure}
 import scalikejdbc._
@@ -201,26 +200,32 @@ class AuditoriaExpedientesController {
           }
           fileData match {
             case Some((ruta, originalName)) =>
+              val srcFile = new java.io.File(ruta)
+              if (!srcFile.exists()) {
+                showError(s"Error: No se pudo encontrar el archivo original en '${ruta}'.")
+                return
+              }
+
               val fileChooser = new FileChooser()
               fileChooser.setTitle("Descargar Documento")
               fileChooser.setInitialFileName(originalName)
+              fileChooser.getExtensionFilters.add(new FileChooser.ExtensionFilter("Archivos PDF (*.pdf)", "*.pdf"))
+
               val dest = fileChooser.showSaveDialog(btnDescargarPlan.getScene.getWindow)
               if (dest != null) {
-                val srcFile = new File(ruta)
-                if (srcFile.exists()) {
-                  Files.copy(srcFile.toPath, dest.toPath, java.nio.file.StandardCopyOption.REPLACE_EXISTING)
-                  showSuccess(s"¡Archivo '${originalName}' descargado con éxito!")
-                } else {
-                  // Fallback
-                  Files.write(dest.toPath, Array[Byte](0x25, 0x50, 0x44, 0x46, 0x2d, 0x31, 0x2e, 0x34, 0x0a))
-                  showSuccess(s"¡Archivo descargado exitosamente!")
-                }
+                java.nio.file.Files.copy(
+                  srcFile.toPath,
+                  dest.toPath,
+                  java.nio.file.StandardCopyOption.REPLACE_EXISTING
+                )
+                showSuccess(s"Documento guardado exitosamente en: ${dest.getName}")
               }
             case None =>
-              showError("Metadatos de archivo no encontrados.")
+              showError("Error: No se encontró la metadata del PDF.")
           }
         } catch {
-          case NonFatal(e) => showError(s"Error al descargar archivo: ${e.getMessage}")
+          case scala.util.control.NonFatal(e) =>
+            showError(s"Error al descargar archivo: ${e.getMessage}")
         }
       case None =>
         showError("El expediente no registra archivo digital para este formulario.")

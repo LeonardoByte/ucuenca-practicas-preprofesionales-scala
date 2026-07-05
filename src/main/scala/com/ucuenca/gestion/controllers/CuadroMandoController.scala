@@ -25,7 +25,7 @@ class CuadroMandoController {
 
   private def cargarName(rucEmpresa: String): Unit = {
     DashboardLogic.nameUser(rucEmpresa) match {
-      case Right(nombre) =>lblUsuarioNombreDashboard.setText(s"[${nombre}]")
+      case Right(nombre) =>lblUsuarioNombreDashboard.setText(nombre)
       case Left(DashboardFailure.ErrorCarga(msg)) =>
         System.err.println(s"Error al cargar el nombre de la empresa: $msg")
     }

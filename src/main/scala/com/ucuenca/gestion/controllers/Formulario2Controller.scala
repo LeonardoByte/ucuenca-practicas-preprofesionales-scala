@@ -6,7 +6,7 @@ import javafx.scene.layout.VBox
 import javafx.event.ActionEvent
 import javafx.stage.FileChooser
 import java.io.File
-import java.nio.file.Files
+import java.nio.file.{Files, Paths, StandardCopyOption}
 import com.ucuenca.gestion.models.entities.PracticaRegistro
 import com.ucuenca.gestion.models.db.{CronogramaRepository, Formulario2DB}
 import com.ucuenca.gestion.models.logic.{Formulario2Logic, Formulario2Failure}
@@ -33,8 +33,7 @@ class Formulario2Controller {
   @FXML var lblEstado: Label = _
 
   private var tutorCI: String = _
-  private var selectedFileBytes: Option[Array[Byte]] = None
-  private var selectedFileName: Option[String] = None
+  private var selectedFile: Option[File] = None
 
   @FXML
   def initialize(): Unit = {
@@ -43,7 +42,7 @@ class Formulario2Controller {
     panelCargaF2.setVisible(false)
     lblEstado.setVisible(false)
 
-    // Listener para el ComboBox de selección de estudiante
+    // Listener para detectar cambio de estudiante
     cmbEstudiantesF2.setOnAction(_ => {
       val seleccion = cmbEstudiantesF2.getValue
       if (seleccion != null) {
@@ -55,7 +54,7 @@ class Formulario2Controller {
       }
     })
 
-    // Cargar sesión del Tutor Empresarial
+    // Cargar datos del tutor activo
     SessionManager.getUsuario match {
       case Some(usuario) =>
         tutorCI = usuario.identificacion
@@ -66,8 +65,7 @@ class Formulario2Controller {
   }
 
   private def limpiarCampos(): Unit = {
-    selectedFileBytes = None
-    selectedFileName = None
+    selectedFile = None
     lblEstadoArchivoF2.setText("Ningún archivo seleccionado (.pdf)")
     lblEstadoArchivoF2.setStyle("-fx-text-fill: #64748b; -fx-font-style: italic;")
     lblEstado.setVisible(false)
@@ -148,19 +146,30 @@ class Formulario2Controller {
 
   @FXML
   def handleDescargarPlantilla(event: ActionEvent): Unit = {
-    val fileChooser = new FileChooser()
-    fileChooser.setTitle("Descargar Plantilla Formulario 2 (Rúbrica)")
-    fileChooser.setInitialFileName("Plantilla_Formulario2_Rubrica.pdf")
-    fileChooser.getExtensionFilters.add(new FileChooser.ExtensionFilter("Archivos PDF (*.pdf)", "*.pdf"))
-    val file = fileChooser.showSaveDialog(btnDescargarPlantillaF2.getScene.getWindow)
-    if (file != null) {
-      try {
-        Files.write(file.toPath, Array[Byte](0x25, 0x50, 0x44, 0x46, 0x2d, 0x31, 0x2e, 0x34, 0x0a)) // %PDF-1.4
-        showSuccess("Plantilla vacía del Formulario 2 descargada con éxito.")
-      } catch {
-        case NonFatal(e) =>
-          showError(s"Error al descargar la plantilla: ${e.getMessage}")
+    try {
+      val srcFile = new java.io.File("docs/archivos_pdf/formulario_2.pdf")
+      if (!srcFile.exists()) {
+        showError("Error: No se pudo encontrar el archivo de plantilla original en 'docs/archivos_pdf/formulario_2.pdf'.")
+        return
       }
+
+      val fileChooser = new FileChooser()
+      fileChooser.setTitle("Descargar Plantilla Formulario 2 (Rúbrica)")
+      fileChooser.setInitialFileName("Plantilla_Formulario2_Rubrica.pdf")
+      fileChooser.getExtensionFilters.add(new FileChooser.ExtensionFilter("Archivos PDF (*.pdf)", "*.pdf"))
+
+      val dest = fileChooser.showSaveDialog(btnDescargarPlantillaF2.getScene.getWindow)
+      if (dest != null) {
+        java.nio.file.Files.copy(
+          srcFile.toPath,
+          dest.toPath,
+          java.nio.file.StandardCopyOption.REPLACE_EXISTING
+        )
+        showSuccess(s"Plantilla guardada exitosamente en: ${dest.getName}")
+      }
+    } catch {
+      case scala.util.control.NonFatal(e) =>
+        showError(s"Error al descargar la plantilla: ${e.getMessage}")
     }
   }
 
@@ -171,16 +180,10 @@ class Formulario2Controller {
     fileChooser.getExtensionFilters.add(new FileChooser.ExtensionFilter("Archivos PDF (*.pdf)", "*.pdf"))
     val file = fileChooser.showOpenDialog(btnSubirEvaluacionLlena.getScene.getWindow)
     if (file != null) {
-      try {
-        selectedFileBytes = Some(Files.readAllBytes(file.toPath))
-        selectedFileName = Some(file.getName)
-        lblEstadoArchivoF2.setText(file.getName)
-        lblEstadoArchivoF2.setStyle("-fx-text-fill: #1e293b; -fx-font-style: normal; -fx-font-weight: bold;")
-        lblEstado.setVisible(false)
-      } catch {
-        case NonFatal(e) =>
-          showError(s"Error al leer el archivo seleccionado: ${e.getMessage}")
-      }
+      selectedFile = Some(file)
+      lblEstadoArchivoF2.setText(file.getName)
+      lblEstadoArchivoF2.setStyle("-fx-text-fill: #1e293b; -fx-font-style: normal; -fx-font-weight: bold;")
+      lblEstado.setVisible(false)
     }
   }
 
@@ -192,23 +195,46 @@ class Formulario2Controller {
       return
     }
 
-    (selectedFileBytes, selectedFileName) match {
-      case (Some(bytes), Some(name)) =>
-        // Generar un contenido de rubrica indexado con metadatos descriptivos
-        val rubricaIndexada = s"Rubrica de Evaluacion Tecnica del Desempeño. Practicante: ${seleccion.nombre}. Archivo: $name. Registrado por Tutor Empresarial CI: $tutorCI."
-        
-        Formulario2Logic.registrarFormulario2(seleccion.idPractica, bytes, name, rubricaIndexada) match {
-          case Right(_) =>
-            limpiarCampos()
-            lblEstado.setStyle("-fx-text-fill: green;")
-            lblEstado.setText("Formulario 2 enviado exitosamente")
-            lblEstado.setVisible(true)
-            // Refrescar el estado de la vista para el estudiante actual (volverá a bloquearse si la práctica sigue procesándose)
-            evaluarRestriccionesEstudiante(seleccion)
-          case Left(Formulario2Failure.Validacion(msg)) =>
-            showError(msg)
-          case Left(Formulario2Failure.ErrorPersistencia(msg)) =>
-            showError(s"Error al guardar rúbrica en base de datos: $msg")
+    selectedFile match {
+      case Some(file) =>
+        try {
+          val destFile = new java.io.File("docs/archivos_pdf/" + file.getName)
+          val dir = destFile.getParentFile
+          if (!dir.exists()) dir.mkdirs()
+
+          java.nio.file.Files.copy(
+            file.toPath,
+            destFile.toPath,
+            java.nio.file.StandardCopyOption.REPLACE_EXISTING
+          )
+
+          val bytes = java.nio.file.Files.readAllBytes(destFile.toPath)
+          val rubricaIndexada = s"Rubrica de Evaluacion Tecnica del Desempeño. Practicante: ${seleccion.nombre}. Archivo: ${file.getName}. Registrado por Tutor Empresarial CI: $tutorCI."
+
+          Formulario2Logic.registrarFormulario2(seleccion.idPractica, bytes, file.getName, rubricaIndexada) match {
+            case Right(_) =>
+              val dbPath = "docs/archivos_pdf/" + file.getName
+              DB.localTx { implicit session =>
+                sql"""
+                  UPDATE archivo_pdf
+                  SET ruta_segura_servidor = ${dbPath}
+                  WHERE nombre_original = ${file.getName}
+                    AND tipo_archivo = 'T2_FORMULARIO_2_RUBRICA'::tipo_archivo_pdf
+                """.update.apply()
+              }
+
+              limpiarCampos()
+              showSuccess("Formulario 2 enviado exitosamente")
+              // Refrescar el estado de la vista para el estudiante actual (volverá a bloquearse si la práctica sigue procesándose)
+              evaluarRestriccionesEstudiante(seleccion)
+            case Left(Formulario2Failure.Validacion(msg)) =>
+              showError(msg)
+            case Left(Formulario2Failure.ErrorPersistencia(msg)) =>
+              showError(s"Error al guardar rúbrica en base de datos: $msg")
+          }
+        } catch {
+          case scala.util.control.NonFatal(e) =>
+            showError(s"Error al procesar la subida: ${e.getMessage}")
         }
       case _ =>
         showError("Debe seleccionar y cargar el archivo PDF de evaluación técnica antes de transmitir.")

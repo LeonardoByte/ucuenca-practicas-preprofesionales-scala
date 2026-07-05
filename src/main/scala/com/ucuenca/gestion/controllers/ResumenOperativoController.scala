@@ -24,7 +24,7 @@ class ResumenOperativoController {
 
   private def cargarName(secretariaCI: String): Unit = {
     DashboardLogic.nameUser(secretariaCI) match {
-      case Right(nombre) =>lblUsuarioNombreDashboard.setText(s"[${nombre}]")
+      case Right(nombre) =>lblUsuarioNombreDashboard.setText(nombre)
       case Left(DashboardFailure.ErrorCarga(msg)) =>
         System.err.println(s"Error al cargar tutor empresarial de secretaría: $msg")
     }

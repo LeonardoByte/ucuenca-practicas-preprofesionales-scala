@@ -3,8 +3,13 @@ package com.ucuenca.gestion.controllers
 import javafx.fxml.FXML
 import javafx.scene.control._
 import javafx.beans.property.SimpleStringProperty
+import javafx.stage.FileChooser
+import java.io.File
+import java.nio.file.{Files, Paths, StandardCopyOption}
+import scala.util.control.NonFatal
 import com.ucuenca.gestion.models.dto.CartaCompromisoPendienteDTO
 import com.ucuenca.gestion.models.logic.{ValidacionCartaLogic, ValidacionCartaFailure}
+import scalikejdbc._
 
 class ValidarEntregaController {
 
@@ -76,17 +81,49 @@ class ValidarEntregaController {
   }
 
   private def certificar(ciEstudiante: String, chk: CheckBox): Unit = {
-    ValidacionCartaLogic.certificarCarta(ciEstudiante, entregadoTresCopias = true) match {
-      case Right(_) =>
-        showSuccess(s"¡Carta de compromiso certificada y digitalizada con éxito para CI: $ciEstudiante!")
-        // Recargar datos para que se remueva la fila
-        cargarDatos(Option(txtBuscarAlumnoSecretaria.getText).filter(_.trim.nonEmpty))
-      case Left(ValidacionCartaFailure.Validacion(msg)) =>
-        showError(msg)
-        chk.setSelected(false)
-      case Left(ValidacionCartaFailure.ErrorPersistencia(msg)) =>
-        showError(s"Error al certificar documento: $msg")
-        chk.setSelected(false)
+    val fileChooser = new FileChooser()
+    fileChooser.setTitle("Seleccionar Carta de Compromiso Firmada (.pdf)")
+    fileChooser.getExtensionFilters.add(new FileChooser.ExtensionFilter("Archivos PDF (*.pdf)", "*.pdf"))
+    val file = fileChooser.showOpenDialog(tblCartasSecretaria.getScene.getWindow)
+    if (file != null) {
+      try {
+        val destPath = Paths.get("docs/archivos_pdf/").resolve(s"carta_compromiso_$ciEstudiante.pdf")
+        val dir = destPath.getParent.toFile
+        if (!dir.exists()) dir.mkdirs()
+        
+        Files.copy(file.toPath, destPath, StandardCopyOption.REPLACE_EXISTING)
+        
+        ValidacionCartaLogic.certificarCarta(ciEstudiante, entregadoTresCopias = true) match {
+          case Right(_) =>
+            // Actualizar la ruta del archivo PDF en la base de datos
+            val dbPath = s"docs/archivos_pdf/carta_compromiso_$ciEstudiante.pdf"
+            val dbName = s"carta_compromiso_$ciEstudiante.pdf"
+            DB.localTx { implicit session =>
+              sql"""
+                UPDATE archivo_pdf
+                SET ruta_segura_servidor = ${dbPath}
+                WHERE nombre_original = ${dbName}
+                  AND tipo_archivo = 'T6_CARTA_COMPROMISO'::tipo_archivo_pdf
+              """.update.apply()
+            }
+
+            showSuccess(s"¡Carta de compromiso certificada y digitalizada con éxito para CI: $ciEstudiante!")
+            // Recargar datos para que se remueva la fila
+            cargarDatos(Option(txtBuscarAlumnoSecretaria.getText).filter(_.trim.nonEmpty))
+          case Left(ValidacionCartaFailure.Validacion(msg)) =>
+            showError(msg)
+            chk.setSelected(false)
+          case Left(ValidacionCartaFailure.ErrorPersistencia(msg)) =>
+            showError(s"Error al certificar documento: $msg")
+            chk.setSelected(false)
+        }
+      } catch {
+        case NonFatal(e) =>
+          showError(s"Error al copiar archivo físico: ${e.getMessage}")
+          chk.setSelected(false)
+      }
+    } else {
+      chk.setSelected(false)
     }
   }
 

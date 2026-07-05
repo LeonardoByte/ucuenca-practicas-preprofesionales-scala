@@ -218,26 +218,36 @@ class RevisarFormulario2Controller {
           }
           fileData match {
             case Some((ruta, nombre)) =>
-              val fileChooser = new FileChooser()
-              fileChooser.setTitle("Descargar Formulario 2")
-              fileChooser.setInitialFileName(nombre)
-              val dest = fileChooser.showSaveDialog(btnDescargarF2PDF.getScene.getWindow)
-              if (dest != null) {
-                val srcFile = new File(ruta)
-                if (srcFile.exists()) {
-                  Files.copy(srcFile.toPath, dest.toPath, java.nio.file.StandardCopyOption.REPLACE_EXISTING)
-                  showSuccess(s"¡Archivo descargado exitosamente!")
-                } else {
-                  // Fallback dummy PDF
-                  Files.write(dest.toPath, Array[Byte](0x25, 0x50, 0x44, 0x46, 0x2d, 0x31, 0x2e, 0x34, 0x0a))
-                  showSuccess(s"¡Archivo descargado exitosamente (Mock)! ")
+              try {
+                val srcFile = new java.io.File(ruta)
+                if (!srcFile.exists()) {
+                  showError(s"Error: No se pudo encontrar el archivo original en '${ruta}'.")
+                  return
                 }
+
+                val fileChooser = new FileChooser()
+                fileChooser.setTitle("Descargar Formulario 2")
+                fileChooser.setInitialFileName(nombre)
+                fileChooser.getExtensionFilters.add(new FileChooser.ExtensionFilter("Archivos PDF (*.pdf)", "*.pdf"))
+
+                val dest = fileChooser.showSaveDialog(btnDescargarF2PDF.getScene.getWindow)
+                if (dest != null) {
+                  java.nio.file.Files.copy(
+                    srcFile.toPath,
+                    dest.toPath,
+                    java.nio.file.StandardCopyOption.REPLACE_EXISTING
+                  )
+                  showSuccess(s"Documento guardado exitosamente en: ${dest.getName}")
+                }
+              } catch {
+                case scala.util.control.NonFatal(e) =>
+                  showError(s"Error al descargar: ${e.getMessage}")
               }
             case None =>
               showError("Metadata de archivo no ubicada.")
           }
         } catch {
-          case NonFatal(e) => showError(s"Error de descarga: ${e.getMessage}")
+          case scala.util.control.NonFatal(e) => showError(s"Error de descarga: ${e.getMessage}")
         }
       case None => showError("Debe seleccionar un alumno con rúbrica cargada.")
     }

@@ -6,7 +6,8 @@ import javafx.scene.layout.VBox
 import javafx.event.ActionEvent
 import javafx.stage.FileChooser
 import java.io.File
-import java.nio.file.Files
+import java.nio.file.{Files, Paths, StandardCopyOption}
+import scala.util.control.NonFatal
 import com.ucuenca.gestion.models.entities.PracticaRegistro
 import com.ucuenca.gestion.models.logic.{Formulario1Logic, Formulario1Failure, CronogramaLogic}
 import com.ucuenca.gestion.utils.SessionManager
@@ -27,8 +28,7 @@ class Formulario1Controller {
   @FXML var lblEstado: Label = _
 
   private var activePractica: Option[PracticaRegistro] = None
-  private var selectedFileBytes: Option[Array[Byte]] = None
-  private var selectedFileName: Option[String] = None
+  private var selectedFile: Option[File] = None
 
   @FXML
   def initialize(): Unit = {
@@ -118,36 +118,70 @@ class Formulario1Controller {
 
   @FXML
   def handleDescargarPlantillaForm(event: ActionEvent): Unit = {
-    val fileChooser = new FileChooser()
-    fileChooser.setTitle("Guardar Plantilla Formulario 1")
-    fileChooser.setInitialFileName("Plantilla_Formulario1.pdf")
-    val file = fileChooser.showSaveDialog(btnDescargarPlantillaFormulario.getScene.getWindow)
-    if (file != null) {
-      Files.write(file.toPath, Array[Byte](0x25, 0x50, 0x44, 0x46, 0x2d, 0x31, 0x2e, 0x34, 0x0a)) // %PDF-1.4
-      showSuccess("Plantilla de Formulario 1 descargada con éxito.")
+    try {
+      val srcFile = new java.io.File("docs/archivos_pdf/formulario_1.pdf")
+      if (!srcFile.exists()) {
+        showError("Error: No se pudo encontrar el archivo de plantilla original en 'docs/archivos_pdf/formulario_1.pdf'.")
+        return
+      }
+
+      val fileChooser = new FileChooser()
+      fileChooser.setTitle("Guardar Plantilla Formulario 1")
+      fileChooser.setInitialFileName("Plantilla_Formulario1.pdf")
+      fileChooser.getExtensionFilters.add(new FileChooser.ExtensionFilter("Archivos PDF (*.pdf)", "*.pdf"))
+
+      val dest = fileChooser.showSaveDialog(btnDescargarPlantillaFormulario.getScene.getWindow)
+      if (dest != null) {
+        java.nio.file.Files.copy(
+          srcFile.toPath,
+          dest.toPath,
+          java.nio.file.StandardCopyOption.REPLACE_EXISTING
+        )
+        showSuccess(s"Plantilla guardada exitosamente en: ${dest.getName}")
+      }
+    } catch {
+      case scala.util.control.NonFatal(e) =>
+        showError(s"Error al descargar la plantilla: ${e.getMessage}")
     }
   }
 
   @FXML
   def handleDescargarPlantillaCarta(event: ActionEvent): Unit = {
-    val fileChooser = new FileChooser()
-    fileChooser.setTitle("Guardar Plantilla Carta Compromiso")
-    fileChooser.setInitialFileName("Formato_CartaCompromiso.pdf")
-    val file = fileChooser.showSaveDialog(btnDescargarPlantillaCarta.getScene.getWindow)
-    if (file != null) {
-      Files.write(file.toPath, Array[Byte](0x25, 0x50, 0x44, 0x46, 0x2d, 0x31, 0x2e, 0x34, 0x0a)) // %PDF-1.4
-      showSuccess("Plantilla de Carta de Compromiso descargada con éxito.")
+    try {
+      val srcFile = new java.io.File("docs/archivos_pdf/carta_compromiso.pdf")
+      if (!srcFile.exists()) {
+        showError("Error: No se pudo encontrar el archivo de plantilla original en 'docs/archivos_pdf/carta_compromiso.pdf'.")
+        return
+      }
+
+      val fileChooser = new FileChooser()
+      fileChooser.setTitle("Guardar Plantilla Carta Compromiso")
+      fileChooser.setInitialFileName("Formato_CartaCompromiso.pdf")
+      fileChooser.getExtensionFilters.add(new FileChooser.ExtensionFilter("Archivos PDF (*.pdf)", "*.pdf"))
+
+      val dest = fileChooser.showSaveDialog(btnDescargarPlantillaCarta.getScene.getWindow)
+      if (dest != null) {
+        java.nio.file.Files.copy(
+          srcFile.toPath,
+          dest.toPath,
+          java.nio.file.StandardCopyOption.REPLACE_EXISTING
+        )
+        showSuccess(s"Plantilla guardada exitosamente en: ${dest.getName}")
+      }
+    } catch {
+      case scala.util.control.NonFatal(e) =>
+        showError(s"Error al descargar la plantilla: ${e.getMessage}")
     }
   }
 
   @FXML
   def handleSubirFormulario(event: ActionEvent): Unit = {
     val fileChooser = new FileChooser()
-    fileChooser.getExtensionFilters.add(new FileChooser.ExtensionFilter("Archivos PDF", "*.pdf"))
+    fileChooser.setTitle("Seleccionar Formulario 1 Firmado (PDF)")
+    fileChooser.getExtensionFilters.add(new FileChooser.ExtensionFilter("Archivos PDF (*.pdf)", "*.pdf"))
     val file = fileChooser.showOpenDialog(btnSubirFormularioLlenado.getScene.getWindow)
     if (file != null) {
-      selectedFileBytes = Some(Files.readAllBytes(file.toPath))
-      selectedFileName = Some(file.getName)
+      selectedFile = Some(file)
       lblEstadoArchivoFormulario.setText(file.getName)
       lblEstadoArchivoFormulario.setStyle("-fx-text-fill: #1e293b; -fx-font-style: normal;")
       btnPresentarFormulario1.setDisable(false)
@@ -156,19 +190,45 @@ class Formulario1Controller {
 
   @FXML
   def handlePresentar(event: ActionEvent): Unit = {
-    (activePractica, selectedFileBytes, selectedFileName) match {
-      case (Some(pr), Some(bytes), Some(name)) =>
-        Formulario1Logic.presentarFormulario1(pr.idPractica, bytes, name) match {
-          case Right(_) =>
-            showSuccess("¡Formulario 1 presentado y enviado exitosamente al circuito de firmas!")
-            btnPresentarFormulario1.setDisable(true)
-            selectedFileBytes = None
-            selectedFileName = None
-            lblEstadoArchivoFormulario.setText("Presentado")
-          case Left(Formulario1Failure.Validacion(msg)) =>
-            showError(msg)
-          case Left(Formulario1Failure.ErrorPersistencia(msg)) =>
-            showError(s"Error de base de datos: $msg")
+    (activePractica, selectedFile) match {
+      case (Some(pr), Some(file)) =>
+        try {
+          val destFile = new java.io.File("docs/archivos_pdf/" + file.getName)
+          val dir = destFile.getParentFile
+          if (!dir.exists()) dir.mkdirs()
+
+          java.nio.file.Files.copy(
+            file.toPath,
+            destFile.toPath,
+            java.nio.file.StandardCopyOption.REPLACE_EXISTING
+          )
+
+          val bytes = java.nio.file.Files.readAllBytes(destFile.toPath)
+
+          Formulario1Logic.presentarFormulario1(pr.idPractica, bytes, file.getName) match {
+            case Right(_) =>
+              val dbPath = "docs/archivos_pdf/" + file.getName
+              DB.localTx { implicit session =>
+                sql"""
+                  UPDATE archivo_pdf
+                  SET ruta_segura_servidor = ${dbPath}
+                  WHERE nombre_original = ${file.getName}
+                    AND tipo_archivo = 'T1_FORMULARIO_1_PLAN'::tipo_archivo_pdf
+                """.update.apply()
+              }
+
+              showSuccess("¡Formulario 1 presentado y enviado exitosamente al circuito de firmas!")
+              btnPresentarFormulario1.setDisable(true)
+              selectedFile = None
+              lblEstadoArchivoFormulario.setText("Presentado")
+            case Left(Formulario1Failure.Validacion(msg)) =>
+              showError(msg)
+            case Left(Formulario1Failure.ErrorPersistencia(msg)) =>
+              showError(s"Error de base de datos: $msg")
+          }
+        } catch {
+          case scala.util.control.NonFatal(e) =>
+            showError(s"Error al procesar la subida: ${e.getMessage}")
         }
       case _ =>
         showError("Debe seleccionar un archivo PDF firmado antes de presentar.")

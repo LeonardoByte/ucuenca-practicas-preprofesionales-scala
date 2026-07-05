@@ -31,7 +31,7 @@ class EstadoSistemaController {
 
   private def cargarName(adminCI: String): Unit = {
     DashboardLogic.nameUser(adminCI) match {
-      case Right(nombre) =>lblUsuarioNombreDashboard.setText(s"[${nombre}]")
+      case Right(nombre) =>lblUsuarioNombreDashboard.setText(nombre)
       case Left(DashboardFailure.ErrorCarga(msg)) =>
         System.err.println(s"Error al cargar el nombre del administrador: $msg")
     }

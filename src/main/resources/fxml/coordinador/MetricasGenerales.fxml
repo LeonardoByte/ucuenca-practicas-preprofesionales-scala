@@ -41,18 +41,18 @@
     <!-- Distribución de las 5 métricas obligatorias mediante FlowPane interactivo -->
     <FlowPane hgap="20" vgap="20" prefWidth="1100">
         <children>
-            <!-- Métrica 1: Postulaciones por revisar -->
-            <VBox styleClass="card-dashboard" prefWidth="280" spacing="10" style="-fx-border-left-color: #3b82f6; -fx-border-left-width: 5px;">
-                <Label text="Postulaciones por Revisar" style="-fx-text-fill: #64748b; -fx-font-weight: bold;"/>
-                <Label fx:id="lblPostulacionesPendientes" text="0" style="-fx-font-size: 26pt; -fx-font-weight: bold; -fx-text-fill: #3b82f6;"/>
-                <Label text="Estudiantes esperando filtro de bolsa" style="-fx-font-size: 9pt; -fx-text-fill: #94a3b8;"/>
-            </VBox>
-
-            <!-- Métrica 2: Ofertas por revisar -->
+            <!-- Métrica 1: Ofertas por revisar -->
             <VBox styleClass="card-dashboard" prefWidth="280" spacing="10" style="-fx-border-left-color: #f59e0b; -fx-border-left-width: 5px;">
                 <Label text="Ofertas de Empresas por Revisar" style="-fx-text-fill: #64748b; -fx-font-weight: bold;"/>
                 <Label fx:id="lblOfertasPendientes" text="0" style="-fx-font-size: 26pt; -fx-font-weight: bold; -fx-text-fill: #f59e0b;"/>
                 <Label text="Convocatorias pendientes de validación" style="-fx-font-size: 9pt; -fx-text-fill: #94a3b8;"/>
+            </VBox>
+
+            <!-- Métrica 2: Postulaciones por revisar -->
+            <VBox styleClass="card-dashboard" prefWidth="280" spacing="10" style="-fx-border-left-color: #3b82f6; -fx-border-left-width: 5px;">
+                <Label text="Postulaciones por Revisar" style="-fx-text-fill: #64748b; -fx-font-weight: bold;"/>
+                <Label fx:id="lblPostulacionesPendientes" text="0" style="-fx-font-size: 26pt; -fx-font-weight: bold; -fx-text-fill: #3b82f6;"/>
+                <Label text="Estudiantes esperando filtro de bolsa" style="-fx-font-size: 9pt; -fx-text-fill: #94a3b8;"/>
             </VBox>
 
             <!-- Métrica 3: Oficios de empresa propia por revisar -->
@@ -69,7 +69,14 @@
                 <Label text="Alumnos aceptados sin tutor docente" style="-fx-font-size: 9pt; -fx-text-fill: #94a3b8;"/>
             </VBox>
 
-            <!-- Métrica 5: Auditoría de expedientes -->
+            <!-- Métrica 5: Autorizar Inicios -->
+            <VBox fx:id="cardAutorizarInicios" styleClass="card-dashboard" prefWidth="280" spacing="10" style="-fx-border-left-color: #06b6d4; -fx-border-left-width: 5px; -fx-cursor: hand;" onMouseClicked="#handleGoToAutorizarInicios">
+                <Label text="Autorizar Inicios" style="-fx-text-fill: #64748b; -fx-font-weight: bold;"/>
+                <Label fx:id="lblIniciosPendientes" text="0" style="-fx-font-size: 26pt; -fx-font-weight: bold; -fx-text-fill: #06b6d4;"/>
+                <Label text="Planes F1 listos para inicio de práctica" style="-fx-font-size: 9pt; -fx-text-fill: #94a3b8;"/>
+            </VBox>
+
+            <!-- Métrica 6: Auditoría de expedientes -->
             <VBox styleClass="card-dashboard" prefWidth="280" spacing="10" style="-fx-border-left-color: #10b981; -fx-border-left-width: 5px;">
                 <Label text="Auditoría de Expedientes (Cierre)" style="-fx-text-fill: #64748b; -fx-font-weight: bold;"/>
                 <Label fx:id="lblAuditoriasPendientes" text="0" style="-fx-font-size: 26pt; -fx-font-weight: bold; -fx-text-fill: #10b981;"/>

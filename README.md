@@ -132,14 +132,6 @@ Las vistas FXML están en `src/main/resources/fxml/`, organizadas por rol: `glob
 - sbt 1.10.7
 - PostgreSQL 18 en ejecución localmente
 
-### Base de Datos
-
-```bash
-psql -U postgres -f sql/database_setup.sql
-```
-
-El script es idempotente: elimina y recrea la base `gestion_practicas` (con sus 13 tipos ENUM y tablas en 3FN) en cada ejecución.
-
 ### Configuración de Conexión
 
 Ajusta `src/main/resources/database.properties` si tus credenciales difieren de los valores por defecto (`localhost:5432/gestion_practicas`, usuario `postgres`).

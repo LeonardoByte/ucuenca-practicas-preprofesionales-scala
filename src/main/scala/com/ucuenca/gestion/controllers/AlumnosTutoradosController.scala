@@ -53,7 +53,7 @@ class AlumnosTutoradosController {
 
   private def cargarName(tutorAcadCI: String): Unit = {
     DashboardLogic.nameUser(tutorAcadCI) match {
-      case Right(nombre) =>lblUsuarioNombreDashboard.setText(s"[${nombre}]")
+      case Right(nombre) =>lblUsuarioNombreDashboard.setText(nombre)
       case Left(DashboardFailure.ErrorCarga(msg)) =>
         System.err.println(s"Error al cargar el nombre del tutor académico: $msg")
     }
