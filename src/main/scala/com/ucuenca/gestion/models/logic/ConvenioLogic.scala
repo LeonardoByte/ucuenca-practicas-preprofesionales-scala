@@ -3,6 +3,7 @@ package com.ucuenca.gestion.models.logic
 import com.ucuenca.gestion.models.entities.SolicitudConvenio
 import com.ucuenca.gestion.models.db.SolicitudConvenioRepository
 import com.ucuenca.gestion.models.enums.EstadoConvenio
+import com.ucuenca.gestion.utils.IdentificacionEcValidator
 import scalikejdbc._
 import scala.util.control.NonFatal
 
@@ -27,8 +28,8 @@ object ConvenioLogic {
     // 1. Validar campos obligatorios
     if (razonSocial == null || razonSocial.trim.isEmpty)
       return Left(ConvenioFailure.Validacion("El nombre o razón social es obligatorio."))
-    if (rucEmpresa == null || rucEmpresa.trim.length != 13 || !rucEmpresa.trim.forall(_.isDigit))
-      return Left(ConvenioFailure.Validacion("El RUC de la empresa debe tener exactamente 13 dígitos numéricos."))
+    if (!IdentificacionEcValidator.esRucValido(if (rucEmpresa == null) null else rucEmpresa.trim))
+      return Left(ConvenioFailure.Validacion("El RUC de la empresa no es válido. Verifique los 13 dígitos y el dígito verificador."))
     if (representanteLegal == null || representanteLegal.trim.isEmpty)
       return Left(ConvenioFailure.Validacion("El representante legal es obligatorio."))
     if (direccionMatriz == null || direccionMatriz.trim.isEmpty)

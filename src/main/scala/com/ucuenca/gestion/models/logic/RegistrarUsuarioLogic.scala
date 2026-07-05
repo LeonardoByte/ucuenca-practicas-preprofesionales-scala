@@ -5,6 +5,7 @@ import com.ucuenca.gestion.models.enums._
 import com.ucuenca.gestion.models.db.UsuarioRepository
 import com.ucuenca.gestion.models.dto._
 import com.ucuenca.gestion.utils.PasswordHasher
+import com.ucuenca.gestion.utils.IdentificacionEcValidator
 import scalikejdbc.DB
 import scala.util.control.NonFatal
 
@@ -111,16 +112,16 @@ object RegistrarUsuarioLogic {
   }
 
   private def validarIdentificacionPersona(id: String): Either[RegistroFailure, Unit] = {
-    if (id == null || id.length != 10 || !id.forall(_.isDigit)) {
-      Left(RegistroFailure.Validacion("La identificación para personas debe tener exactamente 10 dígitos numéricos."))
+    if (!IdentificacionEcValidator.esCedulaValida(id)) {
+      Left(RegistroFailure.Validacion("La cédula de identidad ingresada no es válida. Verifique los 10 dígitos."))
     } else {
       Right(())
     }
   }
 
   private def validarIdentificacionEmpresa(id: String): Either[RegistroFailure, Unit] = {
-    if (id == null || id.length != 13 || !id.forall(_.isDigit)) {
-      Left(RegistroFailure.Validacion("La identificación RUC para empresas debe tener exactamente 13 dígitos numéricos."))
+    if (!IdentificacionEcValidator.esRucValido(id)) {
+      Left(RegistroFailure.Validacion("El RUC ingresado no es válido. Verifique los 13 dígitos y el dígito verificador."))
     } else {
       Right(())
     }

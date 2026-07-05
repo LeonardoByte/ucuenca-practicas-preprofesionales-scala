@@ -14,14 +14,14 @@ class RegistrarSolicitudLogicSpec extends AnyFlatSpec with Matchers with BeforeA
   private def baseDto: RegistrarSolicitudDTO = RegistrarSolicitudDTO(
     ciEstudianteRef           = testEstudianteCI,
     nombreEntidadExterna      = "GAD Municipal del Cantón Cuenca",
-    rucEmpresaPropia          = "0160076020001",
+    rucEmpresaPropia          = "0160076090001",
     contactoEmpresaPropia     = "contacto@gad.gob.ec",
     horasEmpresaPropia        = 160,
     direccionEmpresaPropia    = "Av. Mariscal Sucre y Huayna Cápac, Cuenca",
     misionEmpresaPropia       = "Fomentar el desarrollo sostenible y equitativo del cantón Cuenca.",
     visionEmpresaPropia       = "Ser referente de gestión pública eficiente y transparente en Ecuador.",
     contenidoOficioTranscrito = "Por medio del presente oficio solicito la autorización...",
-    ciSupervisorExterno       = "0102030405",
+    ciSupervisorExterno       = "0102030400",
     nombresSupervisorExterno  = "Ing. Carlos Andrés Peña López",
     emailSupervisorExterno    = "supervisor@gad.gob.ec",
     telefonoSupervisorExterno = "0987654321",
@@ -79,18 +79,23 @@ class RegistrarSolicitudLogicSpec extends AnyFlatSpec with Matchers with BeforeA
   // ─── RUC ─────────────────────────────────────────────────────────────────────
 
   it should "rechazar si el RUC tiene menos de 13 dígitos" in {
-    val resultado = RegistrarSolicitudLogic.registrar(baseDto.copy(rucEmpresaPropia = "016007602000"))
-    resultado shouldBe Left(SolicitudEmpresaPropiaFailure.Validacion("El RUC de la empresa debe tener exactamente 13 dígitos numéricos."))
+    val resultado = RegistrarSolicitudLogic.registrar(baseDto.copy(rucEmpresaPropia = "016007609000"))
+    resultado shouldBe Left(SolicitudEmpresaPropiaFailure.Validacion("El RUC de la empresa no es válido. Verifique los 13 dígitos y el dígito verificador."))
   }
 
   it should "rechazar si el RUC tiene más de 13 dígitos" in {
-    val resultado = RegistrarSolicitudLogic.registrar(baseDto.copy(rucEmpresaPropia = "01600760200015"))
-    resultado shouldBe Left(SolicitudEmpresaPropiaFailure.Validacion("El RUC de la empresa debe tener exactamente 13 dígitos numéricos."))
+    val resultado = RegistrarSolicitudLogic.registrar(baseDto.copy(rucEmpresaPropia = "01600760900015"))
+    resultado shouldBe Left(SolicitudEmpresaPropiaFailure.Validacion("El RUC de la empresa no es válido. Verifique los 13 dígitos y el dígito verificador."))
   }
 
   it should "rechazar si el RUC contiene caracteres no numéricos" in {
-    val resultado = RegistrarSolicitudLogic.registrar(baseDto.copy(rucEmpresaPropia = "016007602000X"))
-    resultado shouldBe Left(SolicitudEmpresaPropiaFailure.Validacion("El RUC de la empresa debe tener exactamente 13 dígitos numéricos."))
+    val resultado = RegistrarSolicitudLogic.registrar(baseDto.copy(rucEmpresaPropia = "016007609000X"))
+    resultado shouldBe Left(SolicitudEmpresaPropiaFailure.Validacion("El RUC de la empresa no es válido. Verifique los 13 dígitos y el dígito verificador."))
+  }
+
+  it should "rechazar si el RUC tiene 13 dígitos numéricos pero dígito verificador inválido" in {
+    val resultado = RegistrarSolicitudLogic.registrar(baseDto.copy(rucEmpresaPropia = "0160076080001"))
+    resultado shouldBe Left(SolicitudEmpresaPropiaFailure.Validacion("El RUC de la empresa no es válido. Verifique los 13 dígitos y el dígito verificador."))
   }
 
   // ─── Company contact email ────────────────────────────────────────────────────
@@ -128,12 +133,17 @@ class RegistrarSolicitudLogicSpec extends AnyFlatSpec with Matchers with BeforeA
 
   it should "rechazar si la cédula del supervisor externo tiene menos de 10 dígitos" in {
     val resultado = RegistrarSolicitudLogic.registrar(baseDto.copy(ciSupervisorExterno = "010203040"))
-    resultado shouldBe Left(SolicitudEmpresaPropiaFailure.Validacion("La cédula del supervisor externo debe tener exactamente 10 dígitos numéricos."))
+    resultado shouldBe Left(SolicitudEmpresaPropiaFailure.Validacion("La cédula del supervisor externo no es válida. Verifique los 10 dígitos."))
   }
 
   it should "rechazar si la cédula del supervisor externo tiene más de 10 dígitos" in {
     val resultado = RegistrarSolicitudLogic.registrar(baseDto.copy(ciSupervisorExterno = "01020304050"))
-    resultado shouldBe Left(SolicitudEmpresaPropiaFailure.Validacion("La cédula del supervisor externo debe tener exactamente 10 dígitos numéricos."))
+    resultado shouldBe Left(SolicitudEmpresaPropiaFailure.Validacion("La cédula del supervisor externo no es válida. Verifique los 10 dígitos."))
+  }
+
+  it should "rechazar si la cédula del supervisor externo tiene 10 dígitos numéricos pero dígito verificador inválido" in {
+    val resultado = RegistrarSolicitudLogic.registrar(baseDto.copy(ciSupervisorExterno = "0102030405"))
+    resultado shouldBe Left(SolicitudEmpresaPropiaFailure.Validacion("La cédula del supervisor externo no es válida. Verifique los 10 dígitos."))
   }
 
   it should "rechazar si el nombre del supervisor externo está vacío" in {
@@ -246,7 +256,7 @@ class RegistrarSolicitudLogicSpec extends AnyFlatSpec with Matchers with BeforeA
     dbRow shouldBe Some((
       testEstudianteCI,
       "GAD Municipal del Cantón Cuenca",
-      "0160076020001",
+      "0160076090001",
       160,
       "PENDIENTE",
       "T4_OFICIO_SOLICITUD_PROP_INICIAL"

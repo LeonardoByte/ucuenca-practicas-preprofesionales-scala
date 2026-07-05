@@ -10,7 +10,8 @@ import com.ucuenca.gestion.models.enums.{EstadoConvenio, RolUsuario}
 
 class ConvenioLogicSpec extends AnyFlatSpec with Matchers with BeforeAndAfterAll {
 
-  val testRuc = "0105060708001"
+  // RUC válido de sociedad privada (provincia 01, tercer dígito 9, dígito verificador Módulo 11 correcto)
+  val testRuc = "0191234502001"
   var testSolicitudId: Int = _
 
   override def beforeAll(): Unit = {
@@ -89,7 +90,7 @@ class ConvenioLogicSpec extends AnyFlatSpec with Matchers with BeforeAndAfterAll
       pdfNombre = "convenio_test.pdf",
       pdfRuta = "uploads/convenio_test.pdf"
     )
-    res shouldBe Left(ConvenioFailure.Validacion("El RUC de la empresa debe tener exactamente 13 dígitos numéricos."))
+    res shouldBe Left(ConvenioFailure.Validacion("El RUC de la empresa no es válido. Verifique los 13 dígitos y el dígito verificador."))
   }
 
   it should "registrar exitosamente un convenio PENDIENTE si es la primera vez" in {

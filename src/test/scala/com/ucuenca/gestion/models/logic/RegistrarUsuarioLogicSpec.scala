@@ -11,6 +11,12 @@ import com.ucuenca.gestion.models.entities.Usuario
 
 class RegistrarUsuarioLogicSpec extends AnyFlatSpec with Matchers with BeforeAndAfterAll {
 
+  // Identificaciones válidas según el algoritmo oficial ecuatoriano (Módulo 10 / Módulo 11)
+  private val ciEstudiante = "0101010106"
+  private val ciAdmin = "0202020202"
+  private val ciTutor = "0909090904"
+  private val rucEmpresa = "0190506002001"
+
   override def beforeAll(): Unit = {
     DatabaseConnection.initialize()
     cleanup()
@@ -33,17 +39,17 @@ class RegistrarUsuarioLogicSpec extends AnyFlatSpec with Matchers with BeforeAnd
   private def cleanup(): Unit = {
     DB.localTx { implicit session =>
       sql"DELETE FROM usuario_sistema WHERE username IN ('test_est', 'test_emp', 'test_tutor', 'test_admin_2')".update.apply()
-      sql"DELETE FROM tutor_empresarial_perfil WHERE identificacion IN ('0909090909', '0909090908')".update.apply()
-      sql"DELETE FROM empresa_perfil WHERE identificacion IN ('0505050505002', '0505050505003')".update.apply()
-      sql"DELETE FROM estudiante_perfil WHERE identificacion IN ('0101010102', '0101010103')".update.apply()
-      sql"DELETE FROM usuario WHERE identificacion IN ('0101010102', '0101010103', '0505050505002', '0505050505003', '0909090909', '0909090908', '0101010105')".update.apply()
+      sql"DELETE FROM tutor_empresarial_perfil WHERE identificacion = ${ciTutor}".update.apply()
+      sql"DELETE FROM empresa_perfil WHERE identificacion = ${rucEmpresa}".update.apply()
+      sql"DELETE FROM estudiante_perfil WHERE identificacion = ${ciEstudiante}".update.apply()
+      sql"DELETE FROM usuario WHERE identificacion IN (${ciEstudiante}, ${rucEmpresa}, ${ciTutor}, ${ciAdmin})".update.apply()
       sql"DELETE FROM archivo_pdf WHERE nombre_original LIKE 'test_%'".update.apply()
     }
   }
 
   "RegistrarUsuarioLogic" should "rechazar nombres vacíos o muy cortos" in {
     val dto = EstudianteDTO(
-      identificacion = "0101010102",
+      identificacion = ciEstudiante,
       nombresCompletos = "",
       correoElectronico = "test@ucuenca.edu.ec",
       password = "password123",
@@ -76,13 +82,33 @@ class RegistrarUsuarioLogicSpec extends AnyFlatSpec with Matchers with BeforeAnd
     )
     val dtoAlpha = dtoShort.copy(identificacion = "01010101a2")
 
-    RegistrarUsuarioLogic.registrarEstudiante(dtoShort) shouldBe Left(RegistroFailure.Validacion("La identificación para personas debe tener exactamente 10 dígitos numéricos."))
-    RegistrarUsuarioLogic.registrarEstudiante(dtoAlpha) shouldBe Left(RegistroFailure.Validacion("La identificación para personas debe tener exactamente 10 dígitos numéricos."))
+    RegistrarUsuarioLogic.registrarEstudiante(dtoShort) shouldBe Left(RegistroFailure.Validacion("La cédula de identidad ingresada no es válida. Verifique los 10 dígitos."))
+    RegistrarUsuarioLogic.registrarEstudiante(dtoAlpha) shouldBe Left(RegistroFailure.Validacion("La cédula de identidad ingresada no es válida. Verifique los 10 dígitos."))
+  }
+
+  it should "rechazar identificación de estudiante con 10 dígitos numéricos pero dígito verificador inválido" in {
+    // "0101010101" tiene el formato correcto (10 dígitos, provincia y tercer dígito válidos)
+    // pero su dígito verificador (Módulo 10) no coincide: el correcto es 6, no 1.
+    val dto = EstudianteDTO(
+      identificacion = "0101010101",
+      nombresCompletos = "Juan Perez",
+      correoElectronico = "test@ucuenca.edu.ec",
+      password = "password123",
+      cicloActual = 5,
+      idCarreraRef = 9999,
+      estadoMatricula = EstadoMatricula.REGULAR,
+      estadoPractica = EstadoEstudiantePractica.SIN_PRACTICA,
+      mallaNombre = "test_malla.pdf",
+      mallaRuta = "/safe/test_malla.pdf",
+      cvNombre = None,
+      cvRuta = None
+    )
+    RegistrarUsuarioLogic.registrarEstudiante(dto) shouldBe Left(RegistroFailure.Validacion("La cédula de identidad ingresada no es válida. Verifique los 10 dígitos."))
   }
 
   it should "rechazar ciclo de estudiante fuera de los límites 1 a 10" in {
     val dtoLow = EstudianteDTO(
-      identificacion = "0101010102",
+      identificacion = ciEstudiante,
       nombresCompletos = "Juan Perez",
       correoElectronico = "test@ucuenca.edu.ec",
       password = "password123",
@@ -103,7 +129,7 @@ class RegistrarUsuarioLogicSpec extends AnyFlatSpec with Matchers with BeforeAnd
 
   it should "rechazar registro de estudiante si falta el PDF de malla" in {
     val dto = EstudianteDTO(
-      identificacion = "0101010102",
+      identificacion = ciEstudiante,
       nombresCompletos = "Juan Perez",
       correoElectronico = "test@ucuenca.edu.ec",
       password = "password123",
@@ -121,7 +147,7 @@ class RegistrarUsuarioLogicSpec extends AnyFlatSpec with Matchers with BeforeAnd
 
   it should "registrar exitosamente un estudiante con perfil y malla académica" in {
     val dto = EstudianteDTO(
-      identificacion = "0101010102",
+      identificacion = ciEstudiante,
       nombresCompletos = "Juan Perez",
       correoElectronico = "test.est@ucuenca.edu.ec",
       password = "password123",
@@ -138,10 +164,10 @@ class RegistrarUsuarioLogicSpec extends AnyFlatSpec with Matchers with BeforeAnd
 
     // Verificar en la BD
     DB.readOnly { implicit session =>
-      val userOpt = sql"SELECT nombres_completos, rol FROM usuario WHERE identificacion = '0101010102'".map(rs => (rs.string(1), rs.string(2))).single.apply()
+      val userOpt = sql"SELECT nombres_completos, rol FROM usuario WHERE identificacion = ${ciEstudiante}".map(rs => (rs.string(1), rs.string(2))).single.apply()
       userOpt shouldBe Some(("Juan Perez", "ESTUDIANTE"))
 
-      val studentOpt = sql"SELECT ciclo_actual FROM estudiante_perfil WHERE identificacion = '0101010102'".map(rs => rs.int(1)).single.apply()
+      val studentOpt = sql"SELECT ciclo_actual FROM estudiante_perfil WHERE identificacion = ${ciEstudiante}".map(rs => rs.int(1)).single.apply()
       studentOpt shouldBe Some(5)
     }
   }
@@ -157,12 +183,27 @@ class RegistrarUsuarioLogicSpec extends AnyFlatSpec with Matchers with BeforeAnd
       vision = "Vision",
       estadoConvenio = EstadoConvenio.PENDIENTE
     )
-    RegistrarUsuarioLogic.registrarEmpresa(dto) shouldBe Left(RegistroFailure.Validacion("La identificación RUC para empresas debe tener exactamente 13 dígitos numéricos."))
+    RegistrarUsuarioLogic.registrarEmpresa(dto) shouldBe Left(RegistroFailure.Validacion("El RUC ingresado no es válido. Verifique los 13 dígitos y el dígito verificador."))
+  }
+
+  it should "rechazar identificación de empresa con 13 dígitos pero dígito verificador inválido" in {
+    // Mismo prefijo que el RUC válido de empresa, pero con el dígito verificador alterado.
+    val dto = EmpresaDTO(
+      identificacion = "0190506003001",
+      nombresCompletos = "Empresa Test S.A.",
+      correoElectronico = "contacto@testemp.com",
+      password = "password123",
+      direccionMatriz = "Av. Principal",
+      mision = "Mision",
+      vision = "Vision",
+      estadoConvenio = EstadoConvenio.PENDIENTE
+    )
+    RegistrarUsuarioLogic.registrarEmpresa(dto) shouldBe Left(RegistroFailure.Validacion("El RUC ingresado no es válido. Verifique los 13 dígitos y el dígito verificador."))
   }
 
   it should "registrar exitosamente una empresa" in {
     val dto = EmpresaDTO(
-      identificacion = "0505050505002",
+      identificacion = rucEmpresa,
       nombresCompletos = "Empresa Test S.A.",
       correoElectronico = "test.emp@ucuenca.edu.ec",
       password = "password123",
@@ -174,7 +215,7 @@ class RegistrarUsuarioLogicSpec extends AnyFlatSpec with Matchers with BeforeAnd
     RegistrarUsuarioLogic.registrarEmpresa(dto) shouldBe Right(())
 
     DB.readOnly { implicit session =>
-      val epOpt = sql"SELECT direccion_matriz, mision, vision FROM empresa_perfil WHERE identificacion = '0505050505002'".map(rs => (rs.string(1), rs.string(2), rs.string(3))).single.apply()
+      val epOpt = sql"SELECT direccion_matriz, mision, vision FROM empresa_perfil WHERE identificacion = ${rucEmpresa}".map(rs => (rs.string(1), rs.string(2), rs.string(3))).single.apply()
       epOpt.isDefined shouldBe true
       epOpt.get._1 shouldBe "Av. de las Américas, Cuenca"
       epOpt.get._2 should include("Ofrecer servicios de calidad.")
@@ -184,11 +225,11 @@ class RegistrarUsuarioLogicSpec extends AnyFlatSpec with Matchers with BeforeAnd
 
   it should "rechazar tutor empresarial si el teléfono no es de 10 dígitos o no numérico" in {
     val dto = TutorEmpresarialDTO(
-      identificacion = "0909090909",
+      identificacion = ciTutor,
       nombresCompletos = "Tutor Test",
       correoElectronico = "tutor@test.com",
       password = "password123",
-      empresaIdRef = "0505050505002",
+      empresaIdRef = rucEmpresa,
       telefonoContacto = "123"
     )
     RegistrarUsuarioLogic.registrarTutorEmpresarial(dto) shouldBe Left(RegistroFailure.Validacion("El teléfono del tutor empresarial debe tener exactamente 10 dígitos numéricos."))
@@ -196,24 +237,24 @@ class RegistrarUsuarioLogicSpec extends AnyFlatSpec with Matchers with BeforeAnd
 
   it should "registrar exitosamente un tutor empresarial" in {
     val dto = TutorEmpresarialDTO(
-      identificacion = "0909090909",
+      identificacion = ciTutor,
       nombresCompletos = "Tutor Test",
       correoElectronico = "test.tutor@ucuenca.edu.ec",
       password = "password123",
-      empresaIdRef = "0505050505002",
+      empresaIdRef = rucEmpresa,
       telefonoContacto = "0999999999"
     )
     RegistrarUsuarioLogic.registrarTutorEmpresarial(dto) shouldBe Right(())
 
     DB.readOnly { implicit session =>
-      val tutorOpt = sql"SELECT telefono_contacto FROM tutor_empresarial_perfil WHERE identificacion = '0909090909'".map(rs => rs.string(1)).single.apply()
+      val tutorOpt = sql"SELECT telefono_contacto FROM tutor_empresarial_perfil WHERE identificacion = ${ciTutor}".map(rs => rs.string(1)).single.apply()
       tutorOpt shouldBe Some("0999999999")
     }
   }
 
   it should "registrar exitosamente un usuario general (e.g. ADMIN)" in {
     val dto = UsuarioGeneralDTO(
-      identificacion = "0101010105",
+      identificacion = ciAdmin,
       nombresCompletos = "Administrador Dos",
       correoElectronico = "test.admin_2@ucuenca.edu.ec",
       password = "password123",
@@ -222,7 +263,7 @@ class RegistrarUsuarioLogicSpec extends AnyFlatSpec with Matchers with BeforeAnd
     RegistrarUsuarioLogic.registrarUsuarioGeneral(dto) shouldBe Right(())
 
     DB.readOnly { implicit session =>
-      val userOpt = sql"SELECT nombres_completos FROM usuario WHERE identificacion = '0101010105'".map(rs => rs.string(1)).single.apply()
+      val userOpt = sql"SELECT nombres_completos FROM usuario WHERE identificacion = ${ciAdmin}".map(rs => rs.string(1)).single.apply()
       userOpt shouldBe Some("Administrador Dos")
     }
   }

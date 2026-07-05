@@ -4,6 +4,7 @@ import com.ucuenca.gestion.models.dto.RegistrarSolicitudDTO
 import com.ucuenca.gestion.models.db.SolicitudEmpresaPropiaRepository
 import com.ucuenca.gestion.models.db.EstudianteRepository
 import com.ucuenca.gestion.models.enums.EstadoEstudiantePractica
+import com.ucuenca.gestion.utils.IdentificacionEcValidator
 import scalikejdbc.DB
 import scala.util.control.NonFatal
 
@@ -29,8 +30,8 @@ object RegistrarSolicitudLogic {
     // Company identification
     if (dto.nombreEntidadExterna == null || dto.nombreEntidadExterna.trim.isEmpty)
       Left(SolicitudEmpresaPropiaFailure.Validacion("El nombre de la institución/empresa es obligatorio."))
-    else if (dto.rucEmpresaPropia == null || dto.rucEmpresaPropia.trim.length != 13 || !dto.rucEmpresaPropia.trim.forall(_.isDigit))
-      Left(SolicitudEmpresaPropiaFailure.Validacion("El RUC de la empresa debe tener exactamente 13 dígitos numéricos."))
+    else if (!IdentificacionEcValidator.esRucValido(if (dto.rucEmpresaPropia == null) null else dto.rucEmpresaPropia.trim))
+      Left(SolicitudEmpresaPropiaFailure.Validacion("El RUC de la empresa no es válido. Verifique los 13 dígitos y el dígito verificador."))
     else if (dto.contactoEmpresaPropia == null || dto.contactoEmpresaPropia.trim.isEmpty)
       Left(SolicitudEmpresaPropiaFailure.Validacion("El correo institucional de la empresa es obligatorio."))
     // JIT company profile fields
@@ -44,8 +45,8 @@ object RegistrarSolicitudLogic {
     else if (dto.contenidoOficioTranscrito == null || dto.contenidoOficioTranscrito.trim.isEmpty)
       Left(SolicitudEmpresaPropiaFailure.Validacion("El contenido del oficio transcrito es obligatorio."))
     // JIT external supervisor fields
-    else if (dto.ciSupervisorExterno == null || dto.ciSupervisorExterno.trim.length != 10 || !dto.ciSupervisorExterno.trim.forall(_.isDigit))
-      Left(SolicitudEmpresaPropiaFailure.Validacion("La cédula del supervisor externo debe tener exactamente 10 dígitos numéricos."))
+    else if (!IdentificacionEcValidator.esCedulaValida(if (dto.ciSupervisorExterno == null) null else dto.ciSupervisorExterno.trim))
+      Left(SolicitudEmpresaPropiaFailure.Validacion("La cédula del supervisor externo no es válida. Verifique los 10 dígitos."))
     else if (dto.nombresSupervisorExterno == null || dto.nombresSupervisorExterno.trim.isEmpty)
       Left(SolicitudEmpresaPropiaFailure.Validacion("El nombre completo del supervisor externo es obligatorio."))
     else if (dto.emailSupervisorExterno == null || !dto.emailSupervisorExterno.contains("@"))
