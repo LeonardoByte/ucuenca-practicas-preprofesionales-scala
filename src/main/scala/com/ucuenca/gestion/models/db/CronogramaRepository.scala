@@ -31,6 +31,29 @@ object CronogramaRepository {
   }
 
   /**
+   * Busca el registro de práctica por su ID.
+   */
+  def buscarPracticaPorId(idPractica: Int)(implicit session: DBSession = AutoSession): Option[PracticaRegistro] = {
+    sql"""
+      SELECT * FROM practica_registro
+      WHERE id_practica = ${idPractica}
+    """.map { rs =>
+      PracticaRegistro(
+        idPractica = rs.int("id_practica"),
+        ciEstudianteRef = rs.string("ci_estudiante_ref"),
+        rucEmpresaRef = rs.string("ruc_empresa_ref"),
+        idTutorAcademicoRef = rs.stringOpt("id_tutor_academico_ref"),
+        idTutorEmpresarialRef = rs.string("id_tutor_empresarial_ref"),
+        origenRama = OrigenRama.valueOf(rs.string("origen_rama")),
+        estadoCronograma = EstadoCronograma.valueOf(rs.string("estado_cronograma")),
+        horasAcumuladas = rs.int("horas_acumuladas"),
+        horasTotalesRequeridas = rs.int("horas_totales_requeridas"),
+        notaFinal = rs.bigDecimalOpt("nota_final").map(BigDecimal(_))
+      )
+    }.single.apply()
+  }
+
+  /**
    * Obtiene la nómina de estudiantes (idPractica, nombreEstudiante) asignados a un tutor empresarial.
    */
   def listarEstudiantesAsignados(ciTutorEmp: String)(implicit session: DBSession = AutoSession): List[(Int, String)] = {

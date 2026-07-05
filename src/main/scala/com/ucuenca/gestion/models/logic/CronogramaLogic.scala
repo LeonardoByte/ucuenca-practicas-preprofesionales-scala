@@ -2,7 +2,7 @@ package com.ucuenca.gestion.models.logic
 
 import com.ucuenca.gestion.models.entities.{PracticaRegistro, ActividadCronograma}
 import com.ucuenca.gestion.models.enums.{OrigenCreacionActividad, EstadoActividad}
-import com.ucuenca.gestion.models.db.CronogramaRepository
+import com.ucuenca.gestion.models.db.{CronogramaRepository, PracticaRegistroRepository}
 import scalikejdbc.DB
 import scala.util.control.NonFatal
 
@@ -98,6 +98,60 @@ object CronogramaLogic {
     } catch {
       case NonFatal(e) =>
         Left(CronogramaFailure.ErrorPersistencia(s"Error al contar tareas aprobadas: ${e.getMessage}"))
+    }
+  }
+
+  /**
+   * El tutor empresarial registra horas efectivamente trabajadas por el estudiante.
+   * Exige un valor estrictamente positivo (solo se puede incrementar) y que no
+   * supere el tiempo restante para culminar la práctica (horas totales requeridas
+   * por la oferta menos las horas ya acumuladas). Retorna la práctica actualizada
+   * para refrescar la interfaz inmediatamente.
+   */
+  def registrarHorasTrabajadas(idPractica: Int, horas: Int): Either[CronogramaFailure, PracticaRegistro] = {
+    if (horas <= 0) {
+      return Left(CronogramaFailure.Validacion("Las horas a registrar deben ser un valor estrictamente positivo."))
+    }
+    try {
+      DB.localTx { implicit session =>
+        CronogramaRepository.buscarPracticaPorId(idPractica) match {
+          case None =>
+            Left(CronogramaFailure.Validacion("No se encontró el registro de la práctica seleccionada."))
+          case Some(pr) =>
+            val restantes = pr.horasTotalesRequeridas - pr.horasAcumuladas
+            if (horas > restantes) {
+              Left(CronogramaFailure.Validacion(s"Las horas ingresadas superan el tiempo restante para culminar la práctica (quedan $restantes horas)."))
+            } else if (!PracticaRegistroRepository.registrarHorasTrabajadas(idPractica, horas)) {
+              Left(CronogramaFailure.ErrorPersistencia("No se pudo actualizar las horas acumuladas de la práctica."))
+            } else {
+              Right(pr.copy(horasAcumuladas = pr.horasAcumuladas + horas))
+            }
+        }
+      }
+    } catch {
+      case NonFatal(e) =>
+        Left(CronogramaFailure.ErrorPersistencia(s"Error al registrar horas trabajadas: ${e.getMessage}"))
+    }
+  }
+
+  /**
+   * SOLO DESARROLLO: adelanta horas_acumuladas en bloques (ej. +40, +200) para
+   * agilizar demos manuales del cronograma. No forma parte del flujo de negocio
+   * validado (el docente/tutor empresarial no invoca esto); no wirear en pantallas
+   * de producción sin dejarlo visualmente identificado como herramienta de dev.
+   */
+  def devSimularAvanceHoras(idPractica: Int, horas: Int): Either[CronogramaFailure, Unit] = {
+    if (horas <= 0) {
+      return Left(CronogramaFailure.Validacion("El bloque de horas a simular debe ser positivo."))
+    }
+    try {
+      DB.localTx { implicit session =>
+        PracticaRegistroRepository.devSumarHorasAcumuladas(idPractica, horas)
+      }
+      Right(())
+    } catch {
+      case NonFatal(e) =>
+        Left(CronogramaFailure.ErrorPersistencia(s"Error al simular avance de horas: ${e.getMessage}"))
     }
   }
 }

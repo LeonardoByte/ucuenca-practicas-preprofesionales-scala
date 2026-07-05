@@ -12,10 +12,10 @@ object DatabaseSeeder {
     val carreraCount = sql"SELECT count(*) FROM carrera".map(rs => rs.long(1)).single.apply().getOrElse(0L)
     if (carreraCount == 0) {
       println("Sembrando carreras universitarias...")
-      sql"INSERT INTO carrera (nombre_carrera) VALUES ('Ingeniería en Computación')".update.apply()
-      sql"INSERT INTO carrera (nombre_carrera) VALUES ('Ingeniería de Software')".update.apply()
+      sql"INSERT INTO carrera (nombre_carrera) VALUES ('Computación')".update.apply()
+      sql"INSERT INTO carrera (nombre_carrera) VALUES ('Electricidad')".update.apply()
       sql"INSERT INTO carrera (nombre_carrera) VALUES ('Ingeniería Civil')".update.apply()
-      sql"INSERT INTO carrera (nombre_carrera) VALUES ('Ingeniería Industrial')".update.apply()
+      sql"INSERT INTO carrera (nombre_carrera) VALUES ('Telecomunicaciones')".update.apply()
     }
 
     val count = sql"SELECT count(*) FROM usuario".map(rs => rs.long(1)).single.apply().getOrElse(0L)
@@ -47,7 +47,6 @@ object DatabaseSeeder {
     sql"DELETE FROM usuario_sistema".update.apply()
     sql"DELETE FROM usuario".update.apply()
     sql"DELETE FROM archivo_pdf".update.apply()
-    sql"DELETE FROM periodo_academico".update.apply()
 
     println("Insertando datos semilla de desarrollo completos...")
 

@@ -11,8 +11,9 @@
                     <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                 </columnResizePolicy>
                 <columns>
-                    <TableColumn fx:id="colEstudiante" text="Estudiante" prefWidth="150"/>
-                    <TableColumn fx:id="colEmpresa" text="Empresa / Oferta" prefWidth="150"/>
+                    <TableColumn fx:id="colEstudiante" text="Estudiante" prefWidth="130"/>
+                    <TableColumn fx:id="colEmpresa" text="Empresa / Oferta" prefWidth="130"/>
+                    <TableColumn fx:id="colCartasCompromiso" text="Cartas Compromiso" prefWidth="160"/>
                 </columns>
             </TableView>
         </VBox>

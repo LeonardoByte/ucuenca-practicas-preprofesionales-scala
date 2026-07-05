@@ -51,4 +51,35 @@ object PracticaRegistroRepository {
       WHERE id_practica = ${idPractica}
     """.update.apply()
   }
+
+  /**
+   * Registra horas trabajadas incrementando horas_acumuladas de forma atómica.
+   * La condición de no exceder horas_totales_requeridas se exige en la propia
+   * cláusula WHERE para evitar condiciones de carrera entre la validación y la
+   * escritura. Retorna false si no se afectó ninguna fila (práctica inexistente
+   * o el incremento superaría el límite).
+   */
+  def registrarHorasTrabajadas(idPractica: Int, horas: Int)(implicit session: DBSession = AutoSession): Boolean = {
+    val affected = sql"""
+      UPDATE practica_registro
+      SET horas_acumuladas = horas_acumuladas + ${horas}
+      WHERE id_practica = ${idPractica}
+        AND horas_acumuladas + ${horas} <= horas_totales_requeridas
+    """.update.apply()
+    affected > 0
+  }
+
+  /**
+   * Utilidad SOLO DE DESARROLLO: suma horas a horas_acumuladas para acelerar demos
+   * locales del cronograma sin esperar la acumulación real. Nunca invocar desde un
+   * flujo de negocio validado por el docente; el resultado se acota a
+   * horas_totales_requeridas para no generar datos inconsistentes.
+   */
+  def devSumarHorasAcumuladas(idPractica: Int, horas: Int)(implicit session: DBSession = AutoSession): Unit = {
+    sql"""
+      UPDATE practica_registro
+      SET horas_acumuladas = LEAST(horas_acumuladas + ${horas}, horas_totales_requeridas)
+      WHERE id_practica = ${idPractica}
+    """.update.apply()
+  }
 }

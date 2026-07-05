@@ -16,7 +16,7 @@
                 <Label text="Horas Acumuladas / Totales" style="-fx-text-fill: #64748b; -fx-font-weight: bold; -fx-font-size: 9.5pt;"/>
                 <Label fx:id="lblHorasAcumuladas" text="120 / 240" style="-fx-font-size: 22pt; -fx-font-weight: bold; -fx-text-fill: #2563eb;"/>
                 <ProgressBar fx:id="progressHoras" progress="0.5" prefWidth="240" style="-fx-accent: #2563eb;"/>
-                <Label text="50% del cronograma completado" style="-fx-font-size: 8.5pt; -fx-text-fill: #94a3b8;"/>
+                <Label fx:id="lblTextoProgreso" text="50% del cronograma completado" style="-fx-font-size: 8.5pt; -fx-text-fill: #94a3b8;"/>
             </VBox>
 
             <VBox styleClass="card-dashboard" prefWidth="280" spacing="6" style="-fx-border-left-color: #10b981; -fx-border-left-width: 5px; -fx-background-color: white; -fx-padding: 12; -fx-border-radius: 4;">

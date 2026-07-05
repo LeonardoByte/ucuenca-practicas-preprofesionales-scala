@@ -37,6 +37,11 @@ class CoordinadorMainController {
   }
 
   @FXML
+  def handleAutorizarInicios(event: ActionEvent): Unit = {
+    CoordinadorAutorizarIniciosView.renderInto(panelCentralDisp)
+  }
+
+  @FXML
   def handleAuditoriaExpedientes(event: ActionEvent): Unit = {
     CoordinadorAuditoriaExpedientesView.renderInto(panelCentralDisp)
   }

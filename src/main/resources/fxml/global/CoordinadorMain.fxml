@@ -33,6 +33,7 @@
                     </Menu>
                     <Menu text="Tutorías">
                         <MenuItem text="Asignar Docentes" onAction="#handleAsignarDocentes"/>
+                        <MenuItem text="Autorizar Inicios" onAction="#handleAutorizarInicios"/>
                     </Menu>
                     <Menu text="Cierres">
                         <MenuItem text="Auditoría de Expedientes" onAction="#handleAuditoriaExpedientes"/>
@@ -65,6 +66,7 @@
 
                         <!-- Bloque de Seguimiento Académico y Cierres Legales -->
                         <Button text="👨‍🏫 Asignar Docentes" onAction="#handleAsignarDocentes"/>
+                        <Button text="🚀 Autorizar Inicios" onAction="#handleAutorizarInicios"/>
                         <Button text="📋 Auditoría de Expedientes" onAction="#handleAuditoriaExpedientes"/>
 
                         <!-- Región expansora invisible para empujar las acciones de sesión al extremo derecho -->

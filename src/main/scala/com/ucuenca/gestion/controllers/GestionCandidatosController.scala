@@ -225,8 +225,7 @@ class GestionCandidatosController {
             idPostulacion = selected.idPostulacion,
             rucEmpresa = companyRuc,
             ciEstudiante = selected.ciEstudiante,
-            idTutorEmpresarial = tutorId,
-            horasTotales = 160 // Se cargará dinámicamente en la capa de negocio
+            idTutorEmpresarial = tutorId
           ) match {
             case Right(_) =>
               showSuccess(s"¡Estudiante '${selected.nombreEstudiante}' aceptado con éxito!")

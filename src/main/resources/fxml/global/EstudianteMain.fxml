@@ -63,7 +63,7 @@
                         <Separator orientation="VERTICAL"/>
 
                         <!-- Bloque de Gestión de la Práctica Activa (Convergencia) -->
-                        <Button text="ℹ Información General" onAction="#handleInfoGeneral"/>
+                        <Button text="🛈 Información General" onAction="#handleInfoGeneral"/>
                         <Button text="📝 Propuesta de Actividades" onAction="#handlePropuestaActividades"/>
                         <Button text="📜 Formulario 1" onAction="#handleFormulario1"/>
 

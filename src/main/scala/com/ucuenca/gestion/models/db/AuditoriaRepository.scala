@@ -103,7 +103,10 @@ object AuditoriaRepository {
   }
 
   /**
-   * Registra la nota final cuantitativa del estudiante y actualiza el cronograma a CERRADA_VALIDA.
+   * Registra la nota final cuantitativa del estudiante, actualiza el cronograma a CERRADA_VALIDA
+   * y libera al estudiante (estado_estudiante_practica -> SIN_PRACTICA) para que pueda postular a
+   * una nueva práctica o iniciar un trámite de empresa propia: una práctica finalizada exitosamente
+   * no debe seguir bloqueándolo como si estuviera en curso.
    */
   def aprobarCierrePractica(idPractica: Int, nota: BigDecimal)(implicit session: DBSession = AutoSession): Unit = {
     sql"""
@@ -111,6 +114,12 @@ object AuditoriaRepository {
       SET nota_final = ${nota},
           estado_cronograma = 'CERRADA_VALIDA'::estado_cronograma
       WHERE id_practica = ${idPractica}
+    """.update.apply()
+
+    sql"""
+      UPDATE estudiante_perfil
+      SET estado_estudiante_practica = 'SIN_PRACTICA'::estado_estudiante_practica
+      WHERE identificacion = (SELECT ci_estudiante_ref FROM practica_registro WHERE id_practica = ${idPractica})
     """.update.apply()
   }
 

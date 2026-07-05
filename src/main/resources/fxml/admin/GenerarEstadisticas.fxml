@@ -13,6 +13,8 @@
             <ComboBox fx:id="cmbPeriodo" promptText="Periodo Académico Vigente..." prefWidth="250"/>
             <ComboBox fx:id="cmbCarrera" promptText="Filtrar por Carrera..." prefWidth="300"/>
             <Button text="Limpiar Filtros" onAction="#handleClearFilters" style="-fx-background-color: #64748b; -fx-text-fill: white;"/>
+            <Region HBox.hgrow="ALWAYS"/>
+            <Button fx:id="btnExportar" text="Exportar Reporte" onAction="#handleExportar" style="-fx-background-color: #2563eb; -fx-text-fill: white; -fx-font-weight: bold;"/>
         </HBox>
     </VBox>
     

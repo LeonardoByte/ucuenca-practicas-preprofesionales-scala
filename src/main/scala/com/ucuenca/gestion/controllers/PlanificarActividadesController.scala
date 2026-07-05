@@ -23,6 +23,10 @@ class PlanificarActividadesController {
   @FXML var btnRegistrarActividad: Button = _
   @FXML var hboxRestriccionF1: HBox = _
   @FXML var lblContadorTareasValidadas: Label = _
+  @FXML var vboxRegistroHoras: VBox = _
+  @FXML var lblHorasProgreso: Label = _
+  @FXML var txtHorasTrabajadas: TextField = _
+  @FXML var btnRegistrarHoras: Button = _
   @FXML var tblActividadesPlanificacion: TableView[ActividadCronograma] = _
   @FXML var colNumero: TableColumn[ActividadCronograma, String] = _
   @FXML var colDescripcion: TableColumn[ActividadCronograma, String] = _
@@ -95,6 +99,19 @@ class PlanificarActividadesController {
     tblActividadesPlanificacion.getItems.clear()
     lblContadorTareasValidadas.setText("Seleccione un estudiante de la nómina")
     lblContadorTareasValidadas.setStyle("-fx-text-fill: #64748b; -fx-font-style: italic; -fx-font-size: 11pt;")
+
+    txtHorasTrabajadas.clear()
+    txtHorasTrabajadas.setDisable(true)
+    btnRegistrarHoras.setDisable(true)
+    lblHorasProgreso.setText("Horas acumuladas: 0 / 0")
+  }
+
+  private def actualizarSeccionHoras(pr: PracticaRegistro): Unit = {
+    lblHorasProgreso.setText(s"Horas acumuladas: ${pr.horasAcumuladas} / ${pr.horasTotalesRequeridas}")
+    val editable = pr.estadoCronograma == EstadoCronograma.EN_DESARROLLO && pr.horasAcumuladas < pr.horasTotalesRequeridas
+    txtHorasTrabajadas.setDisable(!editable)
+    btnRegistrarHoras.setDisable(!editable)
+    if (!editable) txtHorasTrabajadas.clear()
   }
 
   private def limpiarVistas(): Unit = {
@@ -163,6 +180,9 @@ class PlanificarActividadesController {
         // Cargar tabla y validación F1
         actualizarTablaYMetricas(idPractica)
 
+        // Cargar sección de registro de horas trabajadas
+        actualizarSeccionHoras(pr)
+
       case None =>
         showError("Error al cargar la información de la práctica seleccionada.")
         deshabilitarControlesEdicion()
@@ -212,6 +232,32 @@ class PlanificarActividadesController {
         }
       case None =>
         showError("Debe seleccionar un estudiante de la lista antes de proponer actividades.")
+    }
+  }
+
+  @FXML
+  def handleRegistrarHoras(event: ActionEvent): Unit = {
+    activePractica match {
+      case Some(pr) =>
+        val texto = Option(txtHorasTrabajadas.getText).getOrElse("").trim
+        texto.toIntOption match {
+          case None =>
+            showError("Debe ingresar un número entero válido de horas trabajadas.")
+          case Some(horas) =>
+            CronogramaLogic.registrarHorasTrabajadas(pr.idPractica, horas) match {
+              case Right(prActualizada) =>
+                activePractica = Some(prActualizada)
+                txtHorasTrabajadas.clear()
+                showSuccess(s"Horas registradas exitosamente. Progreso actual: ${prActualizada.horasAcumuladas} / ${prActualizada.horasTotalesRequeridas}.")
+                actualizarSeccionHoras(prActualizada)
+              case Left(CronogramaFailure.Validacion(msg)) =>
+                showError(msg)
+              case Left(CronogramaFailure.ErrorPersistencia(msg)) =>
+                showError(s"Error al registrar horas: $msg")
+            }
+        }
+      case None =>
+        showError("Debe seleccionar un estudiante de la lista antes de registrar horas.")
     }
   }
 

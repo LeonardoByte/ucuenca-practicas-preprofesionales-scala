@@ -199,8 +199,10 @@ class Formulario2Controller {
         
         Formulario2Logic.registrarFormulario2(seleccion.idPractica, bytes, name, rubricaIndexada) match {
           case Right(_) =>
-            showSuccess("¡Evaluación técnica transmitida y guardada exitosamente!")
             limpiarCampos()
+            lblEstado.setStyle("-fx-text-fill: green;")
+            lblEstado.setText("Formulario 2 enviado exitosamente")
+            lblEstado.setVisible(true)
             // Refrescar el estado de la vista para el estudiante actual (volverá a bloquearse si la práctica sigue procesándose)
             evaluarRestriccionesEstudiante(seleccion)
           case Left(Formulario2Failure.Validacion(msg)) =>

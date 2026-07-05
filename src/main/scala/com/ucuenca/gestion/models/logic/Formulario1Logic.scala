@@ -176,6 +176,23 @@ object Formulario1Logic {
         return Left(Formulario1Failure.Validacion("El plan ya ha sido aprobado previamente."))
       }
 
+      // Control legal: la aprobación no puede otorgarse si la empresa no tiene convenio formalizado
+      // y las 3 cartas compromiso no están registradas como entregadas en secretaría. Se revalida aquí
+      // (además del bloqueo visual del botón en la vista) para no depender únicamente del cliente.
+      val ciEstudianteOpt = DB.readOnly { implicit session =>
+        sql"SELECT ci_estudiante_ref FROM practica_registro WHERE id_practica = ${idPractica}"
+          .map(rs => rs.string("ci_estudiante_ref")).single.apply()
+      }
+      ciEstudianteOpt match {
+        case None =>
+          return Left(Formulario1Failure.Validacion("No se pudo identificar al estudiante asociado a la práctica."))
+        case Some(ciEstudiante) =>
+          val convenioFormalizado = Formulario1DB.verificarConvenioFormalizado(idPractica)
+          if (!convenioFormalizado && !Formulario1DB.verificarCartaCompromisoExiste(ciEstudiante)) {
+            return Left(Formulario1Failure.Validacion("No se puede aprobar el inicio: la empresa no posee convenio formalizado y las 3 cartas compromiso no han sido registradas como entregadas en secretaría."))
+          }
+      }
+
       DB.localTx { implicit session =>
         val pdfId = registrarPdf(pdfName, pdfBytes)
         Formulario1DB.autorizarPlan(idPractica, pdfId)

@@ -12,6 +12,15 @@
         <ComboBox fx:id="cmbEstudianteSeleccionado" promptText="Seleccione un estudiante de la nómina..." prefWidth="350"/>
     </HBox>
 
+    <VBox fx:id="vboxRegistroHoras" spacing="8" styleClass="card-dashboard" style="-fx-border-left-color: #059669; -fx-border-left-width: 5px;">
+        <Label text="Registro de Horas Trabajadas en la Práctica:" style="-fx-font-weight: bold;"/>
+        <Label fx:id="lblHorasProgreso" text="Horas acumuladas: 0 / 0" style="-fx-font-size: 11pt; -fx-text-fill: #475569; -fx-font-weight: bold;"/>
+        <HBox spacing="15" alignment="CENTER_LEFT">
+            <TextField fx:id="txtHorasTrabajadas" promptText="Cantidad de horas trabajadas..." prefWidth="180"/>
+            <Button fx:id="btnRegistrarHoras" onAction="#handleRegistrarHoras" text="Registrar Horas" styleClass="button-primary"/>
+        </HBox>
+    </VBox>
+
     <VBox fx:id="vboxEdicionActividades" spacing="8" styleClass="card-dashboard" style="-fx-border-left-color: #2563eb; -fx-border-left-width: 5px;">
         <Label text="Redacción de Nueva Actividad para Fiscalización Metodológica:" style="-fx-font-weight: bold;"/>
         <Label text="* Si una actividad previa fue rechazada por el tutor académico, redacte su versión corregida como una nueva propuesta aquí abajo." style="-fx-font-size: 9pt; -fx-text-fill: #64748b; -fx-font-style: italic;"/>

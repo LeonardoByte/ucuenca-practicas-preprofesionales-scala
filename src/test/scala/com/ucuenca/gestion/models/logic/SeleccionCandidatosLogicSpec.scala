@@ -117,8 +117,7 @@ class SeleccionCandidatosLogicSpec extends AnyFlatSpec with Matchers with Before
       idPostulacion = postulation1Id,
       rucEmpresa = companyRuc,
       ciEstudiante = student1Ci,
-      idTutorEmpresarial = tutorEmpresarialCi,
-      horasTotales = 120
+      idTutorEmpresarial = tutorEmpresarialCi
     )
     result shouldBe Right(())
 
@@ -127,13 +126,14 @@ class SeleccionCandidatosLogicSpec extends AnyFlatSpec with Matchers with Before
       val p1 = sql"SELECT estado_postulacion FROM postulacion_bolsa WHERE id_postulacion = ${postulation1Id}".map(rs => rs.string("estado_postulacion")).single.apply().get
       p1 shouldBe "APROBADA"
 
-      // 2. Práctica inicializada con tutor académico NULL y estado TUTOR_ACADEMICO_PENDIENTE
+      // 2. Práctica inicializada con tutor académico NULL, estado TUTOR_ACADEMICO_PENDIENTE,
+      //    y las horas totales/oferta_id heredadas de la oferta 1 (duracion_horas = 120)
       val pr = sql"""
-        SELECT id_tutor_academico_ref, estado_cronograma
+        SELECT id_tutor_academico_ref, estado_cronograma, horas_totales_requeridas, oferta_id
         FROM practica_registro
         WHERE ci_estudiante_ref = ${student1Ci} AND id_tutor_empresarial_ref = ${tutorEmpresarialCi}
-      """.map(rs => (rs.stringOpt("id_tutor_academico_ref"), rs.string("estado_cronograma"))).single.apply()
-      pr shouldBe Some((None, "TUTOR_ACADEMICO_PENDIENTE"))
+      """.map(rs => (rs.stringOpt("id_tutor_academico_ref"), rs.string("estado_cronograma"), rs.int("horas_totales_requeridas"), rs.intOpt("oferta_id"))).single.apply()
+      pr shouldBe Some((None, "TUTOR_ACADEMICO_PENDIENTE", 120, Some(offer1Id)))
 
       // 3. Estudiante marcado como ocupado
       val ep = sql"SELECT estado_estudiante_practica FROM estudiante_perfil WHERE identificacion = ${student1Ci}".map(rs => rs.string("estado_estudiante_practica")).single.apply().get

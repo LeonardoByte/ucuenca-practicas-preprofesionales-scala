@@ -41,8 +41,7 @@ object SeleccionCandidatosLogic {
     idPostulacion: Int,
     rucEmpresa: String,
     ciEstudiante: String,
-    idTutorEmpresarial: String,
-    horasTotales: Int
+    idTutorEmpresarial: String
   ): Either[BolsaFailure, Unit] = {
     try {
       val trimmedTutor = Option(idTutorEmpresarial).getOrElse("").trim
@@ -55,8 +54,7 @@ object SeleccionCandidatosLogic {
           idPostulacion = idPostulacion,
           rucEmpresa = rucEmpresa,
           ciEstudiante = ciEstudiante,
-          idTutorEmpresarial = trimmedTutor,
-          horasTotales = horasTotales
+          idTutorEmpresarial = trimmedTutor
         )
       }
       Right(())

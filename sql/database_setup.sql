@@ -8,28 +8,59 @@
 -- Phase    : VI - Arquitectura de Datos Base
 -- Backend  : ScalikeJDBC 4.3.0 (SQL-first, no ORM)
 -- =============================================================================
--- USAGE: psql -U postgres -f sql/database_setup.sql
--- Must be executed while connected to the 'postgres' superuser database.
--- The script is fully idempotent: drops and recreates the database on each run.
+-- USAGE: Ejecutar mientras la conexión activa ya apunta a la base de datos
+-- 'gestion_practicas' (Query Tool de pgAdmin4 o psql -d gestion_practicas -f ...).
+-- El script es idempotente a nivel de esquema: elimina y recrea tipos y tablas
+-- en cada ejecución, por lo que puede correrse de principio a fin las veces
+-- que sea necesario sin lanzar errores de "ya existe" ni de llaves foráneas.
 -- =============================================================================
 
 
 -- =============================================================================
--- SECTION 1 — DATABASE
+-- SECTION 1 — IDEMPOTENCIA: RESETEO DE OBJETOS EXISTENTES
 -- =============================================================================
 
-SELECT pg_terminate_backend(pid)
-  FROM pg_stat_activity
- WHERE datname = 'gestion_practicas'
-   AND pid <> pg_backend_pid();
+-- ---------------------------------------------------------------------------
+-- 1.1  Tablas, en orden inverso de dependencias (de hijas a padres) para que
+--      ninguna sentencia falle por una restricción de llave foránea aún activa.
+--      CASCADE es una red de seguridad adicional; el orden ya es correcto.
+-- ---------------------------------------------------------------------------
+DROP TABLE IF EXISTS auditoria_cierre CASCADE;
+DROP TABLE IF EXISTS formulario3_informe CASCADE;
+DROP TABLE IF EXISTS formulario2_evaluacion CASCADE;
+DROP TABLE IF EXISTS expediente_formulario1 CASCADE;
+DROP TABLE IF EXISTS actividad_cronograma CASCADE;
+DROP TABLE IF EXISTS practica_registro CASCADE;
+DROP TABLE IF EXISTS solicitud_empresa_propia CASCADE;
+DROP TABLE IF EXISTS postulacion_bolsa CASCADE;
+DROP TABLE IF EXISTS oferta_convocatoria CASCADE;
+DROP TABLE IF EXISTS validacion_carta_compromiso CASCADE;
+DROP TABLE IF EXISTS solicitud_convenio CASCADE;
+DROP TABLE IF EXISTS tutor_empresarial_perfil CASCADE;
+DROP TABLE IF EXISTS empresa_perfil CASCADE;
+DROP TABLE IF EXISTS estudiante_perfil CASCADE;
+DROP TABLE IF EXISTS usuario_sistema CASCADE;
+DROP TABLE IF EXISTS usuario CASCADE;
+DROP TABLE IF EXISTS carrera CASCADE;
+DROP TABLE IF EXISTS archivo_pdf CASCADE;
 
-DROP DATABASE IF EXISTS gestion_practicas;
-
-CREATE DATABASE gestion_practicas
-    WITH ENCODING 'UTF8'
-    TEMPLATE template0;
-
-\connect gestion_practicas
+-- ---------------------------------------------------------------------------
+-- 1.2  Tipos ENUM (deben eliminarse tras las tablas: ya no tienen columnas
+--      que dependan de ellos, así que la sentencia nunca falla).
+-- ---------------------------------------------------------------------------
+DROP TYPE IF EXISTS rol_usuario CASCADE;
+DROP TYPE IF EXISTS estado_cuenta CASCADE;
+DROP TYPE IF EXISTS estado_matricula CASCADE;
+DROP TYPE IF EXISTS estado_estudiante_practica CASCADE;
+DROP TYPE IF EXISTS estado_oferta CASCADE;
+DROP TYPE IF EXISTS estado_postulacion CASCADE;
+DROP TYPE IF EXISTS estado_convenio CASCADE;
+DROP TYPE IF EXISTS estado_actividad CASCADE;
+DROP TYPE IF EXISTS estado_cronograma CASCADE;
+DROP TYPE IF EXISTS estado_formulario2 CASCADE;
+DROP TYPE IF EXISTS origen_rama CASCADE;
+DROP TYPE IF EXISTS origen_creacion_actividad CASCADE;
+DROP TYPE IF EXISTS tipo_archivo_pdf CASCADE;
 
 
 -- =============================================================================
@@ -129,16 +160,7 @@ CREATE TABLE carrera (
 
 
 -- ---------------------------------------------------------------------------
--- 3.3  periodo_academico  (catalog — no FK dependencies)
--- ---------------------------------------------------------------------------
-CREATE TABLE periodo_academico (
-    id_periodo  SERIAL  PRIMARY KEY,
-    descripcion TEXT    NOT NULL UNIQUE
-);
-
-
--- ---------------------------------------------------------------------------
--- 3.4  usuario  — CTI root table
+-- 3.3  usuario  — CTI root table
 --      Stores identity data shared by all 7 roles.
 --      Coordinador, Tutor Académico, Secretaría and Admin operate on this
 --      table alone; the remaining roles extend it via child tables below.
@@ -153,7 +175,7 @@ CREATE TABLE usuario (
 
 
 -- ---------------------------------------------------------------------------
--- 3.5  usuario_sistema  — authentication credentials (isolated from profiles)
+-- 3.4  usuario_sistema  — authentication credentials (isolated from profiles)
 -- ---------------------------------------------------------------------------
 CREATE TABLE usuario_sistema (
     id_usuario_sistema         SERIAL       PRIMARY KEY,
@@ -165,7 +187,7 @@ CREATE TABLE usuario_sistema (
 
 
 -- ---------------------------------------------------------------------------
--- 3.6  estudiante_perfil  — CTI child (rol = ESTUDIANTE)
+-- 3.5  estudiante_perfil  — CTI child (rol = ESTUDIANTE)
 --      Enforces 10-digit CI via CHECK.
 -- ---------------------------------------------------------------------------
 CREATE TABLE estudiante_perfil (
@@ -186,7 +208,7 @@ CREATE TABLE estudiante_perfil (
 
 
 -- ---------------------------------------------------------------------------
--- 3.7  empresa_perfil  — CTI child (rol = EMPRESA)
+-- 3.6  empresa_perfil  — CTI child (rol = EMPRESA)
 --      Enforces 13-digit RUC via CHECK.
 -- ---------------------------------------------------------------------------
 CREATE TABLE empresa_perfil (
@@ -201,7 +223,7 @@ CREATE TABLE empresa_perfil (
 
 
 -- ---------------------------------------------------------------------------
--- 3.8  tutor_empresarial_perfil  — CTI child (rol = TUTOR_EMPRESARIAL)
+-- 3.7  tutor_empresarial_perfil  — CTI child (rol = TUTOR_EMPRESARIAL)
 -- ---------------------------------------------------------------------------
 CREATE TABLE tutor_empresarial_perfil (
     identificacion    VARCHAR(10)  NOT NULL PRIMARY KEY
@@ -215,7 +237,7 @@ CREATE TABLE tutor_empresarial_perfil (
 
 
 -- ---------------------------------------------------------------------------
--- 3.9  solicitud_convenio
+-- 3.8  solicitud_convenio
 --      Submitted by a company through TramitarConvenio.fxml.
 --      Audited and resolved by Secretaría in SolicitudesConvenio.fxml.
 -- ---------------------------------------------------------------------------
@@ -237,7 +259,7 @@ CREATE TABLE solicitud_convenio (
 
 
 -- ---------------------------------------------------------------------------
--- 3.10  validacion_carta_compromiso
+-- 3.9  validacion_carta_compromiso
 --       PK on ci_estudiante: one active validation per student at a time.
 --       entregado_tres_copias is constrained to TRUE — a FALSE row is invalid.
 -- ---------------------------------------------------------------------------
@@ -253,7 +275,7 @@ CREATE TABLE validacion_carta_compromiso (
 
 
 -- ---------------------------------------------------------------------------
--- 3.11  oferta_convocatoria
+-- 3.10  oferta_convocatoria
 --       Business rules: 1–10 vacantes, 40–400 horas.
 -- ---------------------------------------------------------------------------
 CREATE TABLE oferta_convocatoria (
@@ -277,7 +299,7 @@ CREATE TABLE oferta_convocatoria (
 
 
 -- ---------------------------------------------------------------------------
--- 3.12  postulacion_bolsa
+-- 3.11  postulacion_bolsa
 --       A student may apply to any open offer but only once per offer (UNIQUE).
 --       The cascade-cancellation trigger is installed in Section 5.
 -- ---------------------------------------------------------------------------
@@ -295,7 +317,7 @@ CREATE TABLE postulacion_bolsa (
 
 
 -- ---------------------------------------------------------------------------
--- 3.13  solicitud_empresa_propia
+-- 3.12  solicitud_empresa_propia
 --       Alternative pathway for self-managed internships (outside the bolsa).
 --       codigo_oficio_vuelta format: UCUENCA-VINC-YYYY-NNNN (enforced via regex).
 --       JIT fields (ruc_empresa_propia … telefono_supervisor_externo) are captured
@@ -343,10 +365,12 @@ CREATE TABLE solicitud_empresa_propia (
 
 
 -- ---------------------------------------------------------------------------
--- 3.14  practica_registro  — central contract linking all parties
+-- 3.13  practica_registro  — central contract linking all parties
 --       UNIQUE on ci_estudiante_ref: the domain state machine (SIN_PRACTICA →
 --       CON_PRACTICA_ACTIVA → PRACTICA_ACREDITADA) is terminal; a student
 --       accumulates exactly one practice record over their academic lifecycle.
+--       oferta_id is NULLABLE: practices originated in the rama Empresa Propia
+--       never come from a bolsa offer, so they carry no oferta_convocatoria link.
 -- ---------------------------------------------------------------------------
 CREATE TABLE practica_registro (
     id_practica                SERIAL            PRIMARY KEY,
@@ -358,6 +382,8 @@ CREATE TABLE practica_registro (
         REFERENCES usuario(identificacion),
     id_tutor_empresarial_ref   VARCHAR(10)       NOT NULL
         REFERENCES tutor_empresarial_perfil(identificacion),
+    oferta_id                  INT
+        REFERENCES oferta_convocatoria(id_oferta),
     origen_rama                origen_rama       NOT NULL,
     estado_cronograma          estado_cronograma NOT NULL DEFAULT 'F1_PENDIENTE',
     horas_acumuladas           SMALLINT          NOT NULL DEFAULT 0
@@ -370,7 +396,7 @@ CREATE TABLE practica_registro (
 
 
 -- ---------------------------------------------------------------------------
--- 3.15  actividad_cronograma
+-- 3.14  actividad_cronograma
 --       (id_practica_ref, numero_secuencial) is UNIQUE for display ordering.
 -- ---------------------------------------------------------------------------
 CREATE TABLE actividad_cronograma (
@@ -388,7 +414,7 @@ CREATE TABLE actividad_cronograma (
 
 
 -- ---------------------------------------------------------------------------
--- 3.16  expediente_formulario1  — one-to-one with practica_registro (UNIQUE FK)
+-- 3.15  expediente_formulario1  — one-to-one with practica_registro (UNIQUE FK)
 --       Both firma_* flags and estado_de_coordinador default FALSE;
 --       they are flipped by individual upload actions in the GUI.
 -- ---------------------------------------------------------------------------
@@ -407,7 +433,7 @@ CREATE TABLE expediente_formulario1 (
 
 
 -- ---------------------------------------------------------------------------
--- 3.17  formulario2_evaluacion
+-- 3.16  formulario2_evaluacion
 --       Multiple rows per practice are allowed (immutability on rejection:
 --       a rejected row is frozen; the company submits a new row as a new version).
 -- ---------------------------------------------------------------------------
@@ -425,7 +451,7 @@ CREATE TABLE formulario2_evaluacion (
 
 
 -- ---------------------------------------------------------------------------
--- 3.18  formulario3_informe  — one-to-one with practica_registro (UNIQUE FK)
+-- 3.17  formulario3_informe  — one-to-one with practica_registro (UNIQUE FK)
 --       Creation is gated at the controller level: only allowed when the
 --       latest formulario2_evaluacion for this practice is CONFORME.
 -- ---------------------------------------------------------------------------
@@ -440,7 +466,7 @@ CREATE TABLE formulario3_informe (
 
 
 -- ---------------------------------------------------------------------------
--- 3.19  auditoria_cierre
+-- 3.18  auditoria_cierre
 --       (id_practica_ref, secuencial_version) is UNIQUE to support immutable
 --       re-audits when the coordinator sends the expediente back for correction.
 --       estado_auditoria is TEXT (per spec) but constrained via CHECK.
@@ -473,6 +499,7 @@ CREATE INDEX idx_postulacion_estudiante       ON postulacion_bolsa      (ci_estu
 CREATE INDEX idx_postulacion_oferta           ON postulacion_bolsa      (id_oferta_ref);
 CREATE INDEX idx_postulacion_estado           ON postulacion_bolsa      (estado_postulacion);
 CREATE INDEX idx_practica_cronograma          ON practica_registro      (estado_cronograma);
+CREATE INDEX idx_practica_oferta              ON practica_registro      (oferta_id);
 CREATE INDEX idx_actividad_practica           ON actividad_cronograma   (id_practica_ref);
 CREATE INDEX idx_actividad_estado             ON actividad_cronograma   (estado_actividad);
 CREATE INDEX idx_f2_practica                  ON formulario2_evaluacion (id_practica_ref);

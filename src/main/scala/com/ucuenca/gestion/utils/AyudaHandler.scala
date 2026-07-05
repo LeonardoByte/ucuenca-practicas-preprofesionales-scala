@@ -33,7 +33,7 @@ object AyudaHandler {
    * Abre la URL del repositorio remoto de GitHub en el navegador por defecto.
    */
   def abrirRepositorioGitHub(): Unit = {
-    abrirUrlEnNavegador("https://github.com/LeonardoByte")
+    abrirUrlEnNavegador("https://github.com/LeonardoByte/ucuenca-practicas-preprofesionales-scala")
   }
 
   private def abrirUrlEnNavegador(url: String): Unit = {

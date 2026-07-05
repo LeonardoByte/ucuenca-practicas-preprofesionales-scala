@@ -18,6 +18,7 @@ class AutorizarIniciosController {
   @FXML var tblExpedientesInicioPendientes: TableView[ExpedientePendienteCoordinadorDTO] = _
   @FXML var colEstudiante: TableColumn[ExpedientePendienteCoordinadorDTO, String] = _
   @FXML var colEmpresa: TableColumn[ExpedientePendienteCoordinadorDTO, String] = _
+  @FXML var colCartasCompromiso: TableColumn[ExpedientePendienteCoordinadorDTO, String] = _
 
   @FXML var lblFirmaEmpresarialStatus: Label = _
   @FXML var lblFirmaAcademicaStatus: Label = _
@@ -36,12 +37,31 @@ class AutorizarIniciosController {
 
   private var selectedFileBytes: Option[Array[Byte]] = None
   private var selectedFileName: Option[String] = None
+  private var selectedDto: Option[ExpedientePendienteCoordinadorDTO] = None
 
   @FXML
   def initialize(): Unit = {
     // 1. Configurar columnas de la tabla
     colEstudiante.setCellValueFactory(cd => new SimpleStringProperty(cd.getValue.nombreEstudiante))
     colEmpresa.setCellValueFactory(cd => new SimpleStringProperty(cd.getValue.nombreEmpresa))
+    colCartasCompromiso.setCellValueFactory(cd => new SimpleStringProperty(cd.getValue.estadoCartasTexto))
+    colCartasCompromiso.setCellFactory(_ => new TableCell[ExpedientePendienteCoordinadorDTO, String] {
+      override def updateItem(item: String, empty: Boolean): Unit = {
+        super.updateItem(item, empty)
+        if (empty || item == null) {
+          setText(null)
+          setStyle("")
+        } else {
+          setText(item)
+          val dto = getTableView.getItems.get(getIndex)
+          if (dto != null && dto.puedeAprobarse) {
+            setStyle("-fx-text-fill: #10b981; -fx-font-weight: bold;")
+          } else {
+            setStyle("-fx-text-fill: #dc2626; -fx-font-weight: bold;")
+          }
+        }
+      }
+    })
 
     // 2. Configurar listener de selección de estudiante
     tblExpedientesInicioPendientes.getSelectionModel.selectedItemProperty().addListener((_, _, seleccion) => {
@@ -77,6 +97,7 @@ class AutorizarIniciosController {
   }
 
   private def cargarDetalleExpediente(dto: ExpedientePendienteCoordinadorDTO): Unit = {
+    selectedDto = Some(dto)
     vboxAccionesFinales.setDisable(false)
     btnRechazar.setDisable(false)
     txtMotivoRechazoInicio.setDisable(false)
@@ -91,10 +112,19 @@ class AutorizarIniciosController {
     lblFirmaEmpresarialStatus.setStyle("-fx-text-fill: #10b981; -fx-font-weight: bold;")
     lblFirmaAcademicaStatus.setText("✔ ESTAMPADA / VÁLIDA")
     lblFirmaAcademicaStatus.setStyle("-fx-text-fill: #10b981; -fx-font-weight: bold;")
-    
-    // Control legal es libre porque si el trámite llegó hasta aquí, pasó el filtro inicial
-    lblControlLegalStatus.setText("APROBADO / LIBRE")
-    lblControlLegalStatus.setStyle("-fx-text-fill: #10b981; -fx-font-weight: bold;")
+
+    // Control legal real: convenio institucional exime de las cartas compromiso; sin convenio,
+    // se exige que las 3 cartas estén registradas como entregadas en secretaría.
+    if (dto.convenioFormalizado) {
+      lblControlLegalStatus.setText("No Requerido (Posee Convenio)")
+      lblControlLegalStatus.setStyle("-fx-text-fill: #10b981; -fx-font-weight: bold;")
+    } else if (dto.cartasCompromisoEntregadas) {
+      lblControlLegalStatus.setText("Cartas Compromiso Entregadas en Secretaría")
+      lblControlLegalStatus.setStyle("-fx-text-fill: #10b981; -fx-font-weight: bold;")
+    } else {
+      lblControlLegalStatus.setText("BLOQUEADO: Faltan las 3 Cartas Compromiso en Secretaría")
+      lblControlLegalStatus.setStyle("-fx-text-fill: #dc2626; -fx-font-weight: bold;")
+    }
 
     // Rellenar visor de resumen
     txtVisorResumenF1.setText(
@@ -107,6 +137,7 @@ class AutorizarIniciosController {
   }
 
   private def limpiarPantallaDetalle(): Unit = {
+    selectedDto = None
     vboxAccionesFinales.setDisable(true)
     btnAprobarInicioFinal.setDisable(true)
     btnRechazar.setDisable(true)
@@ -158,7 +189,13 @@ class AutorizarIniciosController {
       selectedFileName = Some(file.getName)
       lblEstadoArchivoF1Coordinador.setText(file.getName)
       lblEstadoArchivoF1Coordinador.setStyle("-fx-text-fill: #1e293b; -fx-font-style: normal;")
-      btnAprobarInicioFinal.setDisable(false)
+
+      if (selectedDto.exists(_.puedeAprobarse)) {
+        btnAprobarInicioFinal.setDisable(false)
+      } else {
+        btnAprobarInicioFinal.setDisable(true)
+        showError("No se puede habilitar la aprobación: faltan las 3 Cartas Compromiso registradas como entregadas en secretaría.")
+      }
     }
   }
 

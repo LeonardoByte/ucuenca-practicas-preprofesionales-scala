@@ -166,18 +166,24 @@ object Formulario1DB {
   }
 
   /**
-   * Lista estudiantes listos para la resolución final del coordinador.
+   * Lista estudiantes listos para la resolución final del coordinador, incluyendo el control
+   * legal de convenio/cartas compromiso para que la vista pueda bloquear la aprobación.
    */
   def listarPendientesCoordinador()(implicit session: DBSession = AutoSession): List[ExpedientePendienteCoordinadorDTO] = {
     sql"""
-      SELECT 
+      SELECT
         pr.id_practica,
+        pr.ci_estudiante_ref,
         u_est.nombres_completos AS nombre_estudiante,
-        u_emp.nombres_completos AS nombre_empresa
+        u_emp.nombres_completos AS nombre_empresa,
+        (emp.estado_convenio = 'FORMALIZADO'::estado_convenio) AS convenio_formalizado,
+        (vcc.ci_estudiante IS NOT NULL) AS cartas_entregadas
       FROM practica_registro pr
       INNER JOIN usuario u_est ON pr.ci_estudiante_ref = u_est.identificacion
       INNER JOIN usuario u_emp ON pr.ruc_empresa_ref = u_emp.identificacion
+      INNER JOIN empresa_perfil emp ON pr.ruc_empresa_ref = emp.identificacion
       INNER JOIN expediente_formulario1 ef1 ON pr.id_practica = ef1.id_practica_ref
+      LEFT JOIN validacion_carta_compromiso vcc ON pr.ci_estudiante_ref = vcc.ci_estudiante
       WHERE ef1.firma_empresarial_valida = TRUE
         AND ef1.firma_academica_valida = TRUE
         AND ef1.estado_de_coordinador = FALSE
@@ -185,8 +191,11 @@ object Formulario1DB {
     """.map { rs =>
       ExpedientePendienteCoordinadorDTO(
         idPractica = rs.int("id_practica"),
+        ciEstudiante = rs.string("ci_estudiante_ref"),
         nombreEstudiante = rs.string("nombre_estudiante"),
-        nombreEmpresa = rs.string("nombre_empresa")
+        nombreEmpresa = rs.string("nombre_empresa"),
+        convenioFormalizado = rs.boolean("convenio_formalizado"),
+        cartasCompromisoEntregadas = rs.boolean("cartas_entregadas")
       )
     }.list.apply()
   }

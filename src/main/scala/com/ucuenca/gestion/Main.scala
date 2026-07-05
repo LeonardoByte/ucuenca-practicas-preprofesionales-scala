@@ -2,9 +2,6 @@ package com.ucuenca.gestion
 
 import javafx.application.Application
 import javafx.stage.Stage
-import javafx.scene.Scene
-import javafx.scene.control.Label
-import javafx.scene.layout.StackPane
 
 /**
  * Clase principal de JavaFX para la interfaz gráfica.

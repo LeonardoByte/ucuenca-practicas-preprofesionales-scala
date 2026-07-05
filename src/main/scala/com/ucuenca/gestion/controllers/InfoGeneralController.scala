@@ -16,6 +16,7 @@ class InfoGeneralController {
 
   @FXML var lblHorasAcumuladas: Label = _
   @FXML var progressHoras: ProgressBar = _
+  @FXML var lblTextoProgreso: Label = _
   @FXML var lblFechaInicio: Label = _
   @FXML var lblFechaFin: Label = _
   @FXML var lblCantActividades: Label = _
@@ -53,6 +54,7 @@ class InfoGeneralController {
         lblHorasAcumuladas.setText(s"${pr.horasAcumuladas} / ${pr.horasTotalesRequeridas}")
         val pct = if (pr.horasTotalesRequeridas > 0) pr.horasAcumuladas.toDouble / pr.horasTotalesRequeridas.toDouble else 0.0
         progressHoras.setProgress(pct)
+        lblTextoProgreso.setText(s"${pct*100}% del cronograma completado")
 
         // 2. Cargar fecha de inicio
         details.fechaInicioOpt match {
@@ -85,7 +87,11 @@ class InfoGeneralController {
           case EstadoCronograma.F2_F3_PENDIENTE =>
             btnSolicitarEvaluacionFinal.setDisable(true)
             showWarning("Petición de evaluación final enviada. Esperando rúbrica del tutor empresarial.")
-          case EstadoCronograma.EVALUADA | EstadoCronograma.CERRADA_VALIDA =>
+          case EstadoCronograma.CERRADA_VALIDA =>
+            btnSolicitarEvaluacionFinal.setDisable(true)
+            btnSolicitarEvaluacionFinal.setVisible(false)
+            showSuccess("Práctica Finalizada Exitosamente")
+          case EstadoCronograma.EVALUADA =>
             btnSolicitarEvaluacionFinal.setDisable(true)
             showSuccess("La práctica ha sido evaluada y/o cerrada exitosamente.")
           case EstadoCronograma.EN_DESARROLLO =>

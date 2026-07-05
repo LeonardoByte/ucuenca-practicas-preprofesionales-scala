@@ -63,7 +63,7 @@ class MiPerfilController {
         cvPdfEntity = cvOpt
 
         // 0. Mostrar el nombre del estudiante
-        lblUsuarioNombreDashboard.setText(s"[${usuario.nombresCompletos}]")
+        lblUsuarioNombreDashboard.setText(usuario.nombresCompletos)
 
         // 1. Mostrar ciclo y matrícula
         lblCiclo.setText(s"Ciclo ${perfil.cicloActual}")

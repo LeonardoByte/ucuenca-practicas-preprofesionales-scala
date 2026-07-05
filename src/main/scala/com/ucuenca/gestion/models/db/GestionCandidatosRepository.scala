@@ -58,13 +58,17 @@ object GestionCandidatosRepository {
     idPostulacion: Int,
     rucEmpresa: String,
     ciEstudiante: String,
-    idTutorEmpresarial: String,
-    horasTotales: Int
+    idTutorEmpresarial: String
   )(implicit session: DBSession = AutoSession): Unit = {
-    // 1. Obtener detalles de la oferta de la postulación
+    // 1. Obtener la oferta de la postulación y las horas totales requeridas que ella define.
+    //    La oferta es la única fuente de verdad para el límite de horas de la práctica.
     val idOferta = sql"SELECT id_oferta_ref FROM postulacion_bolsa WHERE id_postulacion = ${idPostulacion}"
       .map(rs => rs.int("id_oferta_ref")).single.apply()
       .getOrElse(throw new IllegalArgumentException("No se encontró la oferta asociada a la postulación."))
+
+    val horasTotales = sql"SELECT duracion_horas FROM oferta_convocatoria WHERE id_oferta = ${idOferta}"
+      .map(rs => rs.int("duracion_horas")).single.apply()
+      .getOrElse(throw new IllegalArgumentException("No se encontró la oferta referenciada por la postulación."))
 
     // 2. Actualizar el estado de la postulación elegida a APROBADA
     sql"""
@@ -73,7 +77,7 @@ object GestionCandidatosRepository {
       WHERE id_postulacion = ${idPostulacion}
     """.update.apply()
 
-    // 3. Inicializar registro de la práctica
+    // 3. Inicializar registro de la práctica, vinculando la oferta de origen
     sql"""
       INSERT INTO practica_registro (
         ci_estudiante_ref,
@@ -82,7 +86,8 @@ object GestionCandidatosRepository {
         id_tutor_empresarial_ref,
         origen_rama,
         estado_cronograma,
-        horas_totales_requeridas
+        horas_totales_requeridas,
+        oferta_id
       ) VALUES (
         ${ciEstudiante},
         ${rucEmpresa},
@@ -90,7 +95,8 @@ object GestionCandidatosRepository {
         ${idTutorEmpresarial},
         'BOLSA_EMPLEO'::origen_rama,
         'TUTOR_ACADEMICO_PENDIENTE'::estado_cronograma,
-        ${horasTotales}
+        ${horasTotales},
+        ${idOferta}
       )
     """.update.apply()
 
